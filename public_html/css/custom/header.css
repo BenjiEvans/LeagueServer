@@ -1,0 +1,78 @@
+	
+	
+	#top{
+		position:absolute;
+		top:0px;
+		z-index: 100;
+	
+		}
+				
+	body{
+				
+		background-image:url("../../img/background4.jpg");
+		background-repeat:no-repeat;
+		background-color:black;
+		position:relative;
+		top:100px;
+	/*	background-attachment: fixed;*/
+		/*margin:0px;*/
+		}
+			
+	#logo{
+		padding-top:10px;
+		padding-left:20px;
+		/*padding-left:25%;*/
+		float:left;
+		margin-bottom:10px;
+			
+		}
+			
+	p{
+		color: black;
+	}
+			
+	.navList{
+		list-style-type: none;
+		margin:0;
+		padding:0;
+		padding-top:6px;
+		padding-bottom:6px;
+				
+		}
+			
+	.navItems{
+		display: inline;
+			
+		}
+			
+	.navLink{
+	
+		font-weight:bold;
+		color:#FFFFFF;
+		/*color:rgb(0,0,0);*/
+		/*background-color:rgb(0,0,0);*/
+		text-align:center;
+		padding:6px;
+		text-decoration:none;
+		text-transform:uppercase;
+	
+	}
+	
+	.navLink:hover, .navLink:active{
+		
+		text-decoration:none;
+		text-transform:uppercase;
+		color: rgb(0,0,0);
+		background-color:rgb(200,200,100);
+	
+	}
+		
+	#navBar{
+		
+		padding-top:50px;
+		margin-bottom:0px;
+	
+	}
+	
+			
+			
