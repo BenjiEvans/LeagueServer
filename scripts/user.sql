@@ -16,6 +16,11 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
+DROP DATABASE leagueserver;
+CREATE DATABASE leagueserver;
+Use leagueserver;
+DROP TABLE if exists user;
+
 --
 -- Database: `leagueserver`
 --
@@ -44,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`Id`, `wins`, `losses`, `team`, `password`, `email`, `ign`) VALUES
-(1, 5, 1, NULL, '', '', '');
+(1, 5, 1, NULL, 'password', 'root@yahoo.com', 'root');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
