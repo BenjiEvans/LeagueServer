@@ -67,6 +67,56 @@ $(document).ready(function(){
 
 });
 
+
+function login(){
+
+	//check email for emptyness
+	var email = $('#login_email');
+	if(email.hasClass("has-error"))return;
+	
+	if(isEmpty(email.val())){	
+		email.parent().addClass("has-error");
+		$('#login_error').html("Please enter email id or if new user click Register");
+		return;
+	}
+	
+	
+	//check password for emptiness
+	var password =$('#login_pass');
+	if (password.hasClass("has-error"))return;
+	
+	if (isEmpty(password.val())){
+		password.parent().addClass("has-error");
+		$('#login_error').html("Please enter password");
+		return;
+	}
+	
+	//
+	var login_parameter ={
+	email:email.val(),
+	pass: password.val()
+	}
+	
+	
+	$.ajax({
+                 type: "POST",
+                 url: "/login.php",
+	         data: JSON.stringify(login_parameter),
+                 contentType: "application/json; charset=utf-8",
+                 dataType: "json",
+                 processData: true,
+                 success: function (user) {
+                     
+                 },
+                 error: function () {
+                    
+                 }
+             });
+
+
+
+}
+
 function checkForEmptyField(field){
 
  if(isEmpty(field.val())) field.parent().addClass("has-error");
@@ -194,20 +244,23 @@ function validEmail(email) {
         </div>
         <div class="modal-body">
         <form role="form">
-	  <div class="form-group">
-	    <label for="login_email">Email address</label>
-	    <input type="email" class="form-control" id="login_email" placeholder="Enter email">
-	  </div>
-	  <div class="form-group">
-	    <label for="login_pass">Password</label>
-	    <input type="password" class="form-control" id="login_pass" placeholder="Password">
-	  </div>
-	  <div class="checkbox" >
-	    <label>
-	      <input type="checkbox"> Remember me
-	    </label>
-	  </div>
-	</form>
+		  <div class="form-group">
+			<label for="login_email">Email address</label>
+			<input type="email" class="form-control" id="login_email" placeholder="Enter email">		
+		  </div>
+	  
+		  <div class="form-group">
+			<label for="login_pass">Password</label>
+			<input type="password" class="form-control" id="login_pass" placeholder="Password">
+		  </div>
+		  <div class="checkbox" >
+			<label>
+			  <input type="checkbox"> Remember me
+			</label>		
+		  </div>
+		  <br><span id='login_error'> </span>
+	  
+		</form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-warning" style='float:left' data-dismiss="modal" data-toggle="modal" data-target="#register_modal">Register</button>
