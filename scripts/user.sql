@@ -27,4 +27,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='A simple user model' AUTO_INCREMENT=1 ;
 
+Insert Into user Values(1,'root','5','1', NULL);
+
+
 
