@@ -1,3 +1,27 @@
+
+
+<?php
+//establishing database connection
+	$host = "localhost";
+	$username= "LeagueAdmin";
+	$password = "password";
+	$db = "leagueserver";
+	
+	$conn = mysql_connect($host,$username,$password);
+	
+	if($conn)
+		{
+			mysql_select_db($db,$conn);
+		}
+		else
+		{
+			die('Unable to connect the database'.mysql_Error());
+		}
+?>
+
+
+
+
 <?php
 
  session_start();
@@ -10,18 +34,33 @@
 print $obj->{'email'};
 print $obj->{'pass'};
 
-return;
+$emailJSON = $obj->{'email'};
+$passJSON = $obj->{'pass'};
 
-// Create connection
-//$con=mysqli_connect("localhost","LeagueAdmin","password","leagueserver");
+			$queryTodb = mysql_query("select * from user where email = '$emailJSON'");
+			$count = mysql_num_rows($queryTodb);    //fetch no. of rows for that email id 
+				
+				if($count==0)
+					{
+						die('User not registered'.mysql_error());   //if count is zero that means no user exist
+					}
+					else
+					{	
+						$row = mysql_fetch_array($queryTodb);
+						
+						if (($row['email'] == $emailJSON))//compare both email; one from HTML page and other from fetched from db
+								{
+									if($row['password'] == $passJSON)    //compare both password one from HTML page and other from fetched records from db
+										{
+										
+										}
+									else
+										{
+											echo("<h1>Login failed,incorrect password </h1>");
+										}
+								}
+					}
 
-// Check connection
-/*if (mysqli_connect_errno()) {
-  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-  return;
-}*/
-
-// validate credentials 
 
 
 ?>
