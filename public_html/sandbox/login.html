@@ -92,7 +92,7 @@ function login(){
 	}
 	
 	//create JSON
-	var login_parameter {
+	var login_parameter ={
 	email:email.val(),
 	pass: password.val()
 	}
@@ -101,16 +101,18 @@ function login(){
 	//Create AJAX call to Server
 	$.ajax({
                  type: "POST",
-                 url: "/login.php",
+                 url: "../login.php",
 	             data: JSON.stringify(login_parameter),
                  contentType: "application/json; charset=utf-8",
                  dataType: "json",
                  processData: true,
-                 success: function (user) {
-                     
+                 success: function () {
+                     //window.location.href="../officer.php";	
+					 
+					 alert("Hi");
                  },
                  error: function () {
-                    
+                    alert("error");
                  }
              });
 
