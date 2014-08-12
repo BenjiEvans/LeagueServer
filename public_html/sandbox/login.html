@@ -91,17 +91,18 @@ function login(){
 		return;
 	}
 	
-	//
-	var login_parameter ={
+	//create JSON
+	var login_parameter {
 	email:email.val(),
 	pass: password.val()
 	}
 	
 	
+	//Create AJAX call to Server
 	$.ajax({
                  type: "POST",
                  url: "/login.php",
-	         data: JSON.stringify(login_parameter),
+	             data: JSON.stringify(login_parameter),
                  contentType: "application/json; charset=utf-8",
                  dataType: "json",
                  processData: true,
