@@ -1,5 +1,4 @@
 
-
 <?php
 //establishing database connection
 	$host = "localhost";
@@ -52,11 +51,12 @@ $passJSON = $obj->{'pass'};
 								{
 									if($row['password'] == $passJSON)    //compare both password one from HTML page and other from fetched records from db
 										{
-										
+										          header("HTTP/1.0 202 Accepted");
+
 										}
 									else
 										{
-											echo("<h1>Login failed,incorrect password </h1>");
+											header("HTTP/1.0 404 Not Found");
 										}
 								}
 					}
