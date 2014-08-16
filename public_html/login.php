@@ -1,5 +1,6 @@
 <?php session_start();?>
 <?php require("../templates/mysql_connect.php")?>
+<?php require("../templates/json_functions.php")?>
 
 <?php
  //get the user's submitted json 
@@ -7,18 +8,12 @@
  $obj = json_decode($json);
 
 //check feilds for emptyness 
- 
-print $obj->{'email'};
-print $obj->{'pass'};
-
 $emailJSON = $obj->{'email'};
 $passJSON = $obj->{'pass'};
 
        if(!isset($emailJSON) || !isset($passJSON)){
 	
-	    header("HTTP/1.0 406 Not Acceptable");
-	    return;
-	
+	    returnJSON("HTTP/1.0 406 Not Acceptable","");
         }
 
 	$queryTodb = mysql_query("select * from user where email ='".mysql_real_escape_string($emailJSON)."'");
@@ -27,16 +22,14 @@ $passJSON = $obj->{'pass'};
 		
 	//if count is zero that means no user exists
 	if($count==0){
-		header("HTTP/1.0 404 Not Found");
-		return;
+		returnJSON("HTTP/1.0 404 Not Found","");
 	}
 	else
 	{	
 	
 	    if($count > 1)
 	    {
-		header("HTTP/1.0 500 Internal Server Error");
-		return;
+		returnJSON("HTTP/1.0 500 Internal Server Error","");
 	    }
 		
 	    $row = mysql_fetch_array($queryTodb);
@@ -44,12 +37,10 @@ $passJSON = $obj->{'pass'};
             if($row['password'] == $passJSON)    //compare both password one from HTML page and other from fetched records from db
 	    {
 			//should actually redirect to user panel view 
-			 header("HTTP/1.0 202 Accepted");
-			 return;
-
+			 returnJSON("HTTP/1.0 202 Accepted","");
 	     }else{
-			header("HTTP/1.0 401 Unauthorized");
-				return;
+			returnJSON("HTTP/1.0 401 Unauthorized","");
+				
 	     }
 	}
 

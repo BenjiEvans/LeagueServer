@@ -1,50 +1,51 @@
 <?php require("../templates/mysql_connect.php") ?>
+<?php require("../templates/json_functions.php") ?>
 <?php
   
-
-
 //get the user's submitted json 
- $json = file_get_contents('php://input');
- $obj = json_decode($json);
+ 	$json = file_get_contents('php://input');
+ 	$obj = json_decode($json);
 
 
- 
-//check feilds for emptyness 
-$email= $obj->{'email'};
-$pass = $obj->{'pass'};
-$ign = $obj->{'ign'};
+	//check feilds for emptyness 
+	$email= $obj->{'email'};
+	$pass = $obj->{'pass'};
+	$ign = $obj->{'ign'};
 
 
-       if(!isset($email) || !isset($pass) || !isset($ign)){
+       if(!isset($email) || !isset($pass) || !isset($ign)){//return if empty fields
 	
-	    header("HTTP/1.0 406 Not Acceptable");
-	    return;
-	
+	    returnJSON("HTTP/1.0 406 Not Acceptable" ,array('error'=>'Some fields are empty', 'status'=> 406));
+	   
         }
      
+        $email = mysql_real_escape_string(trim($email));
+        $pass = mysql_real_escape_string(trim($pass));
+        $ign = mysql_real_escape_string(trim($ign));
         
-        $email = mysql_real_escape_string($email);
-        $pass = mysql_real_escape_string($pass);
-        $ign = mysql_real_escape_string($ign);
+        //check to see if the user registering already exsists
+        
+        $query = mysql_query("select id from user where ign='$ign' or email='$email'");
+        
+        if(mysql_num_rows($query) > 0 ){
+        	
+        	returnJSON("HTTP/1.0 409 Conflict",array('error'=>'The ign or email entered is already in use', 'status' => 409));
+        }
         
         //add the registering user 
         
-           $q = mysql_query("insert into user (email,password,ign) values('$email','$pass','$ign')");
+        $insert = mysql_query("insert into user (email,password,ign) values('$email','$pass','$ign')");
 	
-      //$q = mysql_query("select * from user");
-      
-      if($q === false){
-      	   print mysql_error();
-      	   
-	    header("HTTP/1.0 406 Not Acceptable");
-	    return;
+        if($insert === false){
+      	      
+      	    print mysql_error();
+	    returnJSON("HTTP/1.0 503 Service Unavailable", array('error'=>'We are having problems with the server at the moment','status'=>503));
 	}
 	
-	 header("HTTP/1.0 202 Accepted");
-	 $encoded = json_encode("");
-         header('Content-type: application/json');
-         exit($encoded);
-	
-        
+	 
+	 // send url to user panel view 
+        returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'url'=> 'placeholder...'));
+         	 
+       
        
 ?>
