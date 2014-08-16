@@ -15,7 +15,7 @@
 
        if(!isset($email) || !isset($pass) || !isset($ign)){//return if empty fields
 	
-	    returnJSON("HTTP/1.0 406 Not Acceptable" ,array('error'=>'Some fields are empty', 'status'=> 406));
+	    returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Some fields are empty', 'status'=> 406));
 	   
         }
      
@@ -29,7 +29,7 @@
         
         if(mysql_num_rows($query) > 0 ){
         	
-        	returnJSON("HTTP/1.0 409 Conflict",array('error'=>'The ign or email entered is already in use', 'status' => 409));
+        	returnJSON("HTTP/1.0 409 Conflict",array('msg'=>'The ign or email entered is already in use', 'status' => 409));
         }
         
         //add the registering user 
@@ -39,12 +39,12 @@
         if($insert === false){
       	      
       	    print mysql_error();
-	    returnJSON("HTTP/1.0 503 Service Unavailable", array('error'=>'We are having problems with the server at the moment','status'=>503));
+	    returnJSON("HTTP/1.0 503 Service Unavailable", array('msg'=>'We are having problems with the server at the moment','status'=>503));
 	}
 	
 	 
-	 // send url to user panel view 
-        returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'url'=> 'placeholder...'));
+	 
+        returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'You have been added to our database'));
          	 
        
        
