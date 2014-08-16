@@ -37,7 +37,14 @@ $ign = $obj->{'ign'};
       	   print mysql_error();
       	   
 	    header("HTTP/1.0 406 Not Acceptable");
+	    return;
 	}
+	
+	 header("HTTP/1.0 202 Accepted");
+	 $encoded = json_encode("");
+         header('Content-type: application/json');
+         exit($encoded);
+	
         
        
 ?>
