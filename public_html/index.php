@@ -1,4 +1,4 @@
-<?php require("../templates/header.php")?>
+<?php require("../templates/index_header.php")?>
 <!-- NAVBAR
 ================================================== -->
   <body>
@@ -118,4 +118,4 @@
       </p>
     </div>
 		
-<?php require("../templates/footer.php")?>
+<?php require("../templates/index_footer.php")?>

@@ -1,4 +1,4 @@
-<?php require("../templates/header.php")?>
+<?php require("../templates/index_header.php")?>
   <body>
   <div class='content'>
   
@@ -79,4 +79,4 @@
     </div><!-- /.container -->
 
 	</div>
-  <?php require("../templates/footer.php")?>
+  <?php require("../templates/index_footer.php")?>
