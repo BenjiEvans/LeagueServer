@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 12, 2014 at 06:58 PM
+-- Generation Time: Aug 18, 2014 at 10:41 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.4.12
 
@@ -16,11 +16,6 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
-DROP DATABASE leagueserver;
-CREATE DATABASE leagueserver;
-Use leagueserver;
-DROP TABLE if exists user;
-
 --
 -- Database: `leagueserver`
 --
@@ -32,24 +27,41 @@ DROP TABLE if exists user;
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
-  `Id` int(45) NOT NULL AUTO_INCREMENT COMMENT '@Primary key {int} Id',
+  `id` int(45) NOT NULL AUTO_INCREMENT COMMENT '@Primary key {int} Id',
+  `ign` varchar(34) NOT NULL,
   `wins` int(10) NOT NULL COMMENT '@property {int} wins',
   `losses` int(11) NOT NULL COMMENT '@property {int} losses',
-  `team` varchar(34) DEFAULT NULL COMMENT ' @property {String} team (can be null)',
-  `password` varchar(10) NOT NULL COMMENT '@property {String} password',
-  `email` varchar(15) NOT NULL COMMENT '@property {String} email',
-  `ign` varchar(34) NOT NULL COMMENT '''@property {String} ign (in game name)''',
-  PRIMARY KEY (`Id`),
+  `team_id` int(10) DEFAULT NULL COMMENT '@Foreign key {int} team_id (can be null)',
+  `prev_team` varchar(255) NOT NULL,
+  `email` varchar(15) NOT NULL,
+  `password` varchar(10) NOT NULL,
+  `salt` varchar(45) NOT NULL,
+  `activate` tinyint(1) NOT NULL,
+  `register` date NOT NULL,
+  `login` date NOT NULL,
+  `status` enum('Collegiate','Challenger','Admin') NOT NULL COMMENT '@field {Enum: Collegiate, Challenger, Admin} status',
+  PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
-  UNIQUE KEY `ign` (`ign`)
+  UNIQUE KEY `ign` (`ign`),
+  KEY `team_id` (`team_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='A simple user model' AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`Id`, `wins`, `losses`, `team`, `password`, `email`, `ign`) VALUES
-(1, 5, 1, NULL, 'password', 'root@yahoo.com', 'root');
+INSERT INTO `user` (`id`, `ign`, `wins`, `losses`, `team_id`, `prev_team`, `email`, `password`, `salt`, `activate`, `register`, `login`, `status`) VALUES
+(1, 'root', 5, 1, NULL, '', 'root@yahoo.com', 'password', '', 0, '0000-00-00', '0000-00-00', '');
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `user`
+--
+ALTER TABLE `user`
+  ADD CONSTRAINT `FRK_UserID` FOREIGN KEY (`team_id`) REFERENCES `user` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
