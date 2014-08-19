@@ -107,12 +107,11 @@ function login(){
                  dataType: "json",
                  processData: true,
                  success: function () {
-                     //window.location.href="../officer.php";	
-					 
-					 alert("Hi");
+                     
+                   alert("login successful");
                  },
                  error: function () {
-                    alert("error");
+                   alert("login error... sorry");
                  }
              });
 
@@ -185,9 +184,13 @@ else confirm_field.parent().addClass("has-warning");
 
 function register(){
 
-//return if any fields are empty or has errors
+//get all form fields 
 var list = document.getElementsByClassName('form-control');
 var hasError = false;
+
+/*check registration fields and if any of them are empty
+  or have warnings or errors don't dont submit to server  
+*/
 for( var i = 0, length = list.length; i < length; i++){
 
     var element = list[i];
@@ -195,15 +198,40 @@ for( var i = 0, length = list.length; i < length; i++){
   if(hasClass(element,"reg") && (isEmpty(element.value) || hasClass(element.parentNode,"has-error") || hasClass(element.parentNode, "has-warning"))){
 
        if(!hasError) hasError= true;
+       /* fields that havent havent been focused on and blur 
+          might be empty so we add error class if this is the case 
+       */
        element.parentNode.className =  element.parentNode.className +" has-error";
   }
 
 }
-
+//return... to many erros
 if(hasError)return;
 
+var user = {
+   
+email: $('#register_email').val(),
+pass: $('#register_pass').val(),
+ign: $('#register_username').val()
 
-alert("Data has been sent to server");
+}
+
+//submit data to register controller via ajax 
+$.ajax({
+                 type: "POST",
+                 url: "../register.php",
+	             data: JSON.stringify(user),
+                 contentType: "application/json; charset=utf-8",
+                 dataType: "json",
+                 processData: true,
+                 success: function () {
+                     alert("Looks like you have been added to the database");
+                 },
+                 error: function () {
+                   alert("Error occured on server...");
+                 }
+             });
+
 }
 
 function displayEmailError(){
