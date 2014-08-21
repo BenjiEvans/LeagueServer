@@ -18,20 +18,18 @@ CREATE TABLE IF NOT EXISTS `user` (
   `wins` int(10) NOT NULL COMMENT '@property {int} wins',
   `losses` int(11) NOT NULL COMMENT '@property {int} losses',
   `team_id` int(10) DEFAULT NULL COMMENT '@Foreign key {int} team_id (can be null)',
-  `prev_team` varchar(255) NOT NULL,
   `email` varchar(15) NOT NULL,
-  `password` varchar(10) NOT NULL,
+  `password` varchar(13) NOT NULL,
   `salt` varchar(45) NOT NULL,
   `activate` tinyint(1) NOT NULL,
   `register` date NOT NULL,
   `login` date NOT NULL,
-  `status` enum('Collegiate','Challenger','Admin') NOT NULL COMMENT '@field {Enum: Collegiate, Challenger, Admin} status',
+  `status` enum('Challenger','Collegiate','Admin', 'Root') NOT NULL COMMENT '@field {Enum: Collegiate, Challenger(default), Admin, Root} status',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `ign` (`ign`),
   KEY `team_id` (`team_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='A simple user model' AUTO_INCREMENT=2 ;
-
 --
 -- Dumping data for table `user`
 --

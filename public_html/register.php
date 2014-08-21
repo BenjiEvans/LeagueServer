@@ -34,7 +34,24 @@
         
         //add the registering user 
         
-        $insert = mysql_query("insert into user (email,password,ign) values('$email','$pass','$ign')");
+        function getRandomString(){
+   	   	   
+        	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        	$randomString = '';
+        	$length = rand(5,10);
+        	for ($i = 0; $i < $length; $i++) 
+        	{
+        		$randomString .= $characters[rand(0, strlen($characters) - 1)];
+        	}
+        	return $randomString;
+   	   
+        }
+        
+        //hash users pass word
+        $salt = "5";
+        $passHash = crypt($pass,$salt);
+        
+        $insert = mysql_query("insert into user (email,password,ign,register,salt) values('$email','$passHash','$ign',now(),'$salt')");
 	
         if($insert === false){
       	      
@@ -47,5 +64,5 @@
         returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'You have been added to our database'));
          	 
        
-       
 ?>
+

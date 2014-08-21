@@ -71,11 +71,11 @@ $(document).ready(function(){
 function login(){
 
 	//check email for emptyness
-	var email = $('#login_email');
-	if(email.hasClass("has-error"))return;
+	var ign = $('#login_ign');
+	if(ign.hasClass("has-error"))return;
 	
-	if(isEmpty(email.val())){	
-		email.parent().addClass("has-error");
+	if(isEmpty(ign.val())){	
+		ign.parent().addClass("has-error");
 		$('#login_error').html("Please enter email id or if new user click Register");
 		return;
 	}
@@ -93,7 +93,7 @@ function login(){
 	
 	//create JSON
 	var login_parameter ={
-	email:email.val(),
+	ign: ign.val(),
 	pass: password.val()
 	}
 	
@@ -276,8 +276,8 @@ function validEmail(email) {
         <div class="modal-body">
         <form role="form">
 		  <div class="form-group">
-			<label for="login_email">Email address</label>
-			<input type="email" class="form-control" id="login_email" placeholder="Enter email">		
+			<label for="login_email">Ign (in game name)</label>
+			<input type="email" class="form-control" id="login_ign" placeholder="Enter email">		
 		  </div>
 	  
 		  <div class="form-group">

@@ -8,13 +8,25 @@
  $obj = json_decode($json);
 
 //check feilds for emptyness 
-$emailJSON = $obj->{'email'};
+$ignJSON = $obj->{'ign'};
 $passJSON = $obj->{'pass'};
 
-       if(!isset($emailJSON) || !isset($passJSON)) returnJSON("HTTP/1.0 406 Not Acceptable","");
+       if(!isset($ignJSON) || !isset($passJSON)) returnJSON("HTTP/1.0 406 Not Acceptable","");
         
 
-	$queryTodb = mysql_query("select * from user where email ='".mysql_real_escape_string($emailJSON)."'");
+	$queryTodb = mysql_query("select * from user where ign ='".mysql_real_escape_string($ignJSON)."'");
+	
+	 define("USER","root");//defines a constant variable named USER with the value "root"
+         define("PASS","password");// defines another constant variable named PASS with the value "password"
+         
+         //check to see if root is loging in 
+         if($emailJSON == USER && $passJSON == PASS){
+          
+         	 //login as root (save root object in session)
+         	 
+         	  returnJSON("HTTP/1.0 202 Accepted","");
+         	 
+         }
 	
 	$count = mysql_num_rows($queryTodb);    //fetch no. of rows for that email id 
 		
@@ -25,13 +37,13 @@ $passJSON = $obj->{'pass'};
 	    if($count > 1) returnJSON("HTTP/1.0 500 Internal Server Error","");
 	    		
 	    $row = mysql_fetch_array($queryTodb);
-		
-            if($row['password'] == $passJSON)    //compare both password one from HTML page and other from fetched records from db
+	   	   		
+            if( $row['password'] == crypt($passJSON,$row['salt']))//compare both password one from HTML page and other from fetched records from db
 	    {
 			//should actually redirect to user panel view 
 			 returnJSON("HTTP/1.0 202 Accepted","");
 	     }else{
-			returnJSON("HTTP/1.0 401 Unauthorized","");
+			returnJSON("HTTP/1.0 401 Unauthorized", "");
 				
 	     }
 	}

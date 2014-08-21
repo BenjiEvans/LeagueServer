@@ -17,25 +17,51 @@ DROP TABLE if exists user;
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
-  `Id` int(45) NOT NULL AUTO_INCREMENT COMMENT '@Primary key {int} Id',
+  `id` int(45) NOT NULL AUTO_INCREMENT COMMENT '@Primary key {int} Id',
+  `ign` varchar(34) NOT NULL,
   `wins` int(10) NOT NULL COMMENT '@property {int} wins',
   `losses` int(11) NOT NULL COMMENT '@property {int} losses',
-  `team` varchar(34) DEFAULT NULL COMMENT ' @property {String} team (can be null)',
-  `password` varchar(10) NOT NULL COMMENT '@property {String} password',
-  `email` varchar(15) NOT NULL COMMENT '@property {String} email',
-  `ign` varchar(34) NOT NULL COMMENT '''@property {String} ign (in game name)''',
-  PRIMARY KEY (`Id`),
+  `team_id` int(10) DEFAULT NULL COMMENT '@Foreign key {int} team_id (can be null)',
+  `email` varchar(15) NOT NULL,
+  `password` varchar(13) NOT NULL,
+  `salt` varchar(45) NOT NULL,
+  `activate` tinyint(1) NOT NULL,
+  `register` date NOT NULL,
+  `login` date NOT NULL,
+  `status` enum('Challenger','Collegiate','Admin', 'Root') NOT NULL COMMENT '@field {Enum: Collegiate, Challenger(default), Admin, Root} status',
+  PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
-  UNIQUE KEY `ign` (`ign`)
+  UNIQUE KEY `ign` (`ign`),
+  KEY `team_id` (`team_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='A simple user model' AUTO_INCREMENT=2 ;
 
+ALTER TABLE `user`
+  ADD CONSTRAINT `FRK_UserID` FOREIGN KEY (`team_id`) REFERENCES `user` (`id`);
+
+
 --
--- Dumping data for table `user`
+-- Table structure for table `team`
 --
 
-INSERT INTO `user` (`Id`, `wins`, `losses`, `team`, `password`, `email`, `ign`) VALUES
-(1, 5, 1, NULL, 'password', 'root@yahoo.com', 'root');
+CREATE TABLE IF NOT EXISTS `team` (
+  `id` int(11) NOT NULL COMMENT '@Primary key {int} id',
+  `wins` int(11) NOT NULL,
+  `losses` int(11) NOT NULL,
+  `captain` int(11) NOT NULL,
+  `status` enum('Collegiate','Challenger') NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `captain` (`captain`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+ALTER TABLE `team`
+  ADD CONSTRAINT `FRK_id` FOREIGN KEY (`captain`) REFERENCES `team` (`id`);
+
+
+
+--
+-- 
+--
+
+
+
