@@ -48,7 +48,7 @@
         }
         
         //hash users pass word
-        $salt = "5";
+        $salt = getRandomString();
         $passHash = crypt($pass,$salt);
         
         $insert = mysql_query("insert into user (email,password,ign,register,salt) values('$email','$passHash','$ign',now(),'$salt')");
