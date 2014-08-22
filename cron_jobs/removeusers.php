@@ -1,6 +1,6 @@
 <?php
 
-require_once("./scripts/db_conx.php");
+require_once("../scripts/db_conx.php");
 
 // This block deletes all accounts that do not activate after 7days
 
