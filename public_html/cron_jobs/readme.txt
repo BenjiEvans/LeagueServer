@@ -8,3 +8,8 @@ add this to the cron jobs and specify how often
 added db_conx.php to the scripts folder 
 
 edit it, change the username, password and database n
+
+
+//////////////////////
+Benji you may want to test removeusers.php by changing 7 DAY to 1 MINUTE. create an account and dont activate and check after a 
+minute if it's still there 
