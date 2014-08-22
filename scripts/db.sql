@@ -45,6 +45,7 @@ ALTER TABLE `user`
 
 CREATE TABLE IF NOT EXISTS `team` (
   `id` int(11) NOT NULL COMMENT '@Primary key {int} id',
+  `name` varchar(32) NOT NULL,
   `wins` int(11) NOT NULL,
   `losses` int(11) NOT NULL,
   `captain` int(11) NOT NULL,
