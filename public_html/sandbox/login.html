@@ -106,9 +106,10 @@ function login(){
                  contentType: "application/json; charset=utf-8",
                  dataType: "json",
                  processData: true,
-                 success: function () {
+                 success: function (data) {
                      
                    alert("login successful");
+                   document.location.href = data.url
                  },
                  error: function () {
                    alert("login error... sorry");
