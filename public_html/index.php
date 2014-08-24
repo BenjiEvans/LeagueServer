@@ -109,7 +109,10 @@
 			
 			
 			
-	</div> 
+	</div> <!-- /.content -->
+	
+	<?php require("../templates/modal_login.php")?>
+	<?php require("../templates/modal_register.php")?>
 	
 	 <div class="blog-footer">
 	  <p>Courtesy of your Webmaster <a href="#"> Benji</a> </p>

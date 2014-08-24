@@ -16,11 +16,19 @@ $(document).ready(function(){
 				//add nav bar
 				$('#top').append("<ul id='navBar' class='navList'> </ul>");
 				
+				/**
+				 <button class='btn btn-primary btn-lg' data-toggle='modal' data-target='#login_modal'>
+				 			Launch demo modal
+				 				</button>  */
+				
 				//add elements to nav bar 
-				var links = [ ["Home","index.php"], ["Officers","officer.php"], ["Events","index.php"], ["About Us","index.php"] /*, ["SignIn","index.html"]*/];
-				for(var i = 0; i < links.length; i++)
+				//var links = [ ["Home","index.php"], ["Officers","officer.php"], ["Events","index.php"], ["SignIn","index.html"]];
+				var links = [ ["Home","home"], ["Officers","officer"], ["Events","events"], ["SignIn","sign_in"]];
+				for(var i = 0, length = links.length; i < length; i++)
 				{
-					$('#navBar').append("<li class='navItems'> <a class ='navLink' href ='"+links[i][1]+"'>"+links[i][0]+"</a></li>");
+					//$('#navBar').append("<li class='navItems'> <a class ='navLink' href ='"+links[i][1]+"'>"+links[i][0]+"</a></li>");
+					if(i != length -1)$('#navBar').append("<li class='navItems'> <button class='btn' id='"+links[i][1]+"'style='background-color:black; color:white'>"+links[i][0]+"</button></li>");
+					else $('#navBar').append("<li class='navItems'> <button class='btn' id='"+links[i][1]+"'style='background-color:black; color:white' data-toggle='modal' data-target='#login_modal'>"+links[i][0]+"</button></li>");
 				}
 				
 				$(window).resize(function(){
