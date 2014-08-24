@@ -15,9 +15,13 @@
     <!-- Bootstrap core CSS -->
     <link href="./css/bootstrap/bootstrap.min.css" rel="stylesheet">
 
+     <!-- styling for blog -->
+    <link href="./css/custom/layout.css" rel="stylesheet">
+    
     <!-- Custom styles for this template -->
     <link href="./css/custom/dashboard.css" rel="stylesheet">
     
+   
      <style>
      .win{
      	    background-color:rgb(0,255,0);
@@ -54,9 +58,9 @@
       
         <?php require("../templates/dash/side_nav.php"); ?>
        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-           <?php require("../templates/dash/top_teams.php"); ?>
-           <?php require("../templates/dash/club_rank.php"); ?>
-        </div>
+           <?php require("../templates/dash/top_teams.php"); ?> 
+           <?php require("../templates/dash/club_rank.php"); ?>         
+        </div>       
       </div>
     </div>
 
