@@ -8,7 +8,7 @@
 	<div class='content'>
 	
 	     <!-- container for blog -->
-	     <div class="container" >
+	     <div id='blog' class="container" >
 	     <?php require("../templates/main_index/blog_header.php") ?>
                 <div class="row">
                    <div class="col-sm-8 blog-main"> <!-- blog main -->
@@ -24,7 +24,7 @@
              </div><!-- /.container -->
 			
              <!-- officer container -->
-             <div class="container marketing">
+             <div id='officers' class="container marketing" hidden>
               <?php require("../templates/officers/officers.php") ?>
              </div><!-- /.container -->
 			
