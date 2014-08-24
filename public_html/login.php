@@ -1,6 +1,7 @@
 <?php session_start();?>
 <?php require("../templates/mysql_connect.php")?>
 <?php require("../templates/json_functions.php")?>
+<?php require("../models/root.php") ?>
 
 <?php
  //get the user's submitted json 
@@ -17,14 +18,14 @@ $passJSON = $obj->{'pass'};
 	$queryTodb = mysql_query("select * from user where ign ='".mysql_real_escape_string($ignJSON)."'");
 	
 	 define("USER","root");//defines a constant variable named USER with the value "root"
-         define("PASS","password");// defines another constant variable named PASS with the value "password"
+         define("PASS","root");// defines another constant variable named PASS with the value "password"
          
          //check to see if root is loging in 
          if($ignJSON == USER && $passJSON == PASS){
           
          	 //login as root (save root object in session)
-         	 
-         	  returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=>'Loging in as root user', 'url'=>'/sandbox/'));
+         	  $_SESSION["user"] = new Root();
+         	  returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=>'Loging in as root user', 'url'=>'/sandbox/dashboard.html'));
          	 
          }
 	
@@ -34,7 +35,7 @@ $passJSON = $obj->{'pass'};
 	if($count==0) returnJSON("HTTP/1.0 404 Not Found","");
 	else
 	{	
-	    if($count > 1) returnJSON("HTTP/1.0 500 Internal Server Error","");
+	    if($count > 1) returnJSON("HTTP/1.0 500 Internal Server Error","more than one user has that ign");
 	    		
 	    $row = mysql_fetch_array($queryTodb);
 	   	   		
