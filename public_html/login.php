@@ -25,7 +25,7 @@ $passJSON = $obj->{'pass'};
           
          	 //login as root (save root object in session)
          	  $_SESSION["user"] = new Root();
-         	  returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=>'Loging in as root user', 'url'=>'/sandbox/dashboard.html'));
+         	  returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=>'Loging in as root user', 'url'=>'/dash.php'));
          	 
          }
 	

@@ -1,4 +1,4 @@
-<?php require("../templates/index_header.php")?>
+<?php require("../templates/main_index/header.php")?>
 <!-- NAVBAR
 ================================================== -->
   <body>
@@ -111,8 +111,8 @@
 			
 	</div> <!-- /.content -->
 	
-	<?php require("../templates/modal_login.php")?>
-	<?php require("../templates/modal_register.php")?>
+	<?php require("../templates/main_index/modal_login.php")?>
+	<?php require("../templates/main_index/modal_register.php")?>
 	
 	 <div class="blog-footer">
 	  <p>Courtesy of your Webmaster <a href="#"> Benji</a> </p>
@@ -121,4 +121,4 @@
       </p>
     </div>
 		
-<?php require("../templates/index_footer.php")?>
+<?php require("../templates/main_index/footer.php")?>
