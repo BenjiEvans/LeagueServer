@@ -1,23 +1,24 @@
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+<div class='navbar navbar-inverse navbar-fixed-top' role='navigation'>
+      <div class='container-fluid'>
+        <div class='navbar-header'>
+          <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
+            <span class='sr-only'>Toggle navigation</span>
+            <span class='icon-bar'></span>
+            <span class='icon-bar'></span>
+            <span class='icon-bar'></span>
           </button>
-          <a class="navbar-brand" href="#">Welcome Summoner!</a>
+          <a class='navbar-brand' href='#'>Welcome Summoner</a>
         </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Settings</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="../main.php?rq=logout">logout</a></li>
+        <div class='navbar-collapse collapse'>
+          <ul class='nav navbar-nav navbar-right'>
+            <li><a href='#'>Settings</a></li>
+            <li><a href='#'>Profile</a></li>
+            <li><a href='/main.php?rq=logout'>logout</a></li>
           </ul>
-          <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search...">
+          <form class='navbar-form navbar-right'>
+            <input type='text' class='form-control' placeholder='Search...'>
           </form>
         </div>
       </div>
     </div>
+

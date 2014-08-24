@@ -3,37 +3,14 @@ $(document).ready(function(){
       $('.dash_link').click(function(){
       
           $('.dash_link').removeClass('active');
+          $('.dash_link').css("color","rgb(0,0,0)");
           //select correct nav item
           $(this).addClass('active');
+          $(this).css("color","gold")
           
          var id = $(this).attr("id");
          console.log("nav id: "+ id);
-         
-        /* switch(id){
-         	 
-           case "overview":
-           	   request("all");
-           	   return;
-           	   
-           case "blog":
-           	   request("blog");
-           	   return;
-           	   
-           case "team_rank":
-           	   request("");
-           	   return;
-           	   
-           case "event":
-           	   
-           	   return;
-           	   
-           case "control_panel":
-           	   
-           	  return;
-         	 
-         }*/
-          
-      
+              
       });
 		
 

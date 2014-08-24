@@ -8,6 +8,11 @@
   	   
   		$this->name ="root";
   	}
+  	
+  	public function name(){
+  	
+  		return "root";
+  	}
   	  
   	  
   }

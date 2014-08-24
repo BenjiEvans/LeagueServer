@@ -1,4 +1,8 @@
 <?php require("../templates/login_check.php"); ?>
+<?php require("../templates/mysql_connect.php"); ?>
+<?php $user = $_SESSION["user"]; ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -33,6 +37,14 @@
      	    background-color:rgb(255,0,0); 
      	    color:rgb(0,0,0);
      }
+     
+     a{
+     	     
+     	color:rgb(0,0,0);
+     }
+      
+     
+     
      </style>
      
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
@@ -52,7 +64,7 @@
   <body>
 
     <?php require("../templates/dash/top_nav.php"); ?>
-
+    
     <div class="container-fluid">
       <div class="row">
       
