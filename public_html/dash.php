@@ -1,4 +1,5 @@
 <?php require("../models/root.php"); ?>
+<!--<?php require("../models/user.php"); ?> -->
 <?php require("../templates/login_check.php"); ?>
 <?php require("../templates/mysql_connect.php"); ?>
 
@@ -72,8 +73,9 @@
            <?php require("../templates/dash/club_rank.php"); ?>         
         </div>       
       </div>
-    </div>
-
+    </div> 
+    
+    
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

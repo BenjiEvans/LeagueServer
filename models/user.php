@@ -1,21 +1,21 @@
-
 <?php
         // The code below creates the class
         class User {
             // Creating some properties (variables tied to an object)
-            public $id ;
             public $win;
-            public $losses;
-	    public $email;
+            public $loss;
+	    public $ign;
 			
             
             // Assigning the values
-            public function __construct($id,$win,$losses,$email,$ign) {
-              $this->id = $id;              
+            public function __construct($ign,$win,$loss) {        
               $this->win = $win;
-	      $this->losses = $losses;
-	      $this->email = $email;	
+	      $this->loss = $loss;
 	      $this->ign= $ign;
+            }
+            
+            public function name(){
+              return $this->ign;	    
             }
           }
 ?>

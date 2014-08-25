@@ -2,6 +2,7 @@
 <?php require("../templates/mysql_connect.php")?>
 <?php require("../templates/json_functions.php")?>
 <?php require("../models/root.php") ?>
+<?php require("../models/user.php") ?> 
 
 <?php
  //get the user's submitted json 
@@ -41,8 +42,11 @@ $passJSON = $obj->{'pass'};
 	   	   		
             if( $row['password'] == crypt($passJSON,$row['salt']))//compare both password one from HTML page and other from fetched records from db
 	    {
+	    	        //store in session
+	    	        $_SESSION["user"] = new User($row['ign'],$row['wins'],$row['losses']);
+	    	    
 			//should actually redirect to user panel view 
-			 returnJSON("HTTP/1.0 202 Accepted","");
+			 returnJSON("HTTP/1.0 202 Accepted",array('status'=>202, 'msg'=>'Loging successful!', 'url'=>'/dash.php'));
 	     }else{
 			returnJSON("HTTP/1.0 401 Unauthorized", "");
 				
