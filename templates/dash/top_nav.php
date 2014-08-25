@@ -7,7 +7,7 @@
             <span class='icon-bar'></span>
             <span class='icon-bar'></span>
           </button>
-          <a class='navbar-brand' href='#'>Welcome Summoner</a>
+          <a class='navbar-brand' href='#'>Welcome <?php echo $_SESSION["user"]->name(); ?> </a>
         </div>
         <div class='navbar-collapse collapse'>
           <ul class='nav navbar-nav navbar-right'>
