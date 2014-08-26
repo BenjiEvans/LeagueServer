@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `activate` tinyint(1) NOT NULL,
   `register` date NOT NULL,
   `login` date NOT NULL,
+  `score` float(10,3),
   `status` enum('Challenger','Collegiate','Admin', 'Root') NOT NULL COMMENT '@field {Enum: Collegiate, Challenger(default), Admin, Root} status',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),

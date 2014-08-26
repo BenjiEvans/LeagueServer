@@ -14,16 +14,18 @@
            <tbody>
                 <?php   
                    
-                $query = mysql_query("select ign, wins, losses, team_id,status from user");
+                $query = mysql_query("select ign, wins, losses, team_id, status from user where score is not null order by score desc");
                 $count = mysql_num_rows($query);
                 if($count == 0) echo "No User's found";
                 else{
-                	$i = 1;
-                    $cur_user = $_SESSION['user']->name();
+                              
+                  
+                   $i = 1;
+                   $cur_user = $_SESSION['user']->name();
                   while ($row = mysql_fetch_array($query)) 
                   {
-                  	  $name = $row["ign"];
                   	  
+                     $name = $row["ign"];                    	  
                      echo "<tr><td>$i</td>";
                      if(strcmp($name, $cur_user) == 0) echo"<td><span style='font-weight: bold;'>$name</span></td>";
                      else echo "<td>$name</td>";                
@@ -39,7 +41,7 @@
                 
                 
                 ?>
-              <!--<tr>
+            <!--  <tr>
                 <td>1</td>
                 <td> name </td>
                 <td><span class="badge win"># of wins</span></td>

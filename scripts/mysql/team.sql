@@ -33,6 +33,8 @@ CREATE TABLE IF NOT EXISTS `team` (
   `losses` int(11) NOT NULL,
   `captain` int(11) NOT NULL,
   `status` enum('Collegiate','Challenger') NOT NULL,
+  `score` float(10,3) NULL,
+  `last_match` date NULL,
   PRIMARY KEY (`id`),
   KEY `captain` (`captain`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -45,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `team` (
 -- Constraints for table `team`
 --
 ALTER TABLE `team`
-  ADD CONSTRAINT `FRK_id` FOREIGN KEY (`captain`) REFERENCES `team` (`id`);
+  ADD CONSTRAINT `FRK_id` FOREIGN KEY (`captain`) REFERENCES `user` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

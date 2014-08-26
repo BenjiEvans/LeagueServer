@@ -6,6 +6,8 @@
             public $loss;
 	    public $ign;
 	    public $status;
+	    public $score;
+	  
 			
             
             // Assigning the values
@@ -14,6 +16,7 @@
 	      $this->loss = $loss;
 	      $this->ign= $ign;
 	      $this->status = $status;
+	      $this->score = $win-($loss*($loss/($win+$loss)));
             }
             
             public function name(){
@@ -24,5 +27,18 @@
                return $this->status;	    
             }
             
+            public function wins(){
+               return $this->win;	    
+            }
+            
+            public function losses(){
+               return $this->loss;	    
+            }
+            
+            public function score(){
+               return $this->score;	    
+            }
+            
+                       
           }
 ?>

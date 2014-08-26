@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `activate` tinyint(1) NOT NULL,
   `register` date NOT NULL,
   `login` date NOT NULL,
+  `score` float(10,3) NULL,
   `status` enum('Challenger','Collegiate','Admin', 'Root') NOT NULL COMMENT '@field {Enum: Collegiate, Challenger(default), Admin, Root} status',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
@@ -38,25 +39,26 @@ CREATE TABLE IF NOT EXISTS `user` (
 ALTER TABLE `user`
   ADD CONSTRAINT `FRK_UserID` FOREIGN KEY (`team_id`) REFERENCES `user` (`id`);
 
-
 --
 -- Table structure for table `team`
 --
 
 CREATE TABLE IF NOT EXISTS `team` (
-  `id` int(11) NOT NULL COMMENT '@Primary key {int} id',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '@Primary key {int} id',
   `name` varchar(32) NOT NULL,
   `wins` int(11) NOT NULL,
   `losses` int(11) NOT NULL,
   `captain` int(11) NOT NULL,
   `status` enum('Collegiate','Challenger') NOT NULL,
+  `score` float(10,3) NULL,
+  `last_match` date NULL,
   PRIMARY KEY (`id`),
   KEY `captain` (`captain`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=2;
 
 
 ALTER TABLE `team`
-  ADD CONSTRAINT `FRK_id` FOREIGN KEY (`captain`) REFERENCES `team` (`id`);
+  ADD CONSTRAINT `FRK_id` FOREIGN KEY (`captain`) REFERENCES `user` (`id`);
 
 
 
