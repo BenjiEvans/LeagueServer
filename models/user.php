@@ -5,17 +5,24 @@
             public $win;
             public $loss;
 	    public $ign;
+	    public $status;
 			
             
             // Assigning the values
-            public function __construct($ign,$win,$loss) {        
+            public function __construct($ign,$win,$loss,$status) {        
               $this->win = $win;
 	      $this->loss = $loss;
 	      $this->ign= $ign;
+	      $this->status = $status;
             }
             
             public function name(){
               return $this->ign;	    
             }
+            
+            public function status(){
+               return $this->status;	    
+            }
+            
           }
 ?>

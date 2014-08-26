@@ -1,5 +1,4 @@
-<?php require("../models/root.php"); ?>
-<!--<?php require("../models/user.php"); ?> -->
+<?php require("../models/user.php"); ?>
 <?php require("../templates/login_check.php"); ?>
 <?php require("../templates/mysql_connect.php"); ?>
 

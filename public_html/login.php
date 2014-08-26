@@ -1,7 +1,6 @@
 <?php session_start();?>
 <?php require("../templates/mysql_connect.php")?>
 <?php require("../templates/json_functions.php")?>
-<?php require("../models/root.php") ?>
 <?php require("../models/user.php") ?> 
 
 <?php
@@ -25,7 +24,7 @@ $passJSON = $obj->{'pass'};
          if($ignJSON == USER && $passJSON == PASS){
           
          	 //login as root (save root object in session)
-         	  $_SESSION["user"] = new Root();
+         	  $_SESSION["user"] = new User("Root",0,0,"Root");
          	  returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=>'Loging in as root user', 'url'=>'/dash.php'));
          	 
          }
@@ -43,7 +42,7 @@ $passJSON = $obj->{'pass'};
             if( $row['password'] == crypt($passJSON,$row['salt']))//compare both password one from HTML page and other from fetched records from db
 	    {
 	    	        //store in session
-	    	        $_SESSION["user"] = new User($row['ign'],$row['wins'],$row['losses']);
+	    	        $_SESSION["user"] = new User($row['ign'],$row['wins'],$row['losses'],$row['status']);
 	    	    
 			//should actually redirect to user panel view 
 			 returnJSON("HTTP/1.0 202 Accepted",array('status'=>202, 'msg'=>'Loging successful!', 'url'=>'/dash.php'));

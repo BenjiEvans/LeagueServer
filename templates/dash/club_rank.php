@@ -7,13 +7,14 @@
                <th>Ign</th>
                <th>Wins</th>
                <th>Losses</th>
+               <th>Status</th>
                <th>Current Team</th>
              </tr>
            </thead>
            <tbody>
                 <?php   
                    
-                $query = mysql_query("select ign, wins, losses from user");
+                $query = mysql_query("select ign, wins, losses, team_id,status from user");
                 $count = mysql_num_rows($query);
                 if($count == 0) echo "No User's found";
                 else{
@@ -28,7 +29,9 @@
                      else echo "<td>$name</td>";                
                      echo "<td><span class='badge win'>".$row["wins"]."</span></td>";
                      echo "<td><span class='badge loss'>".$row["losses"]."</span></td>";
-                     echo "<td>...</td>";
+                     echo "<td>".$row["status"]."</td>";
+                     if(is_null($row['team_id']))echo "<td></td>";
+                     else echo "<td> This user has a team</td>";
                      echo "</tr>";
                      $i+=1;
                   }
