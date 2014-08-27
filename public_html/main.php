@@ -9,7 +9,7 @@
    	   {
    	   
    	   	   unset($_SESSION["user"]);
-   	   	   header("Location: http://localhost");
+   	   	   header("Location: /");
    	   	   exit();
    	   }
       
