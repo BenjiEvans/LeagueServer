@@ -86,15 +86,15 @@
           </ul>
         </div>
         
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style='border:solid;border-color:red;'>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style='padding:0px;'>
            
         
-         <div id='blog' class="container"style='border:solid; border-color:yellow;float:left; margin-left:0px;'>
+         <div id='blog' class="container" style='float:left;width:800px;height:500px;overflow-y: scroll;'>
 	   <div class="blog-header">
 	   	<h1 class="blog-title">CSULA League of Legends </h1>
 	   	<p class="lead blog-description">The official CSULA League of Legends BlogSpot</p>
            </div>
-                <div class="row">
+                <div class="row" style=''>
                    <div class="col-sm-8 blog-main"> <!-- blog main -->
                    <?php require("../../templates/main_index/blog_posts.php") ?>
                    <ul class="pager">
@@ -104,15 +104,27 @@
                    </div><!-- /.blog-main -->
                 </div><!-- /.row -->
              </div><!-- /.container -->
-             
-            
-            <div class="sidebar-module sidebar-module-inset" style='width:250px;height:250px;float:right;'> <!-- Global notifications -->
-            <h4>About</h4>
+ 
+             <!--side bar-->
+            <div style='width:250px;float:right;overflow:scroll;'>
+               <div class="sidebar-module sidebar-module-inset" > <!-- Global notifications -->
+                <h4>About</h4>
 			<p> Mr. President, if you are reading this then it is pretty evident that we need 
 			a better, more meaning full statement to fill this spot on the page.
 			Until then... this will have to do for now :D
 			</p>
-          </div> <!-- Global notifications -->
+                 </div> <!-- Global notifications -->
+                 <div class="sidebar-module">
+            <h4>Links</h4>
+            <ol class="list-unstyled">
+             
+              <li><a href="http://www.twitch.tv/csula_lol" target="_blank">Twitch</a></li>
+              <li><a href="https://www.facebook.com/groups/CSULALeagueOfLegendsClub/" target="_blank">Facebook</a></li>
+            </ol>
+          </div>
+                      
+            </div>
+           
             
 
         </div>
@@ -127,5 +139,6 @@
     <script src="./js/docs.min.js"></script>
      <!-- Custom code -->
      <script src="./js/custom/dashboard.js"></script>
+     <!-- for blog -->
   </body>
 </html>
