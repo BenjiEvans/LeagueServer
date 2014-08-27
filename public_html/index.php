@@ -1,4 +1,11 @@
-
+<?php session_start();
+//if user already logged in redirect to the dash board
+  if(isset($_SESSION['user'])){
+  	  
+  	  header("Location: /dash.php");
+  	  exit();
+  }
+?>
 <!-- NAVBAR -->
 <?php require("../templates/main_index/header.php")?> 
 
