@@ -13,8 +13,8 @@
            </thead>
            <tbody>
                 <?php   
-                   
-                $query = mysql_query("select ign, wins, losses, team_id, status from user where score is not null order by score desc");
+                  
+                $query = mysql_query("select ign, user.wins, user.losses, name, user.status from user left join team on user.team_id where user.score is not null order by user.score desc");
                 $count = mysql_num_rows($query);
                 if($count == 0) echo "No User's found";
                 else{
@@ -32,8 +32,8 @@
                      echo "<td><span class='badge win'>".$row["wins"]."</span></td>";
                      echo "<td><span class='badge loss'>".$row["losses"]."</span></td>";
                      echo "<td>".$row["status"]."</td>";
-                     if(is_null($row['team_id']))echo "<td></td>";
-                     else echo "<td> This user has a team</td>";
+                     if(is_null($row['name']))echo "<td></td>";
+                     else echo "<td>".$row['name']."</td>";
                      echo "</tr>";
                      $i+=1;
                   }
