@@ -16,7 +16,7 @@
                   
                 $query = mysql_query("select ign, user.wins, user.losses, name, user.status from user left join team on user.team_id where user.score is not null order by user.score desc");
                 $count = mysql_num_rows($query);
-                if($count == 0) echo "No User's found";
+                if($count == 0) echo "";
                 else{
                               
                   
