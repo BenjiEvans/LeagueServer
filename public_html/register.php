@@ -1,5 +1,5 @@
-<?php require("../templates/mysql_connect.php") ?>
-<?php require("../templates/json_functions.php") ?>
+<?php require("../scripts/php/mysql_connect.php") ?>
+<?php require("../scripts/php/json_functions.php") ?>
 <?php
   
 //get the user's submitted json 

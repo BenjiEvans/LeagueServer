@@ -1,4 +1,4 @@
-<?php require("../templates/login_check.php") ?>
+<?php require("../scripts/php/login_check.php") ?>
 <?php
 
    if(isset($_GET['rq'])){
@@ -9,7 +9,7 @@
    	   {
    	   
    	   	   unset($_SESSION["user"]);
-   	   	   header("Location: /");
+   	   	   header("Location: /index.php");
    	   	   exit();
    	   }
       

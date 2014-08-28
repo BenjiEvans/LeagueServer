@@ -1,6 +1,6 @@
 <?php require("../models/user.php"); ?>
-<?php require("../templates/login_check.php"); ?>
-<?php require("../templates/mysql_connect.php"); ?>
+<?php require("../scripts/php/login_check.php"); ?>
+<?php require("../scripts/php/mysql_connect.php"); ?>
 
 <!DOCTYPE html>
 <html lang="en">
