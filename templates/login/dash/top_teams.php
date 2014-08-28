@@ -4,7 +4,7 @@
 
 <?php
 
- $query = mysql_query("select name from team where score is not null order by score desc limit 4");
+ $query = mysql_query("select TeamName from Teams where Score is not null order by Score desc limit 4");
                 $count = mysql_num_rows($query);
                 if($count == 0) echo "No Ranked Teams";
                 else{
@@ -14,7 +14,7 @@
                   {                	  
                     echo "<div class='ol-xs-6 col-sm-3 placeholder'>";
                     echo "<img data-src='holder.js/200x200/auto/sky' class='img-responsive' alt='Generic placeholder thumbnail'>";
-                    echo "<h4>".$row['name']."</h4>";
+                    echo "<h4>".$row['TeamName']."</h4>";
                     echo "<span class='text-muted'>$i</span>";
                     echo " </div>";
                      $i+=1;

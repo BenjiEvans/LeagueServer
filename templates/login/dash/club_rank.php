@@ -14,7 +14,7 @@
            <tbody>
                 <?php   
                   
-                $query = mysql_query("select ign, user.wins, user.losses, name, user.status from user left join team on user.team_id where user.score is not null order by user.score desc");
+                $query = mysql_query("select Ign, Users.Wins, Users.Losses, TeamName, Users.UserStatus from Users left join Teams on Users.TeamID where Users.Score is not null order by Users.Score desc");
                 $count = mysql_num_rows($query);
                 if($count == 0) echo "";
                 else{
@@ -25,15 +25,15 @@
                   while ($row = mysql_fetch_array($query)) 
                   {
                   	  
-                     $name = $row["ign"];                    	  
+                     $name = $row["Ign"];                    	  
                      echo "<tr><td>$i</td>";
                      if(strcmp($name, $cur_user) == 0) echo"<td><span style='font-weight: bold;'>$name</span></td>";
                      else echo "<td>$name</td>";                
-                     echo "<td><span class='badge win'>".$row["wins"]."</span></td>";
-                     echo "<td><span class='badge loss'>".$row["losses"]."</span></td>";
-                     echo "<td>".$row["status"]."</td>";
-                     if(is_null($row['name']))echo "<td></td>";
-                     else echo "<td>".$row['name']."</td>";
+                     echo "<td><span class='badge win'>".$row["Wins"]."</span></td>";
+                     echo "<td><span class='badge loss'>".$row["Losses"]."</span></td>";
+                     echo "<td>".$row["UserStatus"]."</td>";
+                     if(is_null($row['TeamName']))echo "<td></td>";
+                     else echo "<td>".$row['TeamName']."</td>";
                      echo "</tr>";
                      $i+=1;
                   }

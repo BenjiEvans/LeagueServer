@@ -25,7 +25,7 @@
         
         //check to see if the user registering already exsists
         
-        $query = mysql_query("select id from user where ign='$ign' or email='$email'");
+        $query = mysql_query("select UserID from Users where Ign='$ign' or Email='$email'");
         
         if(mysql_num_rows($query) > 0 ){
         	
@@ -51,7 +51,7 @@
         $salt = getRandomString();
         $passHash = crypt($pass,$salt);
         
-        $insert = mysql_query("insert into user (email,password,ign,register,salt) values('$email','$passHash','$ign',now(),'$salt')");
+        $insert = mysql_query("insert into Users (Email,Password,Ign,Register,Salt) values('$email','$passHash','$ign',now(),'$salt')");
 	
         if($insert === false){
       	      

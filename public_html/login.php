@@ -15,7 +15,6 @@ $passJSON = $obj->{'pass'};
        if(!isset($ignJSON) || !isset($passJSON)) returnJSON("HTTP/1.0 406 Not Acceptable","");
         
 
-	$queryTodb = mysql_query("select * from user where ign ='".mysql_real_escape_string($ignJSON)."'");
 	
 	 define("USER","root");//defines a constant variable named USER with the value "root"
          define("PASS","root");// defines another constant variable named PASS with the value "password"
@@ -28,6 +27,8 @@ $passJSON = $obj->{'pass'};
          	  returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=>'Loging in as root user', 'url'=>'/dash.php'));
          	 
          }
+        
+        $queryTodb = mysql_query("select * from Users where Ign ='".mysql_real_escape_string($ignJSON)."'");
 	
 	$count = mysql_num_rows($queryTodb);    //fetch no. of rows for that email id 
 		
@@ -39,10 +40,10 @@ $passJSON = $obj->{'pass'};
 	    		
 	    $row = mysql_fetch_array($queryTodb);
 	   	   		
-            if( $row['password'] == crypt($passJSON,$row['salt']))//compare both password one from HTML page and other from fetched records from db
+            if( $row['Password'] == crypt($passJSON,$row['Salt']))//compare both password one from HTML page and other from fetched records from db
 	    {
 	    	        //store in session
-	    	        $_SESSION["user"] = new User($row['ign'],$row['wins'],$row['losses'],$row['status']);
+	    	        $_SESSION["user"] = new User($row['Ign'],$row['Wins'],$row['Losses'],$row['UserStatus']);
 	    	    
 			//should actually redirect to user panel view 
 			 returnJSON("HTTP/1.0 202 Accepted",array('status'=>202, 'msg'=>'Loging successful!', 'url'=>'/dash.php'));

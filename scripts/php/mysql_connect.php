@@ -1,6 +1,6 @@
 <?php
 //establishing database connection
-	$db = "leagueserver";
+	$db = "LeagueServer";
 	
 	$conn = mysql_connect("localhost","LeagueAdmin","password");
 	
