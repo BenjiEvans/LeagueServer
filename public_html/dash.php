@@ -68,8 +68,8 @@
       
         <?php require("../templates/login/dash/side_nav.php"); ?>
        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-           <?php require("../templates/login/dash/top_teams.php"); ?> 
-           <?php require("../templates/login/dash/club_rank.php"); ?>         
+           <?php require("../templates/login/dash/overview/top_teams.php"); ?> 
+           <?php require("../templates/login/dash/overview/club_rank.php"); ?>         
         </div>       
       </div>
     </div> 
