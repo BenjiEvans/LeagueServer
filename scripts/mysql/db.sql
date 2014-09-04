@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS Events (
   PRIMARY KEY (`EventID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
---event cross refrence
+-- event cross refrence
 
 CREATE TABLE IF NOT EXISTS XrefUsersEvents (
   ID int(11) NOT NULL AUTO_INCREMENT,
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS XrefUsersEvents (
   PRIMARY KEY (`ID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
---end of script 
+-- end of script 
 
 -- add permissions to test on repository locally 
 CREATE USER 'LeagueAdmin'@'localhost' IDENTIFIED BY 'password';
