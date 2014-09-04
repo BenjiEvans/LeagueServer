@@ -51,7 +51,8 @@
         $salt = getRandomString();
         $passHash = crypt($pass,$salt);
         
-        $insert = mysql_query("insert into Users (Email,Password,Ign,Register,Salt) values('$email','$passHash','$ign',now(),'$salt')");
+        $insert = mysql_query("insert into Users (Email,Password,Ign,Register,Salt,Activate) values('$email','$passHash','$ign',now(),'$salt',0)"); 
+       
 	
         if($insert === false){
       	      
@@ -59,9 +60,10 @@
 	    returnJSON("HTTP/1.0 503 Service Unavailable", array('msg'=>'We are having problems with the server at the moment'.mysql_error(),'status'=>503));
 	}
 	
+	 //send email confirmation (when In production)
 	 
-	 
-        returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'You have been added to our database'));
+	 returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'You have been added to our database'));
+	     
          	 
        
 ?>

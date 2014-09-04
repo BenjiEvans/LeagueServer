@@ -1,6 +1,3 @@
-
-
-
 $(document).ready(function(){
    
     $('#termbox').click(function(){
@@ -8,6 +5,11 @@ $(document).ready(function(){
            $("#register").attr('disabled', !this.checked)
          
       });
+    
+    $('#reg').click(function(){
+       
+	$('#login_error').html("");	    
+    });
 
     $('#terms').click(function(){
 
@@ -62,7 +64,7 @@ function login(){
 	
 	if(isEmpty(ign.val())){	
 		ign.parent().addClass("has-error");
-		$('#login_error').html("Please enter email id or if new user click Register");
+		$('#login_error').html("Please enter Ign or if new user click Register");
 		return;
 	}
 	
@@ -94,11 +96,20 @@ function login(){
                  processData: true,
                  success: function (data) {
                      
-                   alert("login successful");
                    document.location.href = data.url
                  },
-                 error: function () {
-                   alert("login error... sorry");
+                 error: function (data) {
+                   switch(data.status){
+                   	case 404: 
+                   	$('#login_error').html("The Ign you attempted to login with is no yet registered. Click register below to signup for an account");
+                   	break;
+                       case 500:
+                       $('#login_error').html("We are having problems with our server..Please try again later.");
+                       break;
+                       case 401:
+                       $('#login_error').html("Incorrect password");
+                       $('#login_pass').val("");
+                   }
                  }
              });
 
@@ -211,11 +222,11 @@ $.ajax({
                  contentType: "application/json; charset=utf-8",
                  dataType: "json",
                  processData: true,
-                 success: function () {
-                     alert("Looks like you have been added to the database");
+                 success: function (data) {
+                     alert("Registratin Successful. Check your email to activate your account ");
                  },
-                 error: function () {
-                   alert("Error occured on server...");
+                 error: function (data) {
+                   
                  }
              });
 
@@ -224,7 +235,7 @@ $.ajax({
 function displayEmailError(){
 var email = $('#register_email');
 var parent = email.parent();
-$("#email_error").html("*not a proper email format");
+$("#email_error").html("*not a proper email address. make sure you are using your CSULA email");
 parent.removeClass("has-success");
 parent.addClass("has-error");
 $('#register_cemail').parent().removeClass("has-success");
@@ -234,8 +245,17 @@ function hasClass(element, cls) {
     return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
 }
 
-function validEmail(email) { 
+/*function validEmail(email) { 
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
-} 
+} */
+
+function validEmail(email){
+     	
+	var pattern = /^\"?[\w-_\.]*\"?@calstatela\.edu$/;
+	return pattern.test(email); 
+	
+}
+
+
 

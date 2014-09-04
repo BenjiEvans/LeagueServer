@@ -16,7 +16,7 @@
 	  </div>
 	  <div class="form-group">
 	    <label class="control-label" for="register_email">Email address </label> 
-	    <input type="email" class="form-control reg" id="register_email" placeholder="Enter email">
+	    <input type="email" class="form-control reg" id="register_email" placeholder="Please use CSULA email">
             <span id='email_error' class='control-label'></span>
 	  </div>
           <div class="form-group">
@@ -44,6 +44,7 @@
         <div class="modal-footer">
           <button id='register' type="button" class="btn btn-warning" style='float:left' disabled >Signup</button>
         </div>
+       
 
       </div>
     </div>

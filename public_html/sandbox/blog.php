@@ -86,48 +86,35 @@
           </ul>
         </div>
         
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style='padding:0px;border:solid;border-color:red;overflow:scroll;'>
-           
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         
-         <div id='blog' class="container" style='border:solid;float:left;display:inline;width:800px;overflow-y:scroll'>
+        <div>
+             <form role="form">
+		  <div class="form-group">
+			<label for="login_email"><img src='../img/glyphicons_150_edit.png'>Post </label>
+			<textarea id='user_post' class="form-control" rows="3" data-toggle="tooltip" title="this box is resizable (drag bottom-right corner)"> Got something to say?</textarea>
+			<button id='post' type="button" class="btn btn-warning" style="float:left" data-toggle='modal' data-target='#post_modal'>Post</button>
+		  </div>
+             </form>
+        </div>
+    
+       
+       
+         <div id='blog' class="container">
 	   <div class="blog-header">
 	   	<h1 class="blog-title">CSULA League of Legends </h1>
 	   	<p class="lead blog-description">The official CSULA League of Legends BlogSpot</p>
            </div>
                 <div class="row">
                    <div class="col-sm-8 blog-main"> <!-- blog main -->
-                   <?php require("../../templates/main_index/blog_posts.php") ?>
+                   <?php require("../../templates/main/blog/blog_posts.php") ?>
                    </div><!-- /.blog-main -->
-                    
+                    <?php require("../../templates/main/blog/blog_sidebar.php") ?>
                 </div><!-- /.row -->
              </div><!-- /.container -->
-           
-            
-             <!--side bar-->
-           <div class="col-sm-3 col-sm-offset-1 blog-sidebar" style='position:fixed; margin-left:800px;width:250px;'>
-        
-          <div class="sidebar-module sidebar-module-inset"> <!-- about box -->
-            <h4>About</h4>
-			<p> Mr. President, if you are reading this then it is pretty evident that we need 
-			a better, more meaning full statement to fill this spot on the page.
-			Until then... this will have to do for now :D
-			</p>
-          </div> <!-- about box -->
-          
-           <div class="sidebar-module">
-            <h4>Elsewhere</h4>
-            <ol class="list-unstyled">
              
-              <li><a href="http://www.twitch.tv/csula_lol" target="_blank">Twitch</a></li>
-              <li><a href="https://www.facebook.com/groups/CSULALeagueOfLegendsClub/" target="_blank">Facebook</a></li>
-            </ol>
-          </div>
-        </div><!-- /.blog-sidebar -->
-                      
-           <!--side bar-->
-           
-            
-
+             <?php require("../../templates/login/dash/modals/post.php");?>
+                       
         </div>
       </div> 
     </div>
