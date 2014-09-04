@@ -107,9 +107,9 @@
            </div>
                 <div class="row">
                    <div class="col-sm-8 blog-main"> <!-- blog main -->
-                   <?php require("../../templates/main/blog_posts.php") ?>
+                   <?php require("../../templates/main/blog/blog_posts.php") ?>
                    </div><!-- /.blog-main -->
-                    <?php require("../../templates/main/blog_sidebar.php") ?>
+                    <?php require("../../templates/main/blog/blog_sidebar.php") ?>
                 </div><!-- /.row -->
              </div><!-- /.container -->
              
