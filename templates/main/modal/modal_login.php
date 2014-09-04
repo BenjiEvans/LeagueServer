@@ -23,12 +23,12 @@
 			  <input type="checkbox"> Remember me
 			</label>		
 		  </div>
-		  <br><span id='login_error'> </span>
+		  <!--<br>--><span id='login_error' style='color:rgb(250,0,0)'> </span>
 	  
 		</form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-warning" style='float:left' data-dismiss="modal" data-toggle="modal" data-target="#register_modal">Register</button>
+          <button id='reg' type="button" class="btn btn-warning" style='float:left' data-dismiss="modal" data-toggle="modal" data-target="#register_modal">Register</button>
           <button id='login' type="button" class="btn btn-primary">Login</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>

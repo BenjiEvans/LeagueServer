@@ -16,17 +16,17 @@
 	
 	     <!-- container for blog -->
 	     <div id='blog' class="container" >
-	     <?php require("../templates/main/blog_header.php") ?>
+	     <?php require("../templates/main/blog/blog_header.php") ?>
                 <div class="row">
                    <div class="col-sm-8 blog-main"> <!-- blog main -->
-                   <?php require("../templates/main/blog_posts.php") ?>
+                   <?php require("../templates/main/blog/blog_posts.php") ?>
                    <ul class="pager">
                       <li><a href="#">Previous</a></li>
                       <li><a href="#">Next</a></li>
                    </ul>
                    </div><!-- /.blog-main -->
                    <!-- blog sidebar -->
-                   <?php require("../templates/main/blog_sidebar.php") ?>
+                   <?php require("../templates/main/blog/blog_sidebar.php") ?>
                 </div><!-- /.row -->
              </div><!-- /.container -->
 			
@@ -38,8 +38,8 @@
 			
 	</div> <!-- /.content -->
 	
-	<?php require("../templates/main/modal_login.php")?>
-	<?php require("../templates/main/modal_register.php")?>
-	<?php require("../templates/main/blog_footer.php") ?>
+	<?php require("../templates/main/modal/modal_login.php")?>
+	<?php require("../templates/main/modal/modal_register.php")?>
+	<?php require("../templates/main/blog/blog_footer.php") ?>
 			
 <?php require("../templates/main/footer.php")?>
