@@ -243,10 +243,26 @@ $.ajax({
                  processData: true,
                  success: function (data) {
                     // alert("Registratin Successful. Check your email to activate your account ");
-                   displayRegisterResponse(data.msg);
+                   displayRegisterResponse("Registratin Successful. Check your email to activate your account");
                  },
                  error: function (data) {
-                  displayRegisterResponse(data.msg);
+                  var msg;
+                  switch(data.status){
+                     case 409:
+                 	msg = "The email or Ign you are trying to register has already been registered. Check your email to activate your account, or if your account is already activated please log in"; 	 	 
+                      break;
+                     case 406: 
+                     	msg = "Please make sure you are providing a valid email (CSULA email), Ign and password";
+                     	break;
+                     case 503:
+                     	msg = "We are have problems with our server at the moment... Please try again later...";
+                     	break;
+                     	
+                     case 400:
+                     	msg = "There is a problem with the email you are using to register.. please make sure it is a CSULA email";
+                 	break;
+                  }
+                  displayRegisterResponse(msg);
                  }
              });
 
