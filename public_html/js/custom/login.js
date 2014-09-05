@@ -6,9 +6,13 @@ $(document).ready(function(){
          
       });
     
+    //when signup is clicked 
     $('#reg').click(function(){
        
-	$('#login_error').html("");	    
+	$('#login_error').html("");
+	//un hide register form if hidden 
+	$('#register_form').show();
+	$('#register').css("display","");//register button
     });
 
     $('#terms').click(function(){
@@ -29,6 +33,22 @@ $(document).ready(function(){
            register(); 
 
      });
+    
+    //when ok button is clicked after regestration response 
+   $('#ok').click(function(){
+    	
+       $('#register_modal').modal('hide');
+        //hide ok button 
+        $(this).css("display","none");
+        //hide previous response and clear it's contents 
+        $('#register_response').hide();
+        $('#register_response').html("");
+        //reset form
+       document.getElementById("register_form").reset();
+       //disable submit button
+       $("#register").prop("disabled",true);
+    		    
+    });
 
 
 //ensure that no feilds are empty 
@@ -54,7 +74,6 @@ $(document).ready(function(){
 
 
 });
-
 
 function login(){
 
@@ -223,13 +242,26 @@ $.ajax({
                  dataType: "json",
                  processData: true,
                  success: function (data) {
-                     alert("Registratin Successful. Check your email to activate your account ");
+                    // alert("Registratin Successful. Check your email to activate your account ");
+                   displayRegisterResponse(data.msg);
                  },
                  error: function (data) {
-                   
+                  displayRegisterResponse(data.msg);
                  }
              });
 
+}
+
+function displayRegisterResponse(message){
+ 
+//hide register form and register submit button 	
+ $('#register_form').hide();
+ $('#register').css("display","none");
+ //append response and show
+  $('#register_response').html(message);
+  $('#register_response').show();
+  $('#ok').css("display","");
+	
 }
 
 function displayEmailError(){

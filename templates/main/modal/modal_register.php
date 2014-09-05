@@ -9,7 +9,7 @@
           <h4 class="modal-title" id="register_modal_label">Register</h4>
         </div>
         <div class="modal-body">
-        <form role="form">
+        <form role="form" id='register_form'>
           <div class="form-group">
 	    <label for="register_username">Username</label>
 	    <input type="email" class="form-control reg" id="register_username" placeholder="In game name">
@@ -40,9 +40,15 @@
             <p id='conditions' class="bg-danger hidden"> Terms go here...</p>
            </div>
 	</form>
+	
+	<!-- response from server -->
+	<div id='register_response'hidden>
+	</div>
+	
         </div>
         <div class="modal-footer">
           <button id='register' type="button" class="btn btn-warning" style='float:left' disabled >Signup</button>
+          <button id='ok' type='button' class="btn btn-warning" style='display:none;float:left'> Ok</button>
         </div>
        
 
