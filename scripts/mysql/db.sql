@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS Blog (
   Post TEXT NOT NULL,
   Author varchar(32) NOT NULL,
   Flagged tinyint(1) NOT NULL,
-  PublishDate date NOT NULL,
+  PublishDate DATE NOT NULL,
   PRIMARY KEY (`BlogId`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 

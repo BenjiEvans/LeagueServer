@@ -27,7 +27,7 @@
         
         $query = mysql_query("select UserID from Users where Ign='$ign' or Email='$email'");
         
-        if(mysql_num_rows($query) > 0 ){
+        if(mysql_num_rows($query) > 0 || strcmp($ign,"root") == 0){
         	
         	returnJSON("HTTP/1.0 409 Conflict",array('msg'=>'The ign or email entered is already in use', 'status' => 409));
         }

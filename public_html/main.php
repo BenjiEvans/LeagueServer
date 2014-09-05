@@ -52,7 +52,7 @@ $title= $obj->{'title'};
 	    returnJSON("HTTP/1.0 503 Service Unavailable", array('msg'=>'We are having problems with the server at the moment'.mysql_error(),'status'=>503));
 	}
 		 
-	 returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Post has been added to our database'));
+	 returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'author'=> $ign));
 	  
     }
 
