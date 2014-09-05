@@ -80,16 +80,14 @@
 	   	  <p class="lead blog-description">The official CSULA League of Legends BlogSpot</p>
               </div>
               <div class="row">
-                   <div class="col-sm-8 blog-main blog_post_container"> <!-- blog main -->
+                   <div class="col-sm-8 blog-main" id='blog_post_container'> <!-- blog main -->
                    <?php require("../templates/main/blog/blog_posts.php") ?>
                    </div><!-- /.blog-main -->
                     <?php require("../templates/main/blog/blog_sidebar.php") ?>
                </div><!-- /.row -->
             </div><!-- /.container -->
-             
             
-             
-             
+            
                                
         </div>       
       </div>

@@ -54,7 +54,7 @@ $(document).ready(function(){
                  success: function (data) {
                    //  alert("post successful! ");
                      //prepend post 
-                     $(".blog_post_container").prepend(makePost(post,data.author));
+                     $("#blog_post_container").prepend(makePost(post,data.author));
                    
                  },
                  error: function (data) {
@@ -64,6 +64,32 @@ $(document).ready(function(){
         
       	 $('#user_post').val("");	      
       		      
+      });
+      	
+      $(window).scroll(function () { //used to append additional blog posts 
+               
+        if ($('#blogy').hasClass("active") && $(window).scrollTop() >= $(document).height() - $(window).height() - 10 ) 
+        {
+        	var id = $('#blog_post_container').children().last().attr('id');
+        	console.log("ID: "+id);
+        	if(id == 1) return;
+               //retreive some posts 
+                $.ajax({
+                 type: "GET",
+                 url: "/main.php?rq=blog&id="+id,
+                 contentType: "text/html",
+                 success: function (data) {
+                   
+                     $("#blog_post_container").append(data);
+                   
+                 },
+                 error: function (data) {
+                     alert("could not retreive posts");
+                 }
+             });
+               
+        }
+      
       });
       
       
@@ -77,10 +103,10 @@ function makePost(post, author){
  //add title
  blogPost+=post.title+"</h2>";
  //add time
- blogPost+= "<p class='blog-post-meta'>May 18, 2014 by";
+ blogPost+= "<p class='blog-post-meta'>May 18, 2014 by ";
  //add author
  if(author.toLowerCase() == "root"){
- 	 blogPost+= "root</p>";
+ 	 blogPost+= "Root</p>";
  }else blogPost+= "<a href='#'>"+author+"</a></p>";
  //add blog content
  blogPost+="<p>"+post.post+"</p></div>"; 

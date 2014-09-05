@@ -32,10 +32,11 @@ $query = mysql_query("select * from Blog where Flagged != 1 order by BlogID desc
                     $m = getMonth($date[1]);
                     $d = $date[2];
                     
-                    
-                    echo "<p class='blog-post-meta'> $m $d, $y by <a href='#'>".$row['Author']."</a></p>";
+                    echo "<p class='blog-post-meta'> $m $d, $y by ";
+                    if(strcmp($row['Author'],"Root") == 0)echo "Root</p>";
+                    else echo "<a href='#'>".$row['Author']."</a></p>";
                     echo "<p>".$row['Post']."</p>";
-                    echo " </div>";
+                    echo "</div>";
             
                   }
                 }

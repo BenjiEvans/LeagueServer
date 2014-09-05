@@ -15,11 +15,49 @@
    	   	   exit();
        }
        
+       if($param == 'blog' ){
+       	
+       	       if(isset($_GET['id'])){
+       	          
+       	       	$id = $_GET['id'];   
+       	       	$limit = 10; 
+       	       	$query = mysql_query("select * from Blog where Flagged != 1 and BlogID < $id order by BlogID desc limit $limit");
+
+                $count = mysql_num_rows($query);
+                if($count == 0) echo "";
+                else{
+               
+                  while ($row = mysql_fetch_array($query)) 
+                  {                	  
+                    echo "<div class='blog-post' id='".$row['BlogID']."'>";
+                    echo "<h2 class='blog-post-title'>".$row['Title']."</h2>";
+                    
+                    $date = explode("-",$row['PublishDate']);
+                    //break date into month,day,and year
+                    $y = $date[0];
+                    $m = getMonth($date[1]);
+                    $d = $date[2];
+                    
+                    echo "<p class='blog-post-meta'> $m $d, $y by ";
+                    if(strcmp($row['Author'],"Root") == 0)echo "Root</p>";
+                    else echo "<a href='#'>".$row['Author']."</a></p>";
+                    echo "<p>".$row['Post']."</p>";
+                    echo "</div>";
+            
+                  }
+                  
+                  //if($count < $limit) echo file_get_contents("../templates/main/blog/blog_footer.php");
+                }
+       	       }
+       	              	 
+       	       exit();    
+       }
+       
   
        
    }
    
-   //hand post ajax
+   //handle post ajax
    
    //get the user's submitted json 
    $json = file_get_contents('php://input');
@@ -59,4 +97,42 @@ $title= $obj->{'title'};
    
 ?>
 
+<?php
+
+function getMonth($month){
+     	     
+     	     switch($month){
+     	     	     
+     	   case 1:
+     	     	   return "January";
+     	   case 2:
+     	   	   return "Febuary";
+     	   case 3:
+     	   	   return "March";
+     	   case 4:
+     	   	   return "April";
+     	   case 5: 
+     	   	   return "May";
+     	   case 6:
+     	   	   return "June";
+     	   case 7:
+     	   	   return "July";
+     	   case 8:
+     	   	   return "August";
+     	   case 9:
+     	   	   return "September";
+     	   case 10:
+     	   	   return "October";
+     	   case 11:
+     	   	   return "November";
+     	   case 12:
+     	   	   return "December";
+     	     	          	     	     
+     	     }
+     	     
+}
+     	     
+     	     
+
+?>
 
