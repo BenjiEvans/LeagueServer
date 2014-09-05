@@ -38,9 +38,31 @@ $(document).ready(function(){
         	return false;
         }
         
-        $('#user_post').html("");
-      		   
-      		      
+        var post ={
+        	title: $('#blog_title').val(),
+        	post: $('#user_post').val()
+        }
+       
+        //send post to server 
+        $.ajax({
+                 type: "POST",
+                 url: "/main.php",
+	         data: JSON.stringify(post),
+                 contentType: "application/json; charset=utf-8",
+                 dataType: "json",
+                 processData: true,
+                 success: function (data) {
+                     alert("post successful! ");
+                 },
+                 error: function (data) {
+                     alert("bad post");
+                 }
+             });
+        
+        
+        
+        
+      	 $('#user_post').html("");	      
       		      
       });
       

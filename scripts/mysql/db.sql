@@ -105,6 +105,7 @@ CREATE TABLE IF NOT EXISTS XrefUsersEvents (
 -- Blog 
 CREATE TABLE IF NOT EXISTS Blog (
   BlogID int(11) NOT NULL AUTO_INCREMENT,
+  Title varchar(32) NOT NULL,
   Post TEXT NOT NULL,
   Author varchar(32) NOT NULL,
   Flagged tinyint(1) NOT NULL,
@@ -113,10 +114,10 @@ CREATE TABLE IF NOT EXISTS Blog (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 -- Add a blog post
-INSERT INTO Blog (Author,`PublishDate`,Post) VALUES
+INSERT INTO Blog (Author,`PublishDate`,Post,Title) VALUES
 ('speedy847', now(), 'It took a while but here we are! With over 180 members (and counting),our club now has an official website :D. From this page you can link to the 
 Schools webiste or the League of Legends site (by clicking on the images in the navigation Bar) and can also link to our facebook page and twitch stream (links should be on the right... might have to scroll?). The website is 
-still under construction so stay tuned for more interesting content.');
+still under construction so stay tuned for more interesting content.','HelloWorld');
 
 -- end of script 
 

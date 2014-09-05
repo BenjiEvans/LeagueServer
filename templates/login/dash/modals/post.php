@@ -15,7 +15,7 @@
 			<input type="text" class="form-control" id="blog_title" placeholder="Enter Blog Title...">		
 		  </div>
 	</form>
-	 <span id='blog_error'>hello<span>
+	 <span id='blog_error'><span>
         </div>
         <div class="modal-footer">
           <button id='commit' type="button" class="btn btn-warning" style='float:left' data-dismiss="modal" data-toggle="modal">Commit Post</button>

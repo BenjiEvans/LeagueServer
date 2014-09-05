@@ -6,6 +6,7 @@
   	  exit();
   }
 ?>
+<?php include_once("../scripts/php/mysql_connect.php");?>
 <!-- NAVBAR -->
 <?php require("../templates/main/header.php")?> 
 
