@@ -1,4 +1,4 @@
-<?php require("../models/user.php"); ?>
+<?php require("../models/user.php"); /* needs user model definition before session can start*/?>
 <?php require("../scripts/php/login_check.php"); ?>
 <?php require("../scripts/php/mysql_connect.php"); ?>
 
@@ -67,14 +67,35 @@
       <div class="row">
       
         <?php require("../templates/login/dash/side_nav.php"); ?>
-       <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+       <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id='main_container'>
+           <!-- overview stuff -->
            <?php require("../templates/login/dash/overview/top_teams.php"); ?> 
-           <?php require("../templates/login/dash/overview/club_rank.php"); ?>         
+           <?php require("../templates/login/dash/overview/club_rank.php"); ?> 
+           
+           <!-- container for the blog -->
+           <?php require("../templates/login/dash/blog/post_area.php");?>
+           <div id='blog' class="container blogy" hidden>
+	     <div class="blog-header">
+	   	  <h1 class="blog-title">CSULA League of Legends </h1>
+	   	  <p class="lead blog-description">The official CSULA League of Legends BlogSpot</p>
+              </div>
+              <div class="row">
+                   <div class="col-sm-8 blog-main"> <!-- blog main -->
+                   <?php require("../templates/main/blog/blog_posts.php") ?>
+                   </div><!-- /.blog-main -->
+                    <?php require("../templates/main/blog/blog_sidebar.php") ?>
+               </div><!-- /.row -->
+            </div><!-- /.container -->
+             
+            
+             
+             
+                               
         </div>       
       </div>
     </div> 
     
-    
+     <?php require("../templates/login/dash/modals/post.php");?> <!-- blog commit modal -->
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

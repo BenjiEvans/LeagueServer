@@ -1,5 +1,5 @@
-<h2 class="sub-header">Club Ranking</h2>
-   <div class="table-responsive">
+<h2 class="sub-header overview">Club Ranking</h2>
+   <div class="table-responsive overview">
        <table class="table table-striped">
            <thead>
              <tr>

@@ -98,8 +98,6 @@
              </form>
         </div>
     
-       
-       
          <div id='blog' class="container">
 	   <div class="blog-header">
 	   	<h1 class="blog-title">CSULA League of Legends </h1>

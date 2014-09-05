@@ -4,16 +4,18 @@
    if(isset($_GET['rq'])){
    	   
        $param = $_GET['rq'];
-      
-   	   if($param == 'logout')
-   	   {
+             
+       if($param == 'logout'){
    	   
    	   	   unset($_SESSION["user"]);
    	   	   header("Location: /index.php");
    	   	   exit();
-   	   }
-      
-   
-   }
+       }
+       
   
+       
+   }
+   
 ?>
+
+
