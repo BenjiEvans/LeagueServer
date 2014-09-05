@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS Users (
   Password varchar(13) NOT NULL,
   Salt varchar(10) NOT NULL,
   Activate tinyint(1) NOT NULL,
+  Mute tinyint(1) NOT NULL,
   Register date NOT NULL,
   Login date NOT NULL,
   Score float(10,3) NULL,
@@ -100,6 +101,22 @@ CREATE TABLE IF NOT EXISTS XrefUsersEvents (
   KEY `UserID` (`UserID`),
   PRIMARY KEY (`ID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+-- Blog 
+CREATE TABLE IF NOT EXISTS Blog (
+  BlogID int(11) NOT NULL AUTO_INCREMENT,
+  Post TEXT NOT NULL,
+  Author varchar(32) NOT NULL,
+  Flagged tinyint(1) NOT NULL,
+  PublishDate date NOT NULL,
+  PRIMARY KEY (`BlogId`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+-- Add a blog post
+INSERT INTO Blog (Author,`PublishDate`,Post) VALUES
+('speedy847', now(), 'It took a while but here we are! With over 180 members (and counting),our club now has an official website :D. From this page you can link to the 
+Schools webiste or the League of Legends site (by clicking on the images in the navigation Bar) and can also link to our facebook page and twitch stream (links should be on the right... might have to scroll?). The website is 
+still under construction so stay tuned for more interesting content.');
 
 -- end of script 
 
