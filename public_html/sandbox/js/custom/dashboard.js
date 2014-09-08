@@ -11,31 +11,15 @@ $(document).ready(function(){
          var id = $(this).attr("id");
          console.log("nav id: "+ id);
          
-        /* switch(id){
-         	 
-           case "overview":
-           	   request("all");
-           	   return;
-           	   
-           case "blog":
-           	   request("blog");
-           	   return;
-           	   
-           case "team_rank":
-           	   request("");
-           	   return;
-           	   
-           case "event":
-           	   
-           	   return;
-           	   
-           case "control_panel":
-           	   
-           	  return;
-         	 
-         }*/
-      
+       
       });
+      
+      //team rank div
+      $('.team_rank_btn').click(function(){
+      		      
+      		     $('#team_rank_modal').modal('show');
+      });
+      
       
       $('#commit').click(function(){
       		

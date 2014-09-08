@@ -95,7 +95,7 @@
             <h2> <span style="font-family:Fertigo">Team Captain</span>: <span class="text-warning">speedy847</span> </h2>
             <h3> <span class="text-success" > Wins: 5 </span> </h3>
             <h3> <span class="text-danger"> Losses: 2 </span></h3>
-             <button type="button" class="btn btn-danger" style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button> 
+             <button type="button" class="btn btn-danger team_rank_btn" style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button> 
            
           </div> 
           <!-- members start -->
@@ -118,8 +118,8 @@
       <h3> Club Rank: <span class="text-warning">1</span></h3>
       <p> <span class="text-success">Wins: 5</span> , <span class="text-danger">Losses: 6</span></p>
       <p> 
-         <button type="button" class="btn btn-danger" style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Remove from Team</button> 
-         <button type='button' class='btn btn-warning' style='color:rgb(0,0,0)'><img src='../img/glyphicons_043_group.png'> Assign as Captain </button>
+         <button type="button" class="btn btn-danger team_rank_btn" style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Remove from Team</button> 
+         <button type='button' class='btn btn-warning team_rank_btn' style='color:rgb(0,0,0)'><img src='../img/glyphicons_043_group.png'> Assign as Captain </button>
       </p>
       <a href='#'> View profile</a>
       </div>
@@ -188,6 +188,28 @@
   
           </table>
           
+          <!-- team rank model -->
+          <!-- Modal Start---->
+  <div id="team_rank_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="login_modal_label">Login</h4>
+        </div>
+        <div class="modal-body">
+        hello there
+        </div>
+        <div class="modal-footer">
+          <button id='confirm' type="button" class="btn btn-warning" style='float:left' data-dismiss="modal" data-toggle="modal" data-target="#register_modal">Yes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- modalEnd --->
+
           
           
          <!-- Team content end -->
