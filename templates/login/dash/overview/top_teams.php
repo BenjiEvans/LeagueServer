@@ -13,7 +13,8 @@
                   while ($row = mysql_fetch_array($query)) 
                   {                	  
                     echo "<div class='ol-xs-6 col-sm-3 placeholder'>";
-                    echo "<img data-src='holder.js/200x200/auto/sky' class='img-responsive' alt='Generic placeholder thumbnail'>";
+                    echo "<img data-src='holder.js/200x200/auto/sky' class='featurette-image img-responsive' alt='Generic placeholder thumbnail'>";
+                   // echo '<img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" alt="Generic placeholder image">';
                     echo "<h4>".$row['TeamName']."</h4>";
                     echo "<span class='text-muted'>$i</span>";
                     echo " </div>";

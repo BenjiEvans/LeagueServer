@@ -20,7 +20,7 @@ $passJSON = $obj->{'pass'};
          define("PASS","root");// defines another constant variable named PASS with the value "password"
          
          //check to see if root is loging in 
-         if($ignJSON == USER && $passJSON == PASS){
+         if(strcasecmp($ignJSON,USER) == 0 && $passJSON == PASS){
           
          	 //login as root (save root object in session)
          	  $_SESSION["user"] = new User("Root",0,0,"Root");
