@@ -89,6 +89,29 @@
                </div><!-- /.row -->
             </div><!-- /.container -->
             
+            <!-- team rank container-->
+            <div class='team_rank'>
+               
+               <?php
+                  
+                  if($_SESSION["user"]->hasTeam()){
+                  	require("../templates/login/dash/team_rank/profile.php");
+                  	require("../templates/login/dash/team_rank/members.php"); 
+                  	require("../templates/login/dash/team_rank/match_history.php");
+                  	require("../templates/login/dash/modals/team_decide.php");
+                  }else{
+                      echo " <div>
+          <h1 style='text-align:center;'> You are not currently part of a team</h1>
+          <button type='button' class='btn btn-warning btn-lg btn-block' id='browse_team'>Browse Teams</button>
+          <button type='button' class='btn btn-default btn-lg btn-block' id='create_team'>Create Team</button>";
+                 require("../templates/login/dash/team_rank/team_list.php");
+                 require("../templates/login/dash/modals/create_team.php");
+                  	  
+                  }
+            
+               ?>
+            </div>
+            
             
                                
         </div>       

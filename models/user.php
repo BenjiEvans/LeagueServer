@@ -7,16 +7,18 @@
 	    public $ign;
 	    public $status;
 	    public $score;
+	    public $team;
 	  
 			
             
             // Assigning the values
-            public function __construct($ign,$win,$loss,$status) {        
+            public function __construct($ign,$win,$loss,$status,$team) {        
               $this->win = $win;
 	      $this->loss = $loss;
 	      $this->ign= $ign;
 	      $this->status = $status;
 	      $this->score = $win-($loss*($loss/($win+$loss)));
+	      $this->team = $team;
             }
             
             public function name(){
@@ -37,6 +39,10 @@
             
             public function score(){
                return $this->score;	    
+            }
+            
+            public function hasTeam(){
+               return !empty($this->team);    
             }
             
                        

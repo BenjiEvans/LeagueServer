@@ -23,7 +23,7 @@ $passJSON = $obj->{'pass'};
          if(strcasecmp($ignJSON,USER) == 0 && $passJSON == PASS){
           
          	 //login as root (save root object in session)
-         	  $_SESSION["user"] = new User("Root",0,0,"Root");
+         	  $_SESSION["user"] = new User("Root",0,0,"Root",NULL);
          	  returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=>'Loging in as root user', 'url'=>'/dash.php'));
          	 
          }
@@ -43,7 +43,7 @@ $passJSON = $obj->{'pass'};
             if( $row['Password'] == crypt($passJSON,$row['Salt']))//compare both password one from HTML page and other from fetched records from db
 	    {
 	    	        //store in session
-	    	        $_SESSION["user"] = new User($row['Ign'],$row['Wins'],$row['Losses'],$row['UserStatus']);
+	    	        $_SESSION["user"] = new User($row['Ign'],$row['Wins'],$row['Losses'],$row['UserStatus'],$row['TeamID']);
 	    	    
 			//should actually redirect to user panel view 
 			 returnJSON("HTTP/1.0 202 Accepted",array('status'=>202, 'msg'=>'Loging successful!', 'url'=>'/dash.php'));
