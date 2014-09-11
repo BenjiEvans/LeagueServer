@@ -59,7 +59,7 @@
     <![endif]-->
   </head>
 
-  <body>
+  <body style='background-image:url("../img/background.jpg");background-attachment: fixed;'>
 
     <?php require("../templates/login/dash/top_nav.php"); ?>
     
@@ -67,14 +67,16 @@
       <div class="row">
       
         <?php require("../templates/login/dash/side_nav.php"); ?>
-       <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id='main_container'>
+       <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id='main_container' style='background-color:rgba(255,255,255,.7)'>
            <!-- overview stuff -->
+           <div class='overview'>
            <?php require("../templates/login/dash/overview/top_teams.php"); ?> 
            <?php require("../templates/login/dash/overview/club_rank.php"); ?> 
+           </div>
            
            <!-- container for the blog -->
-           <?php require("../templates/login/dash/blog/post_area.php");?>
            <div id='blog' class="container blogy" hidden>
+             <?php require("../templates/login/dash/blog/post_area.php");?>
 	     <div class="blog-header">
 	   	  <h1 class="blog-title">CSULA League of Legends </h1>
 	   	  <p class="lead blog-description">The official CSULA League of Legends BlogSpot</p>

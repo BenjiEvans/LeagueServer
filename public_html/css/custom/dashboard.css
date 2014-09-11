@@ -64,8 +64,9 @@ body {
 .nav-sidebar > .active > a:focus {
   /* color: #fff; */
   color: gold;
-  /*background-color: #428bca;*/
-  background-color: #101010;
+  /*background-color: #428bca;
+  background-color: #101010;*/
+  background-color: rgba(0,0,0,.75);
 }
 
 

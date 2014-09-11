@@ -1,6 +1,6 @@
- <h1 class="page-header overview">Top Teams</h1>
+ <h1 class="page-header">Top Teams</h1>
 
-<div class="row placeholders overview">
+<div class="row placeholders">
 
 <?php
 

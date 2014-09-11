@@ -1,4 +1,4 @@
-<div class="col-sm-3 col-md-2 sidebar">
+<div class="col-sm-3 col-md-2 sidebar" style='background-color:rgba(255,255,255,.5)'>
      <ul class="nav nav-sidebar">
      <li id='overview' class="dash_link active"><a href="#">Overview</a></li>
      <li id='blogy' class="dash_link"><a href="#">Blog</a></li>
