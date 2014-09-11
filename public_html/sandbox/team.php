@@ -88,6 +88,7 @@
         
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         <!-- Team content start -->
+        <div hidden>
         <h1> JBlap <em><span class="text-muted officer">Challenger</span></em></h1> <hr class="featurette-divider">
           <img class="featurette-image img-responsive" data-src="holder.js/200x200/auto" alt="Generic placeholder image" style='border:solid;float:left'>
           <div style='float:left;margin-left:10px;'>
@@ -202,7 +203,7 @@
        
         </div>
         <div class="modal-footer">
-          <button id='confirm' type="button" class="btn btn-warning" style='float:left' data-dismiss="modal" data-toggle="modal" data-target="#register_modal">Yes</button>
+          <button id='confirm_choice' type="button" class="btn btn-warning" style='float:left' data-dismiss="modal" data-toggle="modal">Yes</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
         </div>
       </div>
@@ -210,9 +211,66 @@
   </div>
 <!-- modalEnd --->
 
+
           
-          
+          </div>
          <!-- Team content end -->
+         
+         <!-- no team start -->
+         <div>
+          <h1 style='text-align:center;'> You are not currently part of a team</h1>
+          <button type="button" class="btn btn-warning btn-lg btn-block" id='browse_team'>Browse Teams</button>
+          <button type="button" class="btn btn-default btn-lg btn-block" id='create_team'>Create Team</button>
+	   <div class="table-responsive" id='team_list' hidden>
+	       <table class="table table-bordered">
+		   <thead>
+		     <tr>
+		       <th>Team Name</th>
+		       <th>Wins</th>
+		       <th>Losses</th>
+		       <th>Status</th>
+		       <th> </th>
+		     </tr>
+		   </thead>
+		   <tbody>
+		      <tr>
+		         <td> JBlap</td>
+		         <td> <span class='badge win'>5</span></td>
+		         <td> <span class='badge loss'>3</span></td>
+		         <td>Challenger</td>
+		         <td> <a href='#'>view profile</a></td>
+		    </tbody>
+		</table>
+	    </div>
+	    	              
+         </div>
+         
+         <!-- no team end -->
+         
+         <!-- team create modal -->
+         
+         <div id="team_form" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="login_modal_label">Create team</h4>
+        </div>
+        <div class="modal-body" id='team_modal_body'>
+       
+        </div>
+        <div class="modal-footer">
+          <button id='create_team_confirm' type="button" class="btn btn-warning" style='float:left' data-dismiss="modal" data-toggle="modal">Yes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+   <!--- team creat modal end -->
+         
+         
         </div>
       </div> 
     </div>

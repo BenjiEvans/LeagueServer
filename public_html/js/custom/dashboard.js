@@ -14,7 +14,8 @@ $(document).ready(function(){
          //hide all
          for(var i = 0, length = list.length; i < length; i++)$(list[i]).hide();
          //show active 
-         $('.'+id).show();
+         //$('.'+id).show();
+         $('.'+id).fadeIn();
               
       });
       

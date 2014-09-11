@@ -14,6 +14,22 @@ $(document).ready(function(){
        
       });
       
+      //team rank div (no user not appart of team )
+      $('#browse_team').click(function(){
+      	
+        //hide team creating form 
+        $('#team_form').hide();
+        //show listing 
+        $('#team_list').fadeIn('slow');
+      		      
+      });
+      
+      $('#create_team').click(function(){
+      	
+         $('#team_form').modal('show');
+      });
+      
+      
       //team rank div
       $('.team_rank_btn').click(function(){
       		      
