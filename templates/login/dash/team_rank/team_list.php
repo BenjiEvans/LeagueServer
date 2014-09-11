@@ -1,4 +1,4 @@
-<div class="table-responsive" id='team_list' hidden>
+<div class="table-responsive">
 	       <table class="table table-bordered">
 		   <thead>
 		     <tr>

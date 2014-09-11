@@ -53,6 +53,13 @@
        	       exit();    
        }
        
+       if($param == 'team_list'){
+       	       
+       	       
+       	echo file_get_contents("../templates/login/dash/team_rank/team_list.php");
+       	  exit();
+       }
+       
   
        
    }

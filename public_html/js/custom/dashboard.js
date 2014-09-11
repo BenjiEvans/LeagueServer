@@ -24,8 +24,31 @@ $(document).ready(function(){
       //team rank div (no user not appart of team )
       $('#browse_team').click(function(){
       	
-        //hide team creating form 
-        $('#team_form').hide();
+        /*if the team listing div is empty 
+          do an ajax call to the server to 
+          get the table listing 
+        */
+      	var empty = $('#team_list').html().trim().length == 0;	 
+      	console.log(empty);
+        if(empty){
+           
+        	 $.ajax({
+                 type: "GET",
+                 url: "/main.php?rq=team_list",
+                 contentType: "text/html",
+                 success: function (data) {
+                   alert("Got it!!")
+                     $("#team_list").append(data);
+                   
+                 },
+                 error: function (data) {
+                     alert("could not retreive listing");
+                 }
+             });
+        	
+        	
+        }
+      		      
         //show listing 
         $('#team_list').fadeIn('slow');
       		      
