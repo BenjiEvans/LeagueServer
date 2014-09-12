@@ -1,4 +1,4 @@
-   <div id="team_form" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+   <div id="team_create_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
 
@@ -6,12 +6,16 @@
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title" id="login_modal_label">Create team</h4>
         </div>
-        <div class="modal-body" id='team_modal_body'>
-       
-        </div>
-        <div class="modal-footer">
-          <button id='create_team_confirm' type="button" class="btn btn-warning" style='float:left' data-dismiss="modal" data-toggle="modal">Yes</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <div class="modal-body">
+        <form role="form" id="team_form">
+	  <div class="form-group">
+	    <label for="team_name">Team name</label> <span id='team_create_error' class='control-label'> </span>
+	    <input type="text" class="form-control" id="team_name" placeholder="Enter Team Name">
+	  </div>
+	  <button id='team_create_commit' type="submit" class="btn btn-default">Submit</button>
+	</form>
+	<div id='team_create_respon'>
+	</div>
         </div>
       </div>
     </div>

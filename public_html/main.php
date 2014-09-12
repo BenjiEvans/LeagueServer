@@ -55,8 +55,7 @@
        
        if($param == 'team_list'){
        	       
-       	       
-       	echo file_get_contents("../templates/login/dash/team_rank/team_list.php");
+       	require("../templates/login/dash/team_rank/team_list.php");
        	  exit();
        }
        
@@ -88,7 +87,7 @@ $title= $obj->{'title'};
      }else $ign = "Root";
      
      //post to blog 
-      $insert = mysql_query("insert into Blog(Author,Title,Post,PublishDate) values('$ign','$title','$post',now())"); 
+      $insert = mysql_query("insert into Blog(Author,Title,Post,PublishDate) values('".mysql_real_escape_string($ign)."','".mysql_real_escape_string($title)."','".mysql_real_escape_string($post)."',now())"); 
        
 	
         if($insert === false){
@@ -99,7 +98,47 @@ $title= $obj->{'title'};
 		 
 	 returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'author'=> $ign));
 	  
-    }
+    } 
+    
+//check for team creation
+$team_name =$obj->{'name'};
+
+   if(isset($team_name)){
+	
+    /* The user cannot create a team if he/she is 
+       already part of a team of the team! 
+    
+    */
+    if($_SESSION['user']->hasTeam()) returnJSON("HTTP/1.0 401 Unauthorized", "");
+    
+    //check to see if the team name already exsists 
+    $query = mysql_query("select TeamID from Teams where TeamName='".mysql_real_escape_string($team_name)."'");
+    $count = mysql_num_rows($queryTodb);     
+		
+	//if count is zero that means no user exists
+	if($count==0){
+	//make sure that the name is not too long 
+	if(strlen($team_name) > 32) returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Team name is too long', 'status'=> 406));
+	
+        //no conflicts so add to database 
+       /*  $insert = mysql_query("insert into Teams (TeamName,UserID) values('".mysql_real_escape_string($team_name)."','$id')"); 
+       
+	
+        if($insert === false){
+      	      
+      	    print mysql_error();
+	    returnJSON("HTTP/1.0 503 Service Unavailable", array('msg'=>'We are having problems with the server at the moment'.mysql_error(),'status'=>503));
+	}*/
+		 
+	 returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Team has been created'));
+	    	
+	
+		
+	}else returnJSON("HTTP/1.0 409 Conflict",array('msg'=>'The Team name is already in use', 'status' => 409));
+
+	
+  }
+
 
    
 ?>

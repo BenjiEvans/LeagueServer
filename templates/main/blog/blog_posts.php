@@ -35,7 +35,7 @@ $query = mysql_query("select * from Blog where Flagged != 1 order by BlogID desc
                     echo "<p class='blog-post-meta'> $m $d, $y by ";
                     if(strcmp($row['Author'],"Root") == 0)echo "Root</p>";
                     else echo "<a href='#'>".$row['Author']."</a></p>";
-                    echo "<p>".$row['Post']."</p>";
+                    echo "<p>".htmlspecialchars($row['Post'])."</p>";
                     echo "</div>";
             
                   }

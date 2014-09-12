@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS Teams (
   Wins smallint NOT NULL,
   Losses smallint NOT NULL,
   UserID int(10) NOT NULL,
-  TeamStatus enum('Collegiate','Challenger') NOT NULL,
+  TeamStatus enum('Challenger','Collegiate') NOT NULL,
   Score float(10,3) NULL,
   LastMatch date NULL,
   PRIMARY KEY (`TeamID`),

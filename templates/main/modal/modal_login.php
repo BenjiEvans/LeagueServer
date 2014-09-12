@@ -11,7 +11,7 @@
         <form role="form">
 		  <div class="form-group">
 			<label for="login_email">Ign </label>
-			<input type="email" class="form-control" id="login_ign" placeholder="In game name">		
+			<input type="text" class="form-control" id="login_ign" placeholder="In game name">		
 		  </div>
 	  
 		  <div class="form-group">

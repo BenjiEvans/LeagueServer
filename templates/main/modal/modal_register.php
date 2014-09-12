@@ -12,7 +12,7 @@
         <form role="form" id='register_form'>
           <div class="form-group">
 	    <label for="register_username">Username</label>
-	    <input type="email" class="form-control reg" id="register_username" placeholder="In game name">
+	    <input type="text" class="form-control reg" id="register_username" placeholder="In game name">
 	  </div>
 	  <div class="form-group">
 	    <label class="control-label" for="register_email">Email address </label> 

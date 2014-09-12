@@ -37,7 +37,6 @@ $(document).ready(function(){
                  url: "/main.php?rq=team_list",
                  contentType: "text/html",
                  success: function (data) {
-                   alert("Got it!!")
                      $("#team_list").append(data);
                    
                  },
@@ -54,10 +53,56 @@ $(document).ready(function(){
       		      
       });
       
+      //createing team 
       $('#create_team').click(function(){
       	
-         $('#team_form').modal('show');
+         $('#team_create_modal').modal('show');
       });
+      
+      //commit to creating team 
+      $('#team_create_commit').click(function(){
+      	
+         //make sure a name is passed to the server		      
+         var teamName = $('#team_name').val();
+         
+         if(typeof teamName === 'undefined' || trim(teamName).length == 0 ){
+         	 
+           $('#team_create_error').html("*Enter a Team Name!");
+           $('#team_name').parent().addClass("has-error"); 
+           return false;
+           
+         }else if(trim(teamName).length > 32){
+         	 
+           $('#team_create_error').html('*Team Name cannot be more than 32 characters');
+           $('#team_name').parent().addClass("has-error"); 
+           return false;
+         }
+      		      
+         var team = { name: teamName }
+         
+      	  //send post to server 
+        $.ajax({
+                 type: "POST",
+                 url: "/main.php",
+	         data: JSON.stringify(team),
+                 contentType: "application/json; charset=utf-8",
+                 dataType: "json",
+                 processData: true,
+                 success: function (data) {
+                                     
+                  alert("Team was read"); 
+                 },
+                 error: function (data) {
+                     alert("bad Team Request");
+                 }
+             });	      
+      	
+      		      
+          return false;   
+      });
+      
+      
+      
       
       
       //team rank div
@@ -122,7 +167,7 @@ $(document).ready(function(){
                  success: function (data) {
                    //  alert("post successful! ");
                      //prepend post 
-                     $("#blog_post_container").prepend(makePost(post,data.author));
+                     $("#blog_post_container").prepend(makePost(html_special_chars(post),data.author));
                    
                  },
                  error: function (data) {
@@ -183,6 +228,11 @@ function makePost(post, author){
  
 }
 
+function html_special_chars(string){
+ 
+return string.replace(/&/g, "&amp;").replace(/>/g, "&gt;").replace(/</g, "&lt;").replace(/"/g, "&quot;");	
+	
+}
 
 function trim(x) {
     return x.replace(/^\s+|\s+$/gm,'');

@@ -239,6 +239,7 @@
 		         <td> <span class='badge loss'>3</span></td>
 		         <td>Challenger</td>
 		         <td> <a href='#'>view profile</a></td>
+		       </tr>
 		    </tbody>
 		</table>
 	    </div>

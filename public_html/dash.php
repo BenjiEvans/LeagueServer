@@ -90,7 +90,7 @@
             </div><!-- /.container -->
             
             <!-- team rank container-->
-            <div class='team_rank'>
+            <div class='team_rank' hidden>
                
                <?php
                   
