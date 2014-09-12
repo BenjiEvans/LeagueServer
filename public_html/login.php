@@ -1,5 +1,4 @@
 <?php session_start();?>
-<?php require("../scripts/php/mysql_connect.php")?>
 <?php require("../scripts/php/json_functions.php")?>
 <?php require("../models/user.php") ?> 
 
@@ -27,10 +26,12 @@ $passJSON = $obj->{'pass'};
          	  returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=>'Loging in as root user', 'url'=>'/dash.php'));
          	 
          }
-        
-        $queryTodb = mysql_query("select * from Users where Ign ='".mysql_real_escape_string($ignJSON)."'");
+        //database connection 
+         require("../scripts/php/mysql_connect.php");
+         
+        $result = $mysqli->query("select * from Users where Ign ='".mysqli_real_escape_string($ignJSON)."'");
 	
-	$count = mysql_num_rows($queryTodb);    //fetch no. of rows for that email id 
+	$count = $result->num_rows;    //fetch no. of rows for that email id 
 		
 	//if count is zero that means no user exists
 	if($count==0) returnJSON("HTTP/1.0 404 Not Found","");
@@ -38,18 +39,20 @@ $passJSON = $obj->{'pass'};
 	{	
 	    if($count > 1) returnJSON("HTTP/1.0 500 Internal Server Error","more than one user has that ign");
 	    		
-	    $row = mysql_fetch_array($queryTodb);
+	    $row = $result->fetch_assoc();
 	   	   		
             if( $row['Password'] == crypt($passJSON,$row['Salt']))//compare both password one from HTML page and other from fetched records from db
 	    {
 	    	        //store in session
 	    	        $_SESSION["user"] = new User($row['Ign'],$row['Wins'],$row['Losses'],$row['UserStatus'],$row['TeamID']);
-	    	    
+	    	        $result->close();
+	    	        $mysqli->close();
 			//should actually redirect to user panel view 
 			 returnJSON("HTTP/1.0 202 Accepted",array('status'=>202, 'msg'=>'Loging successful!', 'url'=>'/dash.php'));
 	     }else{
-			returnJSON("HTTP/1.0 401 Unauthorized", "");
-				
+	     	   $result->close();
+	     	   $mysqli->close();     
+		returnJSON("HTTP/1.0 401 Unauthorized", "");	
 	     }
 	}
 

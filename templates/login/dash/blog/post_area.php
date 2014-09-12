@@ -1,14 +1,14 @@
 <?php
-
+//check to see if user has permission to post
 if(strcmp('Root',$_SESSION["user"]->status()) != 0){ //post restrictions doesn't apply to ROOT user 
      	$ign = $_SESSION["user"]->name();
-     	$query = mysql_query("select Mute from Users where Ign='$ign'");
-        $priv =mysql_fetch_assoc($query);
+     	$query = $mysqli->query("select Mute from Users where Ign='$ign'");
+        $priv = $query->fetch_assoc();
      	
-        if($priv['Mute'] != 0 ) return;
-        else printBlogPostArea();
-        	
+        //if not mute post blog area
+        if($priv['Mute'] != 0 ) printBlogPostArea();
         
+         $query->close(); 	
      	     
 } else printBlogPostArea();
 

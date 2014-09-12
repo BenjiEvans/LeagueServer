@@ -4,13 +4,13 @@
 
 <?php
 
- $query = mysql_query("select TeamName from Teams where Score is not null order by Score desc limit 4");
-                $count = mysql_num_rows($query);
+ $query = $mysqli->query("select TeamName from Teams where Score is not null order by Score desc limit 4");
+                $count = $query->num_rows;
                 if($count == 0) echo "No Ranked Teams";
                 else{
                               
                    $i = 1;
-                  while ($row = mysql_fetch_array($query)) 
+                  while ($row = $query->fetch_assoc()) 
                   {                	  
                     echo "<div class='ol-xs-6 col-sm-3 placeholder'>";
                     echo "<img data-src='holder.js/200x200/auto/sky' class='featurette-image img-responsive' alt='Generic placeholder thumbnail'>";
@@ -20,6 +20,8 @@
                     echo " </div>";
                      $i+=1;
                   }
+                  
+                  $query->close();
                 }
 
 

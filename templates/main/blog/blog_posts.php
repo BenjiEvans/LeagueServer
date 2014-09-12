@@ -15,13 +15,13 @@
 
 <?php 
  
-$query = mysql_query("select * from Blog where Flagged != 1 order by BlogID desc limit 10");
+      $query = $mysqli->query("select * from Blog where Flagged != 1 order by BlogID desc limit 10");
 
-                $count = mysql_num_rows($query);
+                $count = $query->num_rows;
                 if($count == 0) echo "No Blog Posts";
                 else{
                
-                  while ($row = mysql_fetch_array($query)) 
+                  while ($row = $query->fetch_assoc()) 
                   {                	  
                     echo "<div class='blog-post' id='".$row['BlogID']."'>";
                     echo "<h2 class='blog-post-title'>".$row['Title']."</h2>";
@@ -39,6 +39,7 @@ $query = mysql_query("select * from Blog where Flagged != 1 order by BlogID desc
                     echo "</div>";
             
                   }
+                  $query->close();
                 }
 
           

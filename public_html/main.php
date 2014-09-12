@@ -11,6 +11,7 @@
        if($param == 'logout'){
    	   
    	   	   unset($_SESSION["user"]);
+   	   	   $mysqli->close();
    	   	   header("Location: /index.php");
    	   	   exit();
        }
@@ -19,15 +20,19 @@
        	
        	       if(isset($_GET['id'])){
        	          
-       	       	$id = $_GET['id'];   
+       	       	$id = $_GET['id'];  
+       	       	if(!is_numeric($id)){//id must be a number other wise exceptions will occur 
+       	         		
+       	       	  $mysqli->close();	
+       	       	 returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Id is incorrect format', 'status'=> 406));
+       	       	}
        	       	$limit = 10; 
-       	       	$query = mysql_query("select * from Blog where Flagged != 1 and BlogID < $id order by BlogID desc limit $limit");
-
-                $count = mysql_num_rows($query);
+                $result = $mysqli->query("select * from Blog where Flagged != 1 and BlogID < $id order by BlogID desc limit $limit");
+                $count = $result->num_rows;
                 if($count == 0) echo "";
                 else{
                
-                  while ($row = mysql_fetch_array($query)) 
+                  while ($row = $result->fetch_assoc()) 
                   {                	  
                     echo "<div class='blog-post' id='".$row['BlogID']."'>";
                     echo "<h2 class='blog-post-title'>".$row['Title']."</h2>";
@@ -49,7 +54,8 @@
                   //if($count < $limit) echo file_get_contents("../templates/main/blog/blog_footer.php");
                 }
        	       }
-       	              	 
+       	       $result->close();
+       	       $mysqli->close();       	 
        	       exit();    
        }
        
@@ -77,26 +83,30 @@ $title= $obj->{'title'};
   
     //first confirm that the user is not muted (actually allowed to post)  
     
-     if(strcmp('Root',$_SESSION["user"]->status()) != 0){ //post restrictions doesn't apply to ROOT user 
+     if(strcasecmp('Root',$_SESSION["user"]->status()) != 0){ //post restrictions doesn't apply to ROOT user 
      	$ign = $_SESSION["user"]->name();
-     	$query = mysql_query("select Mute from Users where Ign='$ign'");
-        $priv =mysql_fetch_assoc($query);
+     	$result = $mysqli->query("select Mute from Users where Ign='$ign'");
+        $priv = $result->fetch_assoc();
      	
-        if($priv['Mute'] != 0 ) returnJSON("HTTP/1.0 401 Unauthorized", "");
+        if($priv['Mute'] != 0 ){
+        $result->close();
+        $mysqli->close(); 	
+        returnJSON("HTTP/1.0 401 Unauthorized", "");
+        }
      	     
      }else $ign = "Root";
      
      //post to blog 
-      $insert = mysql_query("insert into Blog(Author,Title,Post,PublishDate) values('".mysql_real_escape_string($ign)."','".mysql_real_escape_string($title)."','".mysql_real_escape_string($post)."',now())"); 
-       
-	
-        if($insert === false){
-      	      
-      	   // print mysql_error();
-	    returnJSON("HTTP/1.0 503 Service Unavailable", array('msg'=>'We are having problems with the server at the moment'.mysql_error(),'status'=>503));
-	}
-		 
-	 returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'author'=> $ign));
+     if($mysqli->query("insert into Blog(Author,Title,Post,PublishDate) values('".mysqli_real_escape_string($ign)."','".mysqli_real_escape_string($title)."','".mysqli_real_escape_string($post)."',now())")){
+     	   
+     	  $mysqli->close(); 
+     	  returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'author'=> $ign));
+     	     
+     }else{
+      	 $mysqli->close();   
+         returnJSON("HTTP/1.0 503 Service Unavailable", array('msg'=>'We are having problems with the server at the moment','status'=>503));	     
+     }
+     
 	  
     } 
     
@@ -106,29 +116,46 @@ $team_name =$obj->{'name'};
    if(isset($team_name)){
 	
     /* The user cannot create a team if he/she is 
-       already part of a team of the team! 
-    
+       already part of a team of the team! Or if the
+       user is the root user.
     */
-    if($_SESSION['user']->hasTeam()) returnJSON("HTTP/1.0 401 Unauthorized", "");
+    if($_SESSION['user']->hasTeam() || strcasecmp('Root',$_SESSION["user"]->status()) == 0) returnJSON("HTTP/1.0 401 Unauthorized", "");
     
     //check to see if the team name already exsists 
-    $query = mysql_query("select TeamID from Teams where TeamName='".mysql_real_escape_string($team_name)."'");
-    $count = mysql_num_rows($queryTodb);     
-		
+    $team_name = mysqli_real_escape_string($team_name);
+    $result = $mysqli->query("select TeamID from Teams where TeamName='$team_name'");
+    $count = $result->num_rows;  
+    $result->close();	
 	//if count is zero that means no user exists
 	if($count==0){
 	//make sure that the name is not too long 
-	if(strlen($team_name) > 32) returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Team name is too long', 'status'=> 406));
+	    if(strlen($team_name) > 32){
+		    $mysqli->close();
+		   returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Team name is too long', 'status'=> 406));
+	     }
 	
-        //no conflicts so add to database 
-       /*  $insert = mysql_query("insert into Teams (TeamName,UserID) values('".mysql_real_escape_string($team_name)."','$id')"); 
-       
-	
-        if($insert === false){
-      	      
-      	    print mysql_error();
-	    returnJSON("HTTP/1.0 503 Service Unavailable", array('msg'=>'We are having problems with the server at the moment'.mysql_error(),'status'=>503));
-	}*/
+        /*no conflicts so add to database. 
+          Use a transtaction since we need 
+          to insert into team and update the 
+          user creating the team (also edit the user object in the session)
+        */
+      /*  $mysql_error = false;
+        //start transaction
+        $mysqli->autocommit(false);
+        
+        //get user's id 
+        $result = $mysqli->query("select UserID from Users where Ign='".$_SESSION['user']->name()."'");
+        $array= $result->fetch_assoc();
+        $id = $array['UserID'];
+        $result->close();
+        //insert team (and store id)
+        if($mysqli->query("insert into Teams (UserID,TeamName) values('$id','$passHash'") === TRUE){
+        	
+         	
+        	
+        	
+        }else mysql_error = true;*/
+        
 		 
 	 returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Team has been created'));
 	    	

@@ -14,15 +14,15 @@
            <tbody>
                 <?php   
                   
-                $query = mysql_query("select Ign, Users.Wins, Users.Losses, TeamName, Users.UserStatus from Users left join Teams on Users.TeamID where Users.Score is not null order by Users.Score desc");
-                $count = mysql_num_rows($query);
+                $query = $mysqli->query("select Ign, Users.Wins, Users.Losses, TeamName, Users.UserStatus from Users left join Teams on Users.TeamID where Users.Score is not null order by Users.Score desc");
+                $count = $query->num_rows;
                 if($count == 0) echo "";
                 else{
                               
                   
                    $i = 1;
                    $cur_user = $_SESSION['user']->name();
-                  while ($row = mysql_fetch_array($query)) 
+                  while ($row = $query->fetch_assoc()) 
                   {
                   	  
                      $name = $row["Ign"];                    	  
@@ -37,6 +37,7 @@
                      echo "</tr>";
                      $i+=1;
                   }
+                  $query->close();
                 }
                 
                 
