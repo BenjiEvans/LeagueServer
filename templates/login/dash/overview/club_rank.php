@@ -14,7 +14,7 @@
            <tbody>
                 <?php   
                   
-                $query = $mysqli->query("select Ign, Users.Wins, Users.Losses, TeamName, Users.UserStatus from Users left join Teams on Users.TeamID where Users.Score is not null order by Users.Score desc");
+                $query = $mysqli->query("select U.Ign, U.Wins, U.Losses, T.TeamName, U.UserStatus from Users U left join Teams T on U.TeamID = T.TeamID where U.Score is not null order by U.Score desc");
                 $count = $query->num_rows;
                 if($count == 0) echo "";
                 else{

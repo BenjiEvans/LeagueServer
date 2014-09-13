@@ -10,7 +10,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class="success">
+               <!-- <tr class="success">
                   <td>1</td>
                   <td> Avengers </td>
                   <td><span class="badge win">10</span></td>
@@ -23,7 +23,7 @@
                   <td><span class="badge win">2</span></td>
                   <td><span class="badge loss">20</span></td>
                   <td>15:53</td>
-                </tr>
+                </tr> -->
               </tbody>    
   
-          </table>
+          </table> 
