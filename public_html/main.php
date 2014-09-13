@@ -122,7 +122,7 @@ $team_name =$obj->{'name'};
     if($_SESSION['user']->hasTeam() || strcasecmp('Root',$_SESSION["user"]->status()) == 0) returnJSON("HTTP/1.0 401 Unauthorized", "");
     
     //check to see if the team name already exsists 
-    $team_name = mysqli_real_escape_string($team_name);
+    $team_name = $mysqli->real_escape_string($team_name);
     $result = $mysqli->query("select TeamID from Teams where TeamName='$team_name'");
     $count = $result->num_rows;  
     $result->close();	
@@ -139,27 +139,35 @@ $team_name =$obj->{'name'};
           to insert into team and update the 
           user creating the team (also edit the user object in the session)
         */
-      /*  $mysql_error = false;
+       $mysql_error = false;
         //start transaction
         $mysqli->autocommit(false);
         
         //get user's id 
         $result = $mysqli->query("select UserID from Users where Ign='".$_SESSION['user']->name()."'");
         $array= $result->fetch_assoc();
-        $id = $array['UserID'];
+        $user_id = $array['UserID'];
         $result->close();
         //insert team (and store id)
-        if($mysqli->query("insert into Teams (UserID,TeamName) values('$id','$passHash'") === TRUE){
+        if($mysqli->query("insert into Teams (UserID,TeamName) values('$user_id','$team_name')") === TRUE){
+            $team_id = $mysqli->insert_id;
+            if(!$mysqli->query("update Users set TeamID ='$team_id' where UserID='$user_id'") === TRUE)$mysql_error = true; 
         	
-         	
         	
-        	
-        }else mysql_error = true;*/
+        }else $mysql_error = true; 
         
-		 
-	 returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Team has been created'));
-	    	
+        if($mysql_error){
+          $mysqli->rollback();
+          $mysqli->close();
+          returnJSON("HTTP/1.0 503 Service Unavailable","");
+        }else{
+          $mysqli->commit(); 	
+          $mysqli->close();	
+          returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Team has been created'));
 	
+        }
+		 
+	 
 		
 	}else returnJSON("HTTP/1.0 409 Conflict",array('msg'=>'The Team name is already in use', 'status' => 409));
 

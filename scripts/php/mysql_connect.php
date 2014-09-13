@@ -5,7 +5,7 @@
 	//$conn = mysql_connect("localhost","","password");
 	
 	if ($mysqli->connect_errno){
-            header("503	Service Unavailable");
+            header("HTTP/1.0 503 Service Unavailable");
              exit();
         }
 	       
