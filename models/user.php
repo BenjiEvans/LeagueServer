@@ -18,7 +18,7 @@
 	      $this->ign= $ign;
 	      $this->status = $status;
 	      $this->score = $win-($loss*($loss/($win+$loss)));
-	      $this->team = $team;
+	      $this->team = $team;// this represents the id of the team 
             }
             
             public function name(){
@@ -44,7 +44,7 @@
             public function hasTeam(){
                return !empty($this->team);    
             }
-            
+                       
                        
           }
 ?>
