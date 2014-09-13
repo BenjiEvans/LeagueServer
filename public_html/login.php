@@ -28,9 +28,9 @@ $passJSON = $obj->{'pass'};
          }
         //database connection 
          require("../scripts/php/mysql_connect.php");
-         
-        $result = $mysqli->query("select * from Users where Ign ='".mysqli_real_escape_string($ignJSON)."'");
-	
+         $mysqli->real_escape_string($ignJSON);
+      //  $result = $mysqli->query("select * from Users where Ign ='".mysqli_real_escape_string($ignJSON)."'");
+	  $result = $mysqli->query("select * from Users where Ign ='$ignJSON'");
 	$count = $result->num_rows;    //fetch no. of rows for that email id 
 		
 	//if count is zero that means no user exists

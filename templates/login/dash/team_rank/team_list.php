@@ -1,6 +1,6 @@
 <?php
- $query = mysql_query("select TeamName, Wins, Losses, TeamStatus from Teams");
- $count = mysql_num_rows($query);
+ $query = $mysqli->query("select TeamName, Wins, Losses, TeamStatus from Teams");
+ $count = $query->num_rows;
   
  if($count == 0) echo "<h2 style='text-align:center;'> No Teams Found</h2>";
  else{
@@ -9,7 +9,7 @@
      echo "<div class='table-responsive'><table class='table table-bordered'> <thead><tr><th>Team Name</th><th>Wins</th><th>Losses</th><th>Status</th>
 <th> </th></tr></thead><tbody>";	 
       
-   while ($row = mysql_fetch_array($query)) 
+   while ($row = $query->fetch_assoc()) 
    {     
      echo "<tr>";
      echo "<td>".$row['TeamName']."</td>";  
