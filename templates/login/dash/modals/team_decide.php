@@ -10,7 +10,7 @@
        
         </div>
         <div class="modal-footer">
-          <button id='confirm_choice' type="button" class="btn btn-warning" style='float:left' data-dismiss="modal" data-toggle="modal">Yes</button>
+          <button type="button" class="btn btn-warning confirm_choice" style='float:left' data-dismiss="modal" data-toggle="modal">Yes</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
         </div>
       </div>

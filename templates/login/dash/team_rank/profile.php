@@ -1,4 +1,5 @@
 <?php //get team info
+echo $_SESSION['user']->team;
  $result = $mysqli->query("select U.Ign as Captain, T.Wins, T.Losses, T.Score, T.TeamStatus, T.TeamName from Users as U join Teams as T where U.UserID=T.UserID and T.TeamID='".$_SESSION['user']->team."'");
  $info = $result->fetch_assoc();
  
@@ -7,7 +8,7 @@
  //team image 
  echo "<img class='featurette-image img-responsive' data-src='holder.js/200x200/auto' alt='Generic placeholder image' style='border:solid;float:left'>";
  // profile data 
- echo "<div style='float:left;margin-left:10px;'>";
+ echo "<div id='".$_SESSION['user']->team."' style='float:left;margin-left:10px;'>";
  
  
  //append rank 

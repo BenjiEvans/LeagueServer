@@ -102,18 +102,53 @@ $(document).ready(function(){
       });
       
       
+      //confirm a decision in team rank modal
+       $('.confirm_choice').click(function(){
+       	
+          if($(this).hasClass("leave")){
+       		//post to server 
+       	     var teamID = $(this).attr('id');
+       	     console.log(teamID);
+       	     var leave ={opt: 'leave', team: teamID};
+       	    $.ajax({
+                 type: "POST",
+                 url: "/main.php",
+	         data: JSON.stringify(leave),
+                 contentType: "application/json; charset=utf-8",
+                 dataType: "json",
+                 processData: true,
+                 success: function (data) {
+                                     
+                  alert("removed from team"); 
+                 },
+                 error: function (data) {
+                     alert("uh.... leaving didnt work...");
+                 }
+             });	      
+       	   }
+       		       
+       });
+
+
+
+
       
-      
-      
-      //team rank div
+      //activate team rank modal
       $('.team_rank_btn').click(function(){
       		      
           var decide = "Are you sure that you wish to ";
+          var id = $(this).parent().attr('id');
          //write content      
       	if($(this).hasClass("leave")){
-      		
-      	   $('#team_modal_body').html(decide+="<span class='text-warning'>leave this team</span>? <span class='text-danger'> If you do you will be unable to participate in events that this team is registered for!</span>");	
-      		
+      	   var cap = "If you are captain of this team your teamates WILL ALSO BE KICKED OUT OF THE TEAM AND ALL RECORD OF THE TEAM WILL BE DELETED;";
+      	   cap+= "To avoid this consequence please assign another member to be team captain";
+      	   $('#team_modal_body').html(decide+="<span class='text-warning'>leave this team</span>? <span class='text-danger'> If you do you will be unable to participate in events that this team is registered for!"+cap+"</span>");
+      	   //add class to button
+      	   $('.confirm_choice').addClass('leave');
+      	   $('.confirm_choice').removeClass('remove');
+      	   $('.confirm_choice').removeClass('captain');
+      	   //add id 
+      	   $('.confirm_choice').attr('id',id); 		
       	}else if($(this).hasClass("remove")){
       	   
       	   $('#team_modal_body').html(decide+="<span class='text-warning'>remove this player from your team</span>?");
@@ -123,7 +158,6 @@ $(document).ready(function(){
       		var permList = "<ul><li>Recruit members for the team</li><li>Register the team for tournaments </li><li>Remove players from the team</li> </ul>";
       	     $('#team_modal_body').html(decide+="<span class='text-warning'>assign this player as team captain</span>?<span class='text-danger'>If you do you will not be allowed to</span>"+permList);
       	}
-      		      
       		      
         //show content 
       	 $('#team_rank_modal').modal('show');

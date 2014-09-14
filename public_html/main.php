@@ -163,6 +163,8 @@ $team_name =$obj->{'name'};
         }else{
           $mysqli->commit(); 	
           $mysqli->close();	
+          //point to new team in user object 
+          $_SESSION['user']->setTeam($team_id);
           returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Team has been created'));
 	
         }
@@ -173,6 +175,58 @@ $team_name =$obj->{'name'};
 
 	
   }
+  
+//check to see if user is leaving a team, deleting a team mate or assigning some one as captain
+$opt = $obj->{'opt'};//opperation 
+  
+ if(isset($opt)){
+ 	 
+    switch($opt){
+    	    
+    case "leave":
+    	$team_id = $obj->{'team'};  
+    	if(!isset($team_id))returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Need to specify a team to leave from', 'status'=> 406));
+    	//make sure that the current use is actuall on the team he is leaving 
+    	if($team_id != $_SESSION['user']->team)returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Cannot leave a team you are not appart of..', 'status'=> 406));
+    	//check to see if  this user is the captain of the team 
+    	$result = $mysqli->query("select UserID from Users where Ign='".$_SESSION['user']->name()."' and UserID=(select UserID from Teams where TeamID='$team_id')");
+    	//should get 1 row if user is captain of the team and 0 if the user is just a regular member
+    	if($result->num_rows > 1) returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Error with query','status'=>503));
+    	else if($result->num_rows == 1){//whole team must be deleted 
+            //remove all user from team (use transaction)
+	    $result->close();
+	    $mysqli->autocommit(false);
+	    //update all teamates 
+	    if($mysqli->query("update Users set TeamID = NULL where TeamID='$team_id'")){
+	      $mysqli->commit();
+	      $mysqli->close();   
+	       $_SESSION['user']->setTeam(null);
+	      returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Team has been deleted'));
+	    }else{
+	      $mysqli->rollback();
+	      $mysqli->close();
+	       returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Error with update for team deletion','status'=>503));
+	    }
+	    
+    	
+    	}else{
+    	  if($mysqli->query("update Users set TeamID = NULL where TeamID='$team_id'")){
+	      $mysqli->close();  
+	       $_SESSION['user']->setTeam(null);
+	      returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'User has been removed from team'));
+	    }else{
+	      $mysqli->close();
+	       returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Error with individual update','status'=>503));
+	    }	
+    	 	
+    	}
+    	
+    	break;
+    	    
+    	    
+    	    
+    } 	 
+ }
 
 
    

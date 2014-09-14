@@ -93,7 +93,8 @@
             <div class='team_rank' hidden>
                
                <?php
-                  
+                  $query = $mysqli->query("select TeamID from Users where Ign='".$_SESSION['user']->name()."'");
+                  $result = $query->fetch_assoc();
                   if($_SESSION["user"]->hasTeam()){
                   	require("../templates/login/dash/team_rank/profile.php");
                   	require("../templates/login/dash/team_rank/members.php"); 
