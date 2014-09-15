@@ -14,7 +14,7 @@
 	  </div>
 	  <button id='team_create_commit' type="submit" class="btn btn-default">Submit</button>
 	</form>
-	<div id='team_create_respon'>
+	<div id='team_create_respon' hidden>
 	</div>
         </div>
       </div>

@@ -96,11 +96,16 @@ $title= $obj->{'title'};
      	     
      }else $ign = "Root";
      
+     $ign = $mysqli->real_escape_string($ign);
+     $title = $mysqli->real_escape_string($title);
+     $post = $mysqli->real_escape_string($post);
+     
+     
      //post to blog 
-     if($mysqli->query("insert into Blog(Author,Title,Post,PublishDate) values('".mysqli_real_escape_string($ign)."','".mysqli_real_escape_string($title)."','".mysqli_real_escape_string($post)."',now())")){
+     if($mysqli->query("insert into Blog(Author,Title,Post,PublishDate) values('$ign','$title','$post',now())")){
      	   
      	  $mysqli->close(); 
-     	  returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'author'=> $ign));
+     	  returnJSON("HTTP/1.0 202 Accepted",array('status'=>202));
      	     
      }else{
       	 $mysqli->close();   
@@ -198,18 +203,22 @@ $opt = $obj->{'opt'};//opperation
 	    $mysqli->autocommit(false);
 	    //update all teamates 
 	    if($mysqli->query("update Users set TeamID = NULL where TeamID='$team_id'")){
-	      $mysqli->commit();
-	      $mysqli->close();   
-	       $_SESSION['user']->setTeam(null);
-	      returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Team has been deleted'));
-	    }else{
+	     
+	    	//delete team 
+	    	if($mysqli->query("delete from Teams where TeamID=$team_id")){
+	    		
+	          $mysqli->commit();
+	          $mysqli->close();   
+	          $_SESSION['user']->setTeam(null);
+	           returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Team has been deleted'));
+	    	}	       
+	    	
+	    }
 	      $mysqli->rollback();
 	      $mysqli->close();
 	       returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Error with update for team deletion','status'=>503));
-	    }
-	    
-    	
-    	}else{
+	  }else{
+	  	  
     	  if($mysqli->query("update Users set TeamID = NULL where TeamID='$team_id'")){
 	      $mysqli->close();  
 	       $_SESSION['user']->setTeam(null);

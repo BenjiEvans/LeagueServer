@@ -90,10 +90,31 @@ $(document).ready(function(){
                  processData: true,
                  success: function (data) {
                                      
-                  alert("Team was read"); 
+                  if(data.status == 202)
+                  {
+                    //hide and reset form
+                    $('#team_name').parent().removeClass("has-error"); 
+                    $('#team_form').hide();
+                     document.getElementById("team_form").reset();
+                    //display response
+                    $('#team_create_respon').append("<p>You have successfull created Team :\""+teamName+"\". You have been assigned as captain.</p>");
+                    $('#team_create_respon').fadeIn('slow');
+                    //append teams profile 
+                    $('.team_rank').html("");
+                       $('.team_rank').html("<h1> JBlap <em><span class='text-muted officer'>Challenger</span></em></h1> <hr class='featurette-divider'><img class='featurette-image img-responsive' data-src='holder.js/200x200/auto' alt='Generic placeholder image' style='border:solid;float:left'><div style='float:left;margin-left:10px;'><h2> <span style='font-family:Fertigo'>Club Rank</span> : <span class='text-muted officer'>1</span></h2><h2> <span style='font-family:Fertigo'>Team Captain</span>: <span class='text-warning text-capitalize'>speedy847</span> </h2><h3> <span class='text-success' > Wins: 5 </span> </h3><h3> <span class='text-danger'> Losses: 2 </span></h3><button type='button' class='btn btn-danger team_rank_btn leave' style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button> </div>");
+                  /*  var profile = "<h1>"+teamName+" <em><span class='text-muted officer'>Challenger</span></em></h1> <hr class='featurette-divider'>";
+                    profile+="<img class='featurette-image img-responsive' data-src='holder.js/200x200/auto' alt='Generic placeholder image' style='border:solid;float:left'>";
+                    profile+="<div style='float:left;margin-left:10px;'><h2> <span style='font-family:Fertigo'>Not Ranked</h2>";
+                    profile+="<h2> <span style='font-family:Fertigo'>Team Captain</span>: <span class='text-warning text-capitalize'>"+$('#user').attr('name')+"</span> </h2>";
+                    profile+="<h3> <span class='text-success'> Wins: 0 </span> </h3><h3> <span class='text-danger'> Losses: 0 </span></h3>";
+                    profile+="<button type='button' class='btn btn-danger team_rank_btn leave' style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button></div>";
+                    $('.team_rank').append(profile);*/
+                  }
+                 
                  },
                  error: function (data) {
-                     alert("bad Team Request");
+                      $('#team_create_error').html('*Team Name cannot be more than 32 characters');
+                      $('#team_name').parent().addClass("has-error"); 
                  }
              });	      
       	
@@ -201,7 +222,7 @@ $(document).ready(function(){
                  success: function (data) {
                    //  alert("post successful! ");
                      //prepend post 
-                     $("#blog_post_container").prepend(makePost(html_special_chars(post),data.author));
+                     $("#blog_post_container").prepend(makePost(html_special_chars(post),$('#user').attr('name')));
                    
                  },
                  error: function (data) {
@@ -219,7 +240,7 @@ $(document).ready(function(){
         {
         	var id = $('#blog_post_container').children().last().attr('id');
         	console.log("ID: "+id);
-        	if(id == 1) return;
+        	if(id == 1 || typeof id === 'undefined') return;
                //retreive some posts 
                 $.ajax({
                  type: "GET",
@@ -267,6 +288,12 @@ function html_special_chars(string){
 return string.replace(/&/g, "&amp;").replace(/>/g, "&gt;").replace(/</g, "&lt;").replace(/"/g, "&quot;");	
 	
 }
+
+
+
+
+
+
 
 function trim(x) {
     return x.replace(/^\s+|\s+$/gm,'');

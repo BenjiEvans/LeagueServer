@@ -60,7 +60,10 @@
   </head>
 
   <body style='background-image:url("../img/background.jpg");background-attachment: fixed;'>
-
+  <?php //store user's info in hidddn form element
+    echo "<input hidden id='user' name='".$_SESSION['user']->name()."' />";  
+  ?>
+  
     <?php require("../templates/login/dash/top_nav.php"); ?>
     
     <div class="container-fluid">
@@ -97,17 +100,15 @@
                   $result = $query->fetch_assoc();
                   if($_SESSION["user"]->hasTeam()){
                   	require("../templates/login/dash/team_rank/profile.php");
-                  	require("../templates/login/dash/team_rank/members.php"); 
-                  	require("../templates/login/dash/team_rank/match_history.php");
-                  	require("../templates/login/dash/modals/team_decide.php");
+                  	//require("../templates/login/dash/team_rank/members.php"); 
+                  	//require("../templates/login/dash/team_rank/match_history.php");
+                  	
                   }else{
                       echo " <div>
           <h1 style='text-align:center;'> You are not currently part of a team</h1>
           <button type='button' class='btn btn-warning btn-lg btn-block' id='browse_team'>Browse Teams</button>
           <button type='button' class='btn btn-default btn-lg btn-block' id='create_team'>Create Team</button>
           <div id='team_list' hidden> </div>";
-                 //require("../templates/login/dash/team_rank/team_list.php");
-                 require("../templates/login/dash/modals/create_team.php");
                   	  
                   }
             
@@ -121,6 +122,13 @@
     </div> 
     
      <?php require("../templates/login/dash/modals/post.php");?> <!-- blog commit modal -->
+     <?php 
+        //team rank modals
+        require("../templates/login/dash/modals/team_decide.php");
+        require("../templates/login/dash/modals/create_team.php");
+     
+     ?>
+     
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

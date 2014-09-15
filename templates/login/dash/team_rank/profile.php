@@ -1,5 +1,4 @@
 <?php //get team info
-echo $_SESSION['user']->team;
  $result = $mysqli->query("select U.Ign as Captain, T.Wins, T.Losses, T.Score, T.TeamStatus, T.TeamName from Users as U join Teams as T where U.UserID=T.UserID and T.TeamID='".$_SESSION['user']->team."'");
  $info = $result->fetch_assoc();
  
