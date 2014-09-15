@@ -170,7 +170,7 @@ $team_name =$obj->{'name'};
           $mysqli->close();	
           //point to new team in user object 
           $_SESSION['user']->setTeam($team_id);
-          returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Team has been created'));
+          returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Team has been created','id'=>$team_id));
 	
         }
 		 

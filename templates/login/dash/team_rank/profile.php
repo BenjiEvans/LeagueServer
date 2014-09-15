@@ -11,7 +11,7 @@
  
  
  //append rank 
- if(is_null($info['Score']))echo "<h2 style='font-family:Fertigo'>Not Ranked</h2>";
+ if(is_null($info['Score']))echo "<h2 style='font-family:Fertigo'><em>Not Ranked</em></h2>";
  else {
     $query->$mysqli->query("select count(UserID) as rank where Score > ".$info['Score']);
     $rank = $query->fetch_assoc(); 
@@ -21,7 +21,7 @@
  }
  
  //append captain
-  echo "<h2> <span style='font-family:Fertigo'>Team Captain</span>: <span class='text-warning text-capitalize'>".$info['Captain']."</span> </h2>";
+  echo "<h2> <span style='font-family:Fertigo'>Team Captain</span>: <span class='text-warning text-capitalize'>".strtolower($info['Captain'])."</span> </h2>";
  //append wins and losses 
   echo " <h3> <span class='text-success' > Wins: ".$info['Wins']."</span></h3>
    <h3> <span class='text-danger'> Losses: ".$info['Losses']." </span></h3>";

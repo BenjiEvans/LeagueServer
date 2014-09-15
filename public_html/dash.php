@@ -100,8 +100,8 @@
                   $result = $query->fetch_assoc();
                   if($_SESSION["user"]->hasTeam()){
                   	require("../templates/login/dash/team_rank/profile.php");
-                  	//require("../templates/login/dash/team_rank/members.php"); 
-                  	//require("../templates/login/dash/team_rank/match_history.php");
+                  	require("../templates/login/dash/team_rank/members.php"); 
+                  	require("../templates/login/dash/team_rank/match_history.php");
                   	
                   }else{
                       echo " <div>
