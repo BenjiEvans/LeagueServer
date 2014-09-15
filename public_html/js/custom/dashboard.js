@@ -222,7 +222,7 @@ $(document).ready(function(){
                  success: function (data) {
                    //  alert("post successful! ");
                      //prepend post 
-                     $("#blog_post_container").prepend(makePost(html_special_chars(post),$('#user').attr('name')));
+                     $("#blog_post_container").prepend(makePost(post,$('#user').attr('name')));
                    
                  },
                  error: function (data) {
