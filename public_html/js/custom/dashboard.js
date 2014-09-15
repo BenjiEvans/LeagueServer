@@ -99,7 +99,7 @@ $(document).ready(function(){
                     $('#team_form').hide();
                      document.getElementById("team_form").reset();
                     //display response
-                    $('#team_create_respon').html("<p>You have successfull created Team :\""+teamName+"\". You have been assigned as captain.</p>");
+                    $('#team_create_respon').html("<p class='text-success'>You have successfull created Team :<span class='text-muted'>\""+teamName+"\"</span>. You have been assigned as captain.</p>");
                     $('#team_create_respon').fadeIn('slow');
                     //append teams profile 
                     $('.team_rank').html("");
@@ -159,7 +159,7 @@ $(document).ready(function(){
                  processData: true,
                  success: function (data) {
                                      
-                  $('#team_modal_body').html("You have successfully been remove from the team!");
+                  $('#team_modal_body').html("<span class='text-success'>You have successfully been remove from the team!</span>");
                   $('#team_modal_footer').hide();
                   //remove modal after 3 seconds
                   setTimeout(function(){$('#team_rank_modal').modal('hide')}, 3000);
