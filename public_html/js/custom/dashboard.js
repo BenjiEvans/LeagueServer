@@ -22,7 +22,7 @@ $(document).ready(function(){
       });
       
       //team rank div (no user not appart of team )
-      $('#browse_team').click(function(){
+      $(document).on("click",'#browse_team',function(){
       	
         /*if the team listing div is empty 
           do an ajax call to the server to 
@@ -54,14 +54,15 @@ $(document).ready(function(){
       });
       
       //createing team 
-      $('#create_team').click(function(){
-      	
+      $(document).on("click",'#create_team',function(){
+      	  $('#team_form').show();
+      	   $('#team_create_respon').hide();
          $('#team_create_modal').modal('show');
       });
       
       //commit to creating team 
       $('#team_create_commit').click(function(){
-      	
+      	  
          //make sure a name is passed to the server		      
          var teamName = $('#team_name').val();
          
@@ -75,9 +76,10 @@ $(document).ready(function(){
          	 
            $('#team_create_error').html('*Team Name cannot be more than 32 characters');
            $('#team_name').parent().addClass("has-error"); 
+          
            return false;
          }
-      		      
+      	  $(this).button('loading');	      
          var team = { name: teamName }
          
       	  //send post to server 
@@ -97,7 +99,7 @@ $(document).ready(function(){
                     $('#team_form').hide();
                      document.getElementById("team_form").reset();
                     //display response
-                    $('#team_create_respon').append("<p>You have successfull created Team :\""+teamName+"\". You have been assigned as captain.</p>");
+                    $('#team_create_respon').html("<p>You have successfull created Team :\""+teamName+"\". You have been assigned as captain.</p>");
                     $('#team_create_respon').fadeIn('slow');
                     //append teams profile 
                     $('.team_rank').html("");
@@ -109,16 +111,33 @@ $(document).ready(function(){
                     profile+="<h3> <span class='text-success'> Wins: 0 </span> </h3><h3> <span class='text-danger'> Losses: 0 </span></h3>";
                     profile+="<button type='button' class='btn btn-danger team_rank_btn leave' style='color:rgb(0,0,0)' onclick='confirmTeamDecision()'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button></div>";
                     $('.team_rank').append(profile);
+                    //remove modal after 3 seconds
+                    setTimeout(function(){$('#team_create_modal').modal('hide')}, 3000);
                   }
                  
                  },
                  error: function (data) {
-                      $('#team_create_error').html('*Team Name cannot be more than 32 characters');
+                 	                	 
+                      switch(data.status){
+                      case 409://team exists
+                       $('#team_create_error').html('*That team name is already in use.. please try again..');     
+                      	 break;
+                      case 401:
+                      	 $('#team_create_error').html('*');    
+                      	 break;
+                      case 406:
+                 	 break;
+                 	 
+                      case 503:
+                 	 break;
+                      	      
+                      }
+                     
                       $('#team_name').parent().addClass("has-error"); 
                  }
              });	      
       	
-      		      
+      	  $(this).button('reset');	      
           return false;   
       });
       
@@ -140,12 +159,20 @@ $(document).ready(function(){
                  processData: true,
                  success: function (data) {
                                      
-                  alert("removed from team"); 
+                  $('#team_modal_body').html("You have successfully been remove from the team!");
+                  $('#team_modal_footer').hide();
+                  //remove modal after 3 seconds
+                  setTimeout(function(){$('#team_rank_modal').modal('hide')}, 3000);
+                  //update page to display buttons to browse and create team
+                  $('.team_rank').html("<div><h1 style='text-align:center;'> You are not currently part of a team</h1><button type='button' class='btn btn-warning btn-lg btn-block' id='browse_team'>Browse Teams</button><button type='button' class='btn btn-default btn-lg btn-block' id='create_team'>Create Team</button><div id='team_list' hidden> </div>");
+                  
                  },
                  error: function (data) {
-                     alert("uh.... leaving didnt work...");
+                      $('#team_modal_body').html("You are unable to leave the team. Try again later. If this problem persists please contact the web master");
+                      $('#team_modal_footer').hide();
                  }
-             });	      
+             });
+            return false;
        	   }
        		       
        });
@@ -178,6 +205,7 @@ $(document).ready(function(){
       	}
       		      
         //show content 
+        $('#team_modal_footer').show();
       	 $('#team_rank_modal').modal('show');
       });      
       

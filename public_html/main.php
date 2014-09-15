@@ -134,9 +134,10 @@ $team_name =$obj->{'name'};
 	//if count is zero that means no user exists
 	if($count==0){
 	//make sure that the name is not too long 
-	    if(strlen($team_name) > 32){
+	    $length = strlen(trim($team_name));
+	    if($length > 32 || $length == 0){
 		    $mysqli->close();
-		   returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Team name is too long', 'status'=> 406));
+		   returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Team name is too long or too short', 'status'=> 406));
 	     }
 	
         /*no conflicts so add to database. 

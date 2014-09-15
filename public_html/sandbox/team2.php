@@ -100,62 +100,18 @@
            
           </div> 
           <!-- members start -->
-      <div style='clear:left;'>
-            <h2> <em> Members</em></h2>
-            
-            <div class="panel-group" id="accordion">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <img src='../img/glyphicons_332_certificate.png'>
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-          speedy847
-        </a>
-      </h4>
-    </div>
-    <div id="collapseOne" class="panel-collapse collapse in">
-      <div class="panel-body">
+      <div style='clear:left;' class="panel panel-default">
+          
      
-      <h3> Club Rank: <span class="text-warning">1</span></h3>
-      <p> <span class="text-success">Wins: 5</span> , <span class="text-danger">Losses: 6</span></p>
-      <p> 
-         <button type="button" class="btn btn-danger team_rank_btn remove" style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Remove from Team</button> 
-         <button type='button' class='btn btn-warning team_rank_btn captain' style='color:rgb(0,0,0)'><img src='../img/glyphicons_043_group.png'> Assign as Captain </button>
-      </p>
-      <a href='#'> View profile</a>
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-          JinxIt
-        </a>
-      </h4>
-    </div>
-    <div id="collapseTwo" class="panel-collapse collapse">
-      <div class="panel-body">
-        
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-          MorgMaster847
-        </a>
-      </h4>
-    </div>
-    <div id="collapseThree" class="panel-collapse collapse">
-      <div class="panel-body">
+           <ul class="list-group">
+		  <li class="list-group-item">Cras justo odio</li>
+		  <li class="list-group-item">Dapibus ac facilisis in</li>
+		  <li class="list-group-item">Morbi leo risus</li>
+		  <li class="list-group-item">Porta ac consectetur ac</li>
+		  <li class="list-group-item">Vestibulum at eros</li>
+		</ul>
       
-      </div>
-    </div>
-  </div>
-</div>
-            
+      
           </div> <!-- member end -->
           
           <!-- match history -->
@@ -189,87 +145,12 @@
   
           </table>
           
-          <!-- team rank model -->
-          <!-- Modal Start---->
-  <div id="team_rank_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="login_modal_label">Confirm!</h4>
-        </div>
-        <div class="modal-body" id='team_modal_body'>
-       
-        </div>
-        <div class="modal-footer">
-          <button id='confirm_choice' type="button" class="btn btn-warning" style='float:left' data-dismiss="modal" data-toggle="modal">Yes</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-        </div>
-      </div>
-    </div>
-  </div>
-<!-- modalEnd --->
-
-
+        
           
           </div>
          <!-- Team content end -->
          
-         <!-- no team start -->
-         <div hidden>
-          <h1 style='text-align:center;'> You are not currently part of a team</h1>
-          <button type="button" class="btn btn-warning btn-lg btn-block" id='browse_team'>Browse Teams</button>
-          <button type="button" class="btn btn-default btn-lg btn-block" id='create_team'>Create Team</button>
-	   <div class="table-responsive" id='team_list' hidden>
-	       <table class="table table-bordered">
-		   <thead>
-		     <tr>
-		       <th>Team Name</th>
-		       <th>Wins</th>
-		       <th>Losses</th>
-		       <th>Status</th>
-		       <th> </th>
-		     </tr>
-		   </thead>
-		   <tbody>
-		      <tr>
-		         <td> JBlap</td>
-		         <td> <span class='badge win'>5</span></td>
-		         <td> <span class='badge loss'>3</span></td>
-		         <td>Challenger</td>
-		         <td> <a href='#'>view profile</a></td>
-		       </tr>
-		    </tbody>
-		</table>
-	    </div>
-	    	              
-         </div>
-         
-         <!-- no team end -->
-         
-         <!-- team create modal -->
-         
-         <div id="team_form" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="login_modal_label">Create team</h4>
-        </div>
-        <div class="modal-body" id='team_modal_body'>
-       
-        </div>
-        <div class="modal-footer">
-          <button id='create_team_confirm' type="button" class="btn btn-warning" style='float:left' data-dismiss="modal" data-toggle="modal">Yes</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-   <!--- team creat modal end -->
+        
          
          
         </div>

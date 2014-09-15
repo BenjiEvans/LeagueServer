@@ -12,7 +12,7 @@
 	    <label for="team_name">Team name</label> <span id='team_create_error' class='control-label'> </span>
 	    <input type="text" class="form-control" id="team_name" placeholder="Enter Team Name">
 	  </div>
-	  <button id='team_create_commit' type="submit" class="btn btn-default">Submit</button>
+	  <button id='team_create_commit' type="submit" data-loading-text="checking..." class="btn btn-default">Submit</button>
 	</form>
 	<div id='team_create_respon' hidden>
 	</div>
