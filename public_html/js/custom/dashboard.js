@@ -3,7 +3,8 @@ $(document).ready(function(){
        //toggle 
       $('.dash_link').click(function(){
       
-         if($(this).hasClass('active'))return;		     
+         if($(this).hasClass('active'))return;	
+          $('.search').hide();
           $('.dash_link').removeClass('active');
           $('.dash_link').css("color","rgb(0,0,0)");
           //select correct nav item
@@ -20,6 +21,37 @@ $(document).ready(function(){
          $('.'+id).fadeIn();
               
       });
+      
+      //viewing other team's profile
+      $(document).on("click",".team_profile",function(){
+      	
+        var id = $(this).attr('id');
+        //get html from server 
+         $.ajax({
+                 type: "GET",
+                 url: "/main.php?rq=team&id="+id,
+                 contentType: "text/html",
+                 success: function (data) {
+                  //  alert("got the html");
+                    // hide current content and remove side bar activation
+                    $('.dash_link').removeClass('active');
+                    $('.team_rank').hide();
+                    //show team profile 
+                    $('.search').html(data);
+                    $('.search').fadeIn('slow');
+                   
+                 },
+                 error: function (data) {
+                     alert("could not retreive profile");
+                 }
+             });
+      	return false;	      
+      });
+      
+      
+      
+      
+      
       
       //team rank div (no user not appart of team )
       $(document).on("click",'#browse_team',function(){
@@ -164,7 +196,7 @@ $(document).ready(function(){
                   //remove modal after 3 seconds
                   setTimeout(function(){$('#team_rank_modal').modal('hide')}, 3000);
                   //update page to display buttons to browse and create team
-                  $('.team_rank').html("<div><h1 style='text-align:center;'> You are not currently part of a team</h1><button type='button' class='btn btn-warning btn-lg btn-block' id='browse_team'>Browse Teams</button><button type='button' class='btn btn-default btn-lg btn-block' id='create_team'>Create Team</button><div id='team_list' hidden> </div>");
+                  $('.team_rank').html("<h1 style='text-align:center;'> You are not currently part of a team</h1><button type='button' class='btn btn-warning btn-lg btn-block' id='browse_team'>Browse Teams</button><button type='button' class='btn btn-default btn-lg btn-block' id='create_team'>Create Team</button><div id='team_list' hidden> </div>");
                   
                  },
                  error: function (data) {
@@ -202,6 +234,33 @@ $(document).ready(function(){
       		
       		var permList = "<ul><li>Recruit members for the team</li><li>Register the team for tournaments </li><li>Remove players from the team</li> </ul>";
       	     $('#team_modal_body').html(decide+="<span class='text-warning'>assign this player as team captain</span>?<span class='text-danger'>If you do you will not be allowed to</span>"+permList);
+      	     
+      	}else if($(this).hasClass("join")){
+      	
+      	  $( this ).find( 'span' ).html("Join Request Sent");
+      	   $(this).attr( "disabled","disabled");
+      	   //then send ajax request to team 
+      	    var teamID = $(this).parent().attr('id');
+       	     console.log(teamID);
+       	     var request ={opt: 'join', team: teamID};
+      	   
+      	     $.ajax({
+                 type: "POST",
+                 url: "/main.php",
+	         data: JSON.stringify(request),
+                 contentType: "application/json; charset=utf-8",
+                 dataType: "json",
+                 processData: true,
+                 success: function (data) {
+                 alert("Request sent ");
+                   
+                 },
+                 error: function (data) {
+                     alert("Request didnt go through");
+                 }
+             });
+      	   
+      		return;
       	}
       		      
         //show content 

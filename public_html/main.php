@@ -8,7 +8,7 @@
    	   
        $param = $_GET['rq'];
              
-       if($param == 'logout'){
+       if($param == 'logout'){//logout 
    	   
    	   	   unset($_SESSION["user"]);
    	   	   $mysqli->close();
@@ -16,7 +16,7 @@
    	   	   exit();
        }
        
-       if($param == 'blog' ){
+       if($param == 'blog' ){// get next blog posts 
        	
        	       if(isset($_GET['id'])){
        	          
@@ -59,10 +59,82 @@
        	       exit();    
        }
        
-       if($param == 'team_list'){
+       if($param == 'team_list'){// get team listing 
        	       
        	require("../templates/login/dash/team_rank/team_list.php");
        	  exit();
+       }
+       
+       if($param == 'team'){//view team's profile
+       	   
+       	  if(isset($_GET['id'])){
+       	       	       
+       	       	$id = $_GET['id']; //team's id 
+       	       	if(!is_numeric($id)){//id must be a number other wise exceptions will occur 
+       	         		
+       	       	  $mysqli->close();	
+       	       	 header("HTTP/1.0 406 Not Acceptable");
+       	       	 exit();
+       	       	}
+       	       	//get the team specified 
+       	       	$query = $mysqli->query("select U.Ign as Captain, T.Wins, T.Losses, T.Score, T.TeamStatus, T.TeamName from Users as U join Teams as T where U.UserID=T.UserID and T.TeamID='$id'");
+       	       	if($query->num_rows == 0){
+       	       	 //leave if no team with that id is found 
+       	       	 $query->close();			
+       	       	 $mysqli->close();	
+       	       	 header("HTTP/1.0 404 Not Found");
+       	       	 exit();
+       	       	}
+       	       	// print the profile 
+       	       	 $info = $query->fetch_assoc();
+                 $query->close();
+		 //print header 
+		 echo "<h1> <span class='text-capitalize'>".$info['TeamName']."</span> <em><span class='text-muted officer'>".$info['TeamStatus']."</span></em></h1> <hr class='featurette-divider'>";
+		 //team image 
+		 echo "<img class='featurette-image img-responsive' data-src='holder.js/200x200/auto' alt='Generic placeholder image' style='border:solid;float:left'>";
+		 // profile data 
+		 echo "<div id='$id' style='float:left;margin-left:10px;'>";
+		 
+		 
+		 //append rank 
+		 if(is_null($info['Score']))echo "<h2 style='font-family:Fertigo'><em>Not Ranked</em></h2>";
+		 else {
+		
+		    $result=$mysqli->query("select count(TeamID) as rank from Teams where Score is not null and Score > ".$info['Score']);
+		    $rank = $result->fetch_assoc(); 
+		    $actual_rank = $rank['rank'] +1;
+		    echo "<h2> <span style='font-family:Fertigo'>Club Rank</span> : <span class='text-muted officer'>$actual_rank</span></h2>";
+		    $result->close();
+		 }
+		 
+		 //append captain
+		  echo "<h2> <span style='font-family:Fertigo'>Team Captain</span>: <span class='text-warning text-capitalize'>".strtolower($info['Captain'])."</span> </h2>";
+		 //append wins and losses 
+		  echo " <h3> <span class='text-success' > Wins: ".$info['Wins']."</span></h3>
+		   <h3> <span class='text-danger'> Losses: ".$info['Losses']." </span></h3>";
+		 //append join button 
+		 //check to see if the user has already made a request to the team 
+		 $query = $mysqli->query("select count(NoteID) as count from  RequestDispatcher where TeamID=$id and UserID=(select UserID from Users where Ign='".$_SESSION['user']->name()."')");
+		 $count = $query->fetch_assoc();
+		 if($count['count'] == 0){
+		   $query->close();
+		   $query = $mysqli->query("select count(UserID) as count from Users where TeamID=$id");
+		   $count = $query->fetch_assoc();
+		   if($count['count'] < 5 && !$_SESSION['user']->hasTeam())echo "<button type='button' class='btn btn-success team_rank_btn join' style='color:rgb(0,0,0)'><img src='../img/glyphicons_006_user_add.png'> <span>Join Team</span></button>";
+		   $query->close();	 
+		 }else{// echo a disabled button 
+		  
+		    echo "<button disable type='button' class='btn btn-success team_rank_btn join' style='color:rgb(0,0,0)'><img src='../img/glyphicons_006_user_add.png'> <span>Join Request Sent</span></button>";
+		    		 	 
+		 }
+		
+		 echo "</div>";
+		$mysqli->close();
+		header("HTTP/1.0 202 Accepted");
+		exit();
+				
+       	    }
+       	       
        }
        
   
@@ -192,8 +264,16 @@ $opt = $obj->{'opt'};//opperation
     case "leave":
     	$team_id = $obj->{'team'};  
     	if(!isset($team_id))returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Need to specify a team to leave from', 'status'=> 406));
-    	//make sure that the current use is actuall on the team he is leaving 
-    	if($team_id != $_SESSION['user']->team)returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Cannot leave a team you are not appart of..', 'status'=> 406));
+    	//make sure that the current user is actuall on the team he is leaving 
+    	if($team_id != $_SESSION['user']->team)returnJSON("HTTP/1.0 401 Unauthorized" ,array('msg'=>'Cannot leave a team you are not appart of..', 'status'=> 401));
+    	//make sure team actually exsists 
+    	$query = $mysqli->query("select TeamName from Teams where TeamID=$team_id");
+    	if($query->num_rows == 0){
+    	 $query->close();
+    	 $mysqli->close();
+    	 returnJSON("HTTP/1.0 404 Not Found" ,array('msg'=>'team not found ', 'status'=> 404));
+    	}
+    	$query->close();
     	//check to see if  this user is the captain of the team 
     	$result = $mysqli->query("select UserID from Users where Ign='".$_SESSION['user']->name()."' and UserID=(select UserID from Teams where TeamID='$team_id')");
     	//should get 1 row if user is captain of the team and 0 if the user is just a regular member
@@ -202,9 +282,16 @@ $opt = $obj->{'opt'};//opperation
             //remove all user from team (use transaction)
 	    $result->close();
 	    $mysqli->autocommit(false);
+	    
+	    //notify all team mates that the team has been delete (and they have been booted)
+	    $query = $mysqli->query("select UserID from User where TeamID=$team_id ");
+	    
 	    //update all teamates 
 	    if($mysqli->query("update Users set TeamID = NULL where TeamID='$team_id'")){
 	     
+	    	 //delete any team requests and team request notifications 
+	    	 
+	    	 
 	    	//delete team 
 	    	if($mysqli->query("delete from Teams where TeamID=$team_id")){
 	    		
@@ -232,8 +319,49 @@ $opt = $obj->{'opt'};//opperation
     	}
     	
     	break;
-    	    
-    	    
+    	
+     case "join":
+     $team_id = $obj->{'team'};  
+     if(!isset($team_id))returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Need to specify a team to join', 'status'=> 406));
+     //make sure current user is allowed to join a team 
+     if($_SESSION['user']->hasTeam())returnJSON("HTTP/1.0 401 Unauthorized" ,array('msg'=>'You are already on a team', 'status'=> 401));
+     //check to see if user has already made a request
+     $query = $mysqli->query("select UserID from RequestDispatcher where UserID=(select UserID from Users where Ign='".$_SESSION['user']->name()."' and TeamID=$team_id)");
+     if($query->num_rows != 0){
+     $query->close();
+     $mysqli->close(); 	     
+     returnJSON("HTTP/1.0 401 Unauthorized" ,array('msg'=>'You have already requested to join this team', 'status'=> 401));
+     }
+     $query->close();
+      //make a request (first find captain)
+      $query = $mysqli->query("select UserID from Teams where TeamID=$team_id");
+      $array = $query->fetch_assoc();
+      $captain = $array['UserID'];
+      $query->close();
+      //start transaction 
+       $mysqli->autocommit(false);
+        //create a notification for the captain of the team 
+       if($mysqli->query("insert into Notifications (NoteType,UserID) values('tr','$captain')") === TRUE){
+       	       
+       	   $note_id = $mysqli->insert_id;  
+       	   //save notification in request dispatcher (get current user's id first)
+       	   $query = $mysqli->query("select UserID from Users where Ign='".$_SESSION['user']->name()."'");
+       	   $array = $query->fetch_assoc();
+       	   $user_id = $array['UserID'];
+       	   $query->close();
+       	    
+       	   if($mysqli->query("insert into RequestDispatcher(NoteID,UserID,TeamID) values('$note_id','$user_id','$team_id') ") === TRUE){
+       	     
+       	     $mysqli->commit();
+       	     $mysqli->close();
+       	     returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Join Team Request has been sent'));
+       	   }
+       }
+       
+       $mysqli->rollback();
+       $mysqli->close();
+       returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Error with update for team deletion','status'=>503));
+       
     	    
     } 	 
  }

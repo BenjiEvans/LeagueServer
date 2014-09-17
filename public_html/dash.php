@@ -104,7 +104,7 @@
                   	require("../templates/login/dash/team_rank/match_history.php");
                   	
                   }else{
-                      echo " <div>
+                      echo "
           <h1 style='text-align:center;'> You are not currently part of a team</h1>
           <button type='button' class='btn btn-warning btn-lg btn-block' id='browse_team'>Browse Teams</button>
           <button type='button' class='btn btn-default btn-lg btn-block' id='create_team'>Create Team</button>
@@ -113,6 +113,11 @@
                   }
             
                ?>
+            </div>
+            
+            <!-- Search container -->
+            <div class='search' hidden> 
+           
             </div>
             
             

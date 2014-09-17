@@ -1,5 +1,5 @@
 <?php
- $query = $mysqli->query("select TeamName, Wins, Losses, TeamStatus from Teams");
+ $query = $mysqli->query("select TeamName, Wins, Losses, TeamStatus, TeamID from Teams");
  $count = $query->num_rows;
   
  if($count == 0) echo "<h2 style='text-align:center;'> No Teams Found</h2>";
@@ -16,7 +16,7 @@
      echo "<td><span class='badge win'>".$row['Wins']."</span></td>";
      echo "<td><span class='badge loss'>".$row['Losses']."</span></td>";
      echo "<td>".$row['TeamStatus']."</td>";
-     echo "<td><a href='#'>view profile</a></td>";
+     echo "<td><a class='team_profile' id='".$row['TeamID']."' href='#'>view profile</a></td>";
      echo "</tr>";           
    } 	 
  	 echo " </tbody></table></div>";

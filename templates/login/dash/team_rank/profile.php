@@ -13,7 +13,7 @@
  //append rank 
  if(is_null($info['Score']))echo "<h2 style='font-family:Fertigo'><em>Not Ranked</em></h2>";
  else {
-    $query->$mysqli->query("select count(UserID) as rank where Score > ".$info['Score']);
+    $query->$mysqli->query("select count(TeamID) as rank from Teams where Score is not null and Score > ".$info['Score']);
     $rank = $query->fetch_assoc(); 
     $actual_rank = $rank['rank'] +1;
     echo "<h2> <span style='font-family:Fertigo'>Club Rank</span> : <span class='text-muted officer'>$actual_rank</span></h2>";

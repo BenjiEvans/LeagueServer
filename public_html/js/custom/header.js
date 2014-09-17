@@ -41,7 +41,7 @@ $(document).ready(function(){
 	//create action listener for the buttons 
 	$('#officer').click(function(){
 			
-	   $('#officers').show();
+	   $('#officers').fadeIn();
 	   $('#myCarousel').hide();
 	   $('#blog').hide();
 	    $("html, body").animate({ scrollTop: 0 }, 500);
@@ -51,8 +51,8 @@ $(document).ready(function(){
 	$('#home').click(function(){
 	
           $('#officers').hide();
-	   $('#myCarousel').show();
-	   $('#blog').show();	
+	   $('#myCarousel').fadeIn();
+	   $('#blog').fadeIn();	
 	    $("html, body").animate({ scrollTop: 0 }, 500);
 	});
 	
