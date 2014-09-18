@@ -79,76 +79,39 @@
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li id='overview' class="dash_link"><a href="#">Overview</a></li>
-            <li id='blog' class="dash_link active"><a href="#">Blog</a></li>
+            <li id='blog' class="dash_link"><a href="#">Blog</a></li>
             <li id='team_rank' class="dash_link"><a href="#">Team Rank</a></li>
             <li id='event' class="dash_link"><a href="#">Events <span class='badge'> display # of posted events</span></a></li>
+            <li class='dash_link active'><a href='#'>Notifications</a> </li>
             <li id='control_panel' class="dash_link"><a href="#">Control Panel</a></li>
           </ul>
         </div>
         
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <!-- Team content start -->
-        <div>
-        <h1> JBlap <em><span class="text-muted officer">Challenger</span></em></h1> <hr class="featurette-divider">
-          <img class="featurette-image img-responsive" data-src="holder.js/200x200/auto" alt="Generic placeholder image" style='border:solid;float:left'>
-          <div style='float:left;margin-left:10px;'>
-            <h2> <span style="font-family:Fertigo">Club Rank</span> : <span class="text-muted officer">1</span></h2>
-            <h2> <span style="font-family:Fertigo">Team Captain</span>: <span class="text-warning">speedy847</span> </h2>
-            <h3> <span class="text-success" > Wins: 5 </span> </h3>
-            <h3> <span class="text-danger"> Losses: 2 </span></h3>
-             <button type="button" class="btn btn-danger team_rank_btn leave" style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button> 
-           
-          </div> 
-          <!-- members start -->
-      <div style='clear:left;' class="panel panel-default">
-          
-     
-           <ul class="list-group">
-		  <li class="list-group-item">Cras justo odio</li>
-		  <li class="list-group-item">Dapibus ac facilisis in</li>
-		  <li class="list-group-item">Morbi leo risus</li>
-		  <li class="list-group-item">Porta ac consectetur ac</li>
-		  <li class="list-group-item">Vestibulum at eros</li>
-		</ul>
-      
-      
-          </div> <!-- member end -->
-          
-          <!-- match history -->
-          <h2> Match History </h2>
-          <table class="table table-bordered">
-               <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Team Versus</th>
-                  <th>Kills</th>
-                  <th>Deaths</th>
-                  <th>Time</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="success">
-                  <td>1</td>
-                  <td> Avengers </td>
-                  <td><span class="badge win">10</span></td>
-                  <td><span class="badge loss">7</span></td>
-                  <td>32:40</td>
-                </tr>
-                 <tr class="danger">
-                  <td>2</td>
-                  <td> KillTotal </td>
-                  <td><span class="badge win">2</span></td>
-                  <td><span class="badge loss">20</span></td>
-                  <td>15:53</td>
-                </tr>
-              </tbody>    
-  
-          </table>
-          
-        
-          
-          </div>
-         <!-- Team content end -->
+        <!-- notification content start -->
+       <div class="container">
+
+          <div class="page-header">
+	    <h1>Notifications<!-- <small>Bootstrap Visual Test</small>--></h1>
+	  </div>
+	
+	  <div class="alert alert-warning fade in">
+	    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	    <strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.
+	  </div>
+	
+	  <div class="alert alert-danger fade in">
+	    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	    <h4>Oh snap! You got an error!</h4>
+	    <p>Change this and that and try again. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum.</p>
+	    <p>
+	      <button type="button" class="btn btn-danger">Take this action</button>
+	      <button type="button" class="btn btn-default">Or do this</button>
+	    </p>
+	  </div>
+
+   </div>
+         <!-- notification content end -->
          
         
          

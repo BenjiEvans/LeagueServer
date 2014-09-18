@@ -120,6 +120,11 @@
            
             </div>
             
+            <!-- Note conatiner-->
+            <div class="container note" hidden>
+		 
+		<?php require("../templates/login/dash/notifications/notes.php"); ?>
+           </div>
             
                                
         </div>       

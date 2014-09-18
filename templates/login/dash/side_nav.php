@@ -24,7 +24,7 @@
      
        if(strcmp($status,"Root") != 0)
        {
-       	     echo "<li id='note' class='dash_link'><a href='#'>Noifications"; 
+       	     echo "<li id='note' class='dash_link'><a href='#'>Noifications "; 
        	     $ign = $_SESSION['user']->name();
        	     $query = $mysqli->query("select count(UserID) as total from Notifications where UserID =(select UserID from Users where Ign ='$ign')");
        	     $count = $query->fetch_assoc();
