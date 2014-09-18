@@ -124,7 +124,7 @@
 		   $query->close();	 
 		 }else{// echo a disabled button 
 		  
-		    echo "<button disable type='button' class='btn btn-success team_rank_btn join' style='color:rgb(0,0,0)'><img src='../img/glyphicons_006_user_add.png'> <span>Join Request Sent</span></button>";
+		    echo "<button disabled type='button' class='btn btn-success team_rank_btn join' style='color:rgb(0,0,0)'><img src='../img/glyphicons_006_user_add.png'> <span>Join Request Sent</span></button>";
 		    		 	 
 		 }
 		
@@ -284,22 +284,32 @@ $opt = $obj->{'opt'};//opperation
 	    $mysqli->autocommit(false);
 	    
 	    //notify all team mates that the team has been delete (and they have been booted)
-	    $query = $mysqli->query("select UserID from User where TeamID=$team_id ");
+	    $result = $mysqli->query("select UserID from Users where TeamID=$team_id and not UserID=(select UserID from Teams where TeamID=$team_id)");
+	    $mysql_error = false;
+	    while($row = $result->fetch_assoc()){
+	      if(($mysqli->query("insert into Notifications (UserID,NoteType) values('".$row['UserID']."','td')"))=== FALSE)$mysql_error = true;
+	    }
 	    
-	    //update all teamates 
-	    if($mysqli->query("update Users set TeamID = NULL where TeamID='$team_id'")){
+	    //update all teamates (remove members)
+	    if(!$mysql_error && $mysqli->query("update Users set TeamID = NULL where TeamID='$team_id'")){
 	     
 	    	 //delete any team requests and team request notifications 
-	    	 
-	    	 
-	    	//delete team 
-	    	if($mysqli->query("delete from Teams where TeamID=$team_id")){
-	    		
-	          $mysqli->commit();
-	          $mysqli->close();   
-	          $_SESSION['user']->setTeam(null);
-	           returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Team has been deleted'));
-	    	}	       
+	    	 if(($mysqli->query("delete from RequestDispatcher where TeamID=$team_id")) === TRUE){
+	    	    $sub1 = "(select UserID from Teams where TeamID=$team_id)";
+	    	    if(($mysqli->query("delete from Notifications where UserID=$sub1 and NoteType='tr'") ) === TRUE){
+	    	    	    
+	    	    	    //delete team 
+			if($mysqli->query("delete from Teams where TeamID=$team_id")){
+				
+			  $mysqli->commit();
+			  $mysqli->close();   
+			  $_SESSION['user']->setTeam(null);
+			   returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Team has been deleted'));
+			}	     
+	    	    	    
+	    	    }
+	    	 	 
+	    	 }    	  
 	    	
 	    }
 	      $mysqli->rollback();

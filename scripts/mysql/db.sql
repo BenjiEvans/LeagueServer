@@ -65,7 +65,7 @@ INSERT INTO Teams (TeamName,Wins, Losses, UserID, TeamStatus, Score) VALUES
 -- notifications 
 CREATE TABLE IF NOT EXISTS Notifications (
   NoteID int(11) NOT NULL AUTO_INCREMENT,
-  NoteType enum('tr','a','d','r','b') NOT NULL,
+  NoteType enum('tr','a','d','r','b','td') NOT NULL,
   UserID int(10) Not NULL,
   PRIMARY KEY (`NoteID`),
   KEY `UserID` (`UserID`)
