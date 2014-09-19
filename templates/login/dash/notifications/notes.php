@@ -16,7 +16,7 @@
 <?php
 //get all notifications and package them in divs for presentation 
 
-   $query = $mysqli->query("select * from Notifications where UserID =(select UserID from Users where Ign='".$_SESSION['user']->name()."')");
+   $query = $mysqli->query("select * from Notifications where UserID =(select UserID from Users where Ign='".$_SESSION['user']->name()."') and Respond=0");
    if($query->num_rows == 0)echo "<h2> No Notifications...</h2>";
    else{
    	 echo  "<div class='page-header'>
@@ -38,6 +38,13 @@
      	     echo "<div>";
      	     $result->close();
      break;
+     
+    case 'td':
+	
+    	echo "<div id='".$row['NoteID']."' class='alert alert-warning fade in'>";
+        echo "<button type='button' class='close note_close' data-dismiss='alert' aria-hidden='true'>&times;</button>";
+        echo "<strong>Holy guacamole!</strong> did not accept your request to join check yo self, you're not looking too good.</div>";
+	break;
      	     
      }
     	   

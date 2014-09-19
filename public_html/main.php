@@ -382,7 +382,7 @@ $opt = $obj->{'opt'};//opperation
     
    $id = $obj->{'id'};// id of the note 	 
    if( !isset($id) || !is_numeric($id))returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Not a valid id', 'status'=> 406));
-   $query = $mysqli->query("select * from Notifications where NoteID=$id");
+   $query = $mysqli->query("select * from Notifications where NoteID=$id and Respond=1");
    if($query->num_rows == 0) returnJSON("HTTP/1.0 404 Not Found" ,array('msg'=>'note not found ', 'status'=> 404));
    //make sure that the notification belongs to the current user 	 
    $result = $query->fetch_assoc();
@@ -407,10 +407,14 @@ $opt = $obj->{'opt'};//opperation
    	 	 if(($mysqli->query("insert into Notifications (NoteType,UserID) values('ta',$request_user)")) == True){
    	    	$insert_note = $mysqli->insert_id;
    	        if(($mysqli->query("insert into ResponseDispatcher (NoteID,TeamID) values($insert_note, ".$_SESSION['user']->team.")")) === TRUE){
-   	        	
-   	        	$mysqli->commit();
+   	            //hide the notification 
+   	            if(($mysqli->query("update Notifications set Respond = 1 where NoteID=$id")) === True){
+   	            	    
+   	            	$mysqli->commit();
    	        	$mysqli->close();
-   	    	 	returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Join Team Request accepted')); 
+   	    	 	returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Join Team Request accepted'));  
+   	            }
+   	        	
    	    	 }
    	    	
    	    } 
@@ -420,10 +424,15 @@ $opt = $obj->{'opt'};//opperation
    	    if(($mysqli->query("insert into Notifications (NoteType,UserID) values('td',$request_user)")) == True){
    	    	$insert_note = $mysqli->insert_id;
    	        if(($mysqli->query("insert into ResponseDispatcher (NoteID,TeamID) values($insert_note, ".$_SESSION['user']->team.")")) === TRUE){
-   	        	
-   	        	$mysqli->commit();
-   	        	$mysqli->close();
-   	    	 	returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Join Team Request Declined')); 
+   	         //hide the notification 
+   	            if(($mysqli->query("update Notifications set Respond = 1 where NoteID=$id")) === true){
+   	        	 
+   	            	   //delete the 
+   	            	    
+   	            	   $mysqli->commit();
+   	        	  $mysqli->close();
+   	    	 	  returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Join Team Request Declined')); 	
+   	             }
    	    	 }
    	    	
    	    }
