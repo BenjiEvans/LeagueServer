@@ -48,7 +48,36 @@ $(document).ready(function(){
       	return false;	      
       });
       
-      
+      //noticfication actions 
+      $(document).on("click",".note_btn",function(){
+         var ID = $(this).parent().parent().attr('id');
+         console.log("id: "+ID);
+         var dec = 3;
+         if($(this).hasClass("accept")){
+          dec = 1;
+         }else if($(this).hasClass("decline")){
+         	dec = 0; 
+         }
+         console.log("Dec: "+dec);
+         var note = {id:ID, note:dec}
+         //post to server 
+           $.ajax({
+                 type: "POST",
+                 url: "/main.php",
+	         data: JSON.stringify(note),
+                 contentType: "application/json; charset=utf-8",
+                 dataType: "json",
+                 processData: true,
+                 success: function (data) {
+                                       
+                      alert("success bitch!! :D");
+                 },
+                 error: function (data) {
+                     alert("Error with notification :(");
+                 }
+             });
+      		      
+      });
       
       
       

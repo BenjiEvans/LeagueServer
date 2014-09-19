@@ -84,11 +84,8 @@ CREATE TABLE IF NOT EXISTS RequestDispatcher (
 -- Response
 CREATE TABLE IF NOT EXISTS ResponseDispatcher (
   NoteID int(11) NOT NULL,
-  UserID int(10) NOT NULL,
   TeamID smallint NOT NULL, 
-  Decision tinyint(1) NOT NULL,
   KEY `NoteID` (`NoteID`),
-  KEY `UserID` (`UserID`),
   KEY `TeamID` (`TeamID`)
 );
 

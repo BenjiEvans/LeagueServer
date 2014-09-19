@@ -380,8 +380,8 @@ $opt = $obj->{'opt'};//opperation
  $note = $obj->{'note'};
  if(isset($note)){
     
-   $id = $obj->{'id'};	 
-   if(!is_numeric($id))returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Not a valid id', 'status'=> 406));
+   $id = $obj->{'id'};// id of the note 	 
+   if( !isset($id) || !is_numeric($id))returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Not a valid id', 'status'=> 406));
    $query = $mysqli->query("select * from Notifications where NoteID=$id");
    if($query->num_rows == 0) returnJSON("HTTP/1.0 404 Not Found" ,array('msg'=>'note not found ', 'status'=> 404));
    //make sure that the notification belongs to the current user 	 
@@ -390,12 +390,55 @@ $opt = $obj->{'opt'};//opperation
    $query = $mysqli->query("select UserID from Users where Ign='".$_SESSION['user']->name()."' and UserID=".$result['UserID']);
    if($query->num_rows ==0)returnJSON("HTTP/1.0 401 Unauthorized" ,array('msg'=>'This is not your notification', 'status'=> 401)); 
    //now we can preform some operations 
-   
+   $query->close();
+    
    switch($result['NoteType']){
+   	   
    	 case 'tr'://responding to a join request 
+   	  $mysqli->autocommit(false);
+   	  //get id of the recipiant 
+   	  $query = $mysqli->query("select UserID from RequestDispatcher where NoteID=$id");
+   	  
+   	  $array = $query->fetch_assoc();
+   	  $request_user = $array['UserID'];
+   	 
    	 if($note == 1){//we accept the request 
+   	   //create a note for requesting user	 
+   	 	 if(($mysqli->query("insert into Notifications (NoteType,UserID) values('ta',$request_user)")) == True){
+   	    	$insert_note = $mysqli->insert_id;
+   	        if(($mysqli->query("insert into ResponseDispatcher (NoteID,TeamID) values($insert_note, ".$_SESSION['user']->team.")")) === TRUE){
+   	        	
+   	        	$mysqli->commit();
+   	        	$mysqli->close();
+   	    	 	returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Join Team Request accepted')); 
+   	    	 }
+   	    	
+   	    } 
    	 	 
+   	 } else if ($note == 0){// we decline 
+   	    //create notification for requesting user 
+   	    if(($mysqli->query("insert into Notifications (NoteType,UserID) values('td',$request_user)")) == True){
+   	    	$insert_note = $mysqli->insert_id;
+   	        if(($mysqli->query("insert into ResponseDispatcher (NoteID,TeamID) values($insert_note, ".$_SESSION['user']->team.")")) === TRUE){
+   	        	
+   	        	$mysqli->commit();
+   	        	$mysqli->close();
+   	    	 	returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Join Team Request Declined')); 
+   	    	 }
+   	    	
+   	    }
+   	 	 
+   	 	 
+   	 }else{//just doesn't make sense 
+   	 
+   	   $result->close();
+   	   $mysqli->close();
+   	   returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Not a valid note', 'status'=> 406));
    	 }
+   	 
+   	  returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Error with inserts','status'=>503));
+   	 $mysqli->rollback();
+   	 $mysql->close();
    	 	 break;
    	   
    }

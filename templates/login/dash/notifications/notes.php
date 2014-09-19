@@ -30,11 +30,11 @@
      	     $result = $mysqli->query("select Ign from Users where UserID=(select UserID from RequestDispatcher where NoteID=".$row['NoteID'].")");
      	     $array = $result->fetch_assoc();
      	     $name = $array['Ign'];
-     	     echo "<div class='alert alert-info fade in'>";
-     	     echo "<button id='".$row['NoteID']."' type='button' class='close note_close' data-dismiss='alert' aria-hidden='true'>&times;</button>";
+     	     echo "<div id='".$row['NoteID']."' class='alert alert-info fade in'>";
+     	     echo "<button type='button' class='close note_close' data-dismiss='alert' aria-hidden='true'>&times;</button>";
      	     echo "<h4><strong>Join Request</strong></h4>";
      	     echo "<p><strong>$name</strong> wishes to join your team! Feel free you view his profile <a href='#'>HERE</a></p>";
-     	     echo "<p><button type='button' class='btn btn-success'>Accept request</button> <button type='button' class='btn btn-default'>Decline request</button></p>";
+     	     echo "<p><button type='button' class='btn btn-success accept note_btn'>Accept request</button> <button type='button' class='btn btn-default decline note_btn'>Decline request</button></p>";
      	     echo "<div>";
      	     $result->close();
      break;
