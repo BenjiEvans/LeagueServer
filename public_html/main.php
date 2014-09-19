@@ -263,7 +263,7 @@ $opt = $obj->{'opt'};//opperation
     	    
     case "leave":
     	$team_id = $obj->{'team'};  
-    	if(!isset($team_id))returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Need to specify a team to leave from', 'status'=> 406));
+    	if(!isset($team_id) || !is_numeric($team_id))returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Need to specify a team to leave from', 'status'=> 406));
     	//make sure that the current user is actuall on the team he is leaving 
     	if($team_id != $_SESSION['user']->team)returnJSON("HTTP/1.0 401 Unauthorized" ,array('msg'=>'Cannot leave a team you are not appart of..', 'status'=> 401));
     	//make sure team actually exsists 
@@ -332,7 +332,7 @@ $opt = $obj->{'opt'};//opperation
     	
      case "join":
      $team_id = $obj->{'team'};  
-     if(!isset($team_id))returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Need to specify a team to join', 'status'=> 406));
+     if(!isset($team_id) || !is_numeric($team_id))returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Need to specify a team to join', 'status'=> 406));
      //make sure current user is allowed to join a team 
      if($_SESSION['user']->hasTeam())returnJSON("HTTP/1.0 401 Unauthorized" ,array('msg'=>'You are already on a team', 'status'=> 401));
      //check to see if user has already made a request
@@ -376,6 +376,30 @@ $opt = $obj->{'opt'};//opperation
     } 	 
  }
 
+ //notification responses
+ $note = $obj->{'note'};
+ if(isset($note)){
+    
+   $id = $obj->{'id'};	 
+   if(!is_numeric($id))returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Not a valid id', 'status'=> 406));
+   $query = $mysqli->query("select * from Notifications where NoteID=$id");
+   if($query->num_rows == 0) returnJSON("HTTP/1.0 404 Not Found" ,array('msg'=>'note not found ', 'status'=> 404));
+   //make sure that the notification belongs to the current user 	 
+   $result = $query->fetch_assoc();
+   $query->close();
+   $query = $mysqli->query("select UserID from Users where Ign='".$_SESSION['user']->name()."' and UserID=".$result['UserID']);
+   if($query->num_rows ==0)returnJSON("HTTP/1.0 401 Unauthorized" ,array('msg'=>'This is not your notification', 'status'=> 401)); 
+   //now we can preform some operations 
+   
+   switch($result['NoteType']){
+   	 case 'tr'://responding to a join request 
+   	 if($note == 1){//we accept the request 
+   	 	 
+   	 }
+   	 	 break;
+   	   
+   }
+ }
 
    
 ?>
@@ -414,8 +438,6 @@ function getMonth($month){
      	     }
      	     
 }
-     	     
-     	     
-
+     	
 ?>
 
