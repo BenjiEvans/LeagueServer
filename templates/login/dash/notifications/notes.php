@@ -40,10 +40,13 @@
      break;
      
     case 'td':
-	
-    	echo "<div id='".$row['NoteID']."' class='alert alert-warning fade in'>";
+	$note_id = $row['NoteID'];
+    	echo "<div id='$note_id' class='alert alert-warning fade in'>";
         echo "<button type='button' class='close note_close' data-dismiss='alert' aria-hidden='true'>&times;</button>";
-        echo "<strong>Holy guacamole!</strong> did not accept your request to join check yo self, you're not looking too good.</div>";
+        $result = $mysqli->query("select TeamName from Teams where TeamID=(select TeamID from ResponseDispatcher where NoteID=$note_id)");
+        $team = $result->fetch_assoc();
+        echo "<strong>".$team['TeamName']."</strong> did not accept your request to join their team.</div>";
+        $result->close();
 	break;
      	     
      }

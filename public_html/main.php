@@ -426,9 +426,7 @@ $opt = $obj->{'opt'};//opperation
    	        if(($mysqli->query("insert into ResponseDispatcher (NoteID,TeamID) values($insert_note, ".$_SESSION['user']->team.")")) === TRUE){
    	         //hide the notification 
    	            if(($mysqli->query("update Notifications set Respond = 1 where NoteID=$id")) === true){
-   	        	 
-   	            	   //delete the 
-   	            	    
+   	        	  	            	    
    	            	   $mysqli->commit();
    	        	  $mysqli->close();
    	    	 	  returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Join Team Request Declined')); 	
