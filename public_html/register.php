@@ -18,7 +18,7 @@
 	    returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Some fields are empty', 'status'=> 406));
 	   
         }else if (strlen(trim($email)) == 0 || strlen(trim($pass)) == 0 || strlen(trim($ign)) == 0)returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Some fields are empty', 'status'=> 406));
-        	
+        //check that the email is calstate la email	
         	
      
         $email = $mysqli->real_escape_string(trim($email));

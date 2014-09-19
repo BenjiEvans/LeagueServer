@@ -382,7 +382,7 @@ $opt = $obj->{'opt'};//opperation
     
    $id = $obj->{'id'};// id of the note 	 
    if( !isset($id) || !is_numeric($id))returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Not a valid id', 'status'=> 406));
-   $query = $mysqli->query("select * from Notifications where NoteID=$id and Respond=1");
+   $query = $mysqli->query("select * from Notifications where NoteID=$id and Respond=0");
    if($query->num_rows == 0) returnJSON("HTTP/1.0 404 Not Found" ,array('msg'=>'note not found ', 'status'=> 404));
    //make sure that the notification belongs to the current user 	 
    $result = $query->fetch_assoc();
