@@ -79,7 +79,34 @@ $(document).ready(function(){
       		      
       });
       
-      
+      //delete notifications 
+      $(document).on("click",".note_close", function(){
+      		
+      	 var ID = $(this).parent().attr('id');
+         var note = {id:ID, note:-1}
+         //post to server 
+           $.ajax({
+                 type: "POST",
+                 url: "/main.php",
+	         data: JSON.stringify(note),
+                 contentType: "application/json; charset=utf-8",
+                 dataType: "json",
+                 processData: true,
+                 success: function (data) {
+                     //fade the div and decrement the notifications              
+                     $(this).fadeOut("slow");
+                     var count = $('#note').find('span').html().trim();
+                     count = Number(count);
+                     count--;
+                     $('#note').find('span').html(count);
+                 },
+                 error: function (data) {
+                     alert("Could not delete..");
+                 }
+             });
+           return false;
+      		      
+      });
       
       
       //team rank div (no user not appart of team )

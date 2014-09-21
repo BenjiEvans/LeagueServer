@@ -25,10 +25,14 @@
                   while ($row = $query->fetch_assoc()) 
                   {
                   	  
-                     $name = $row["Ign"];                    	  
-                     echo "<tr><td>$i</td>";
-                     if(strcmp($name, $cur_user) == 0) echo"<td><span style='font-weight: bold;'>$name</span></td>";
-                     else echo "<td>$name</td>";                
+                     $name = $row["Ign"];  
+                     if(strcasecmp($name, $cur_user) == 0){
+                     	echo "<tr class='info'><td>$i</td>";
+                     	echo"<td><span style='font-weight: bold;'>$name</span></td>";
+                     }else{
+                     	echo "<tr><td>$i</td>";
+                     	echo "<td>$name</td>";  
+                     }    
                      echo "<td><span class='badge win'>".$row["Wins"]."</span></td>";
                      echo "<td><span class='badge loss'>".$row["Losses"]."</span></td>";
                      echo "<td>".$row["UserStatus"]."</td>";

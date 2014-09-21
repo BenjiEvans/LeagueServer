@@ -391,7 +391,39 @@ $opt = $obj->{'opt'};//opperation
    if($query->num_rows ==0)returnJSON("HTTP/1.0 401 Unauthorized" ,array('msg'=>'This is not your notification', 'status'=> 401)); 
    //now we can preform some operations 
    $query->close();
-    
+   //-1 in note denotes delete notification 
+   if($note == -1){
+   	switch($result['NoteType']){
+   	case 'd':// delete team request
+   		 $mysqli->autocommit(false);
+   		if($mysqli->query("delete from RequestDispatcher where UserID=(select UserID from Users where Ign='".$_SESSION['user']->name()."') and TeamID=(select TeamID from ResponseDispatcher where NoteID=$id)")){
+   		  //delete the notification accociated with the team join request 
+   		  if($mysqli->query("delete from Notifications where UserID=(select UserID from Teams where TeamID=(select TeamID from ResponseDispatcher where NoteID=$id)) and Respond=1 and NoteType='tr'")){
+   		  	  //delete the team response
+   		      if($mysqli->query("delete from ResponseDispatcher where NoteID=$id")){
+			    //delte the notification  
+			     if($mysqli->query("delete from Notifications where NoteID=$id")){
+				$mysqli->commit();
+				$mysqli->close();
+				returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Note delted!'));   
+			     }
+   		  	  
+   		     } 
+   		  }
+   			
+   		 
+   		}
+   	       
+   		$mysqli->rollback();
+   	        $mysqli->close();
+   	        returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Failed to delete note','status'=>503));
+   		break;
+   	}
+   	   
+   	   
+   }
+   
+   // 1 or 0 in notes denoted a decision being made 
    switch($result['NoteType']){
    	   
    	 case 'tr'://responding to a join request 
@@ -404,7 +436,7 @@ $opt = $obj->{'opt'};//opperation
    	 
    	 if($note == 1){//we accept the request 
    	   //create a note for requesting user	 
-   	 	 if(($mysqli->query("insert into Notifications (NoteType,UserID) values('ta',$request_user)")) == True){
+   	 	 if(($mysqli->query("insert into Notifications (NoteType,UserID) values('a',$request_user)")) == True){
    	    	$insert_note = $mysqli->insert_id;
    	        if(($mysqli->query("insert into ResponseDispatcher (NoteID,TeamID) values($insert_note, ".$_SESSION['user']->team.")")) === TRUE){
    	            //hide the notification 
@@ -421,7 +453,7 @@ $opt = $obj->{'opt'};//opperation
    	 	 
    	 } else if ($note == 0){// we decline 
    	    //create notification for requesting user 
-   	    if(($mysqli->query("insert into Notifications (NoteType,UserID) values('td',$request_user)")) == True){
+   	    if(($mysqli->query("insert into Notifications (NoteType,UserID) values('d',$request_user)")) == True){
    	    	$insert_note = $mysqli->insert_id;
    	        if(($mysqli->query("insert into ResponseDispatcher (NoteID,TeamID) values($insert_note, ".$_SESSION['user']->team.")")) === TRUE){
    	         //hide the notification 
@@ -442,10 +474,10 @@ $opt = $obj->{'opt'};//opperation
    	   $mysqli->close();
    	   returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Not a valid note', 'status'=> 406));
    	 }
-   	 
+   	  $mysqli->rollback();
+   	  $mysqli->close();
    	  returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Error with inserts','status'=>503));
-   	 $mysqli->rollback();
-   	 $mysql->close();
+   	
    	 	 break;
    	   
    }

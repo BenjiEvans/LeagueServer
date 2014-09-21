@@ -36,13 +36,9 @@ CREATE TABLE IF NOT EXISTS Users (
 -- Insert sample users
 
 INSERT INTO Users (Ign, Wins, Losses, TeamID, Email, Password, Salt, Activate, Register, Login,Score) VALUES
-('user1', 5, 1, NULL, 'user1@yahoo.com', 'password', '', 0, '0000-00-00', '0000-00-00',5-1*(1/6));
+('ben', 5, 1, NULL, 'ben@yahoo.com', 'y6VPhxxRrmCCc', 'y6TLwIgy', 0, '0000-00-00', '0000-00-00',5-1*(1/6));
 INSERT INTO Users (Ign, Wins, Losses, TeamID, Email, Password, Salt, Activate, Register, Login,Score) VALUES
-('user2', 7, 3, 1, 'user2@yahoo.com', 'password', '', 0, '0000-00-00', '0000-00-00', 7-3*(3/10));
-INSERT INTO Users (Ign, Wins, Losses, TeamID, Email, Password, Salt, Activate, Register, Login,Score) VALUES
-('user3', 10, 11, NULL, 'user3@yahoo.com', 'password', '', 0, '0000-00-00', '0000-00-00',10-11*(11/21));
-INSERT INTO Users (Ign, Wins, Losses, TeamID, Email, Password, Salt, Activate, Register, Login, Score) VALUES
-('user4', 2, 1, NULL, 'user4@yahoo.com', 'password', '', 0, '0000-00-00', '0000-00-00',2-1*(1/3));
+('jan', 7, 3, NULL, 'jan@yahoo.com', 'y6VPhxxRrmCCc', 'y6TLwIgy', 0, '0000-00-00', '0000-00-00', 7-3*(3/10));
 
 
 CREATE TABLE IF NOT EXISTS Teams (
@@ -57,10 +53,6 @@ CREATE TABLE IF NOT EXISTS Teams (
   PRIMARY KEY (`TeamID`),
   KEY `UserID` (`UserID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-
- -- sample team 
-INSERT INTO Teams (TeamName,Wins, Losses, UserID, TeamStatus, Score) VALUES
-('Team1', 2, 1, 2, 'Collegiate', 2-1*(1/3));
 
 -- notifications 
 CREATE TABLE IF NOT EXISTS Notifications (

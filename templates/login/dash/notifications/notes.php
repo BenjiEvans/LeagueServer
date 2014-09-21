@@ -39,7 +39,7 @@
      	     $result->close();
      break;
      
-    case 'td':
+    case 'd':
 	$note_id = $row['NoteID'];
     	echo "<div id='$note_id' class='alert alert-warning fade in'>";
         echo "<button type='button' class='close note_close' data-dismiss='alert' aria-hidden='true'>&times;</button>";
