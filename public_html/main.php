@@ -317,7 +317,7 @@ $opt = $obj->{'opt'};//opperation
 	       returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Error with update for team deletion','status'=>503));
 	  }else{
 	  	  
-    	  if($mysqli->query("update Users set TeamID = NULL where TeamID='$team_id'")){
+    	  if($mysqli->query("update Users set TeamID = NULL where Ign='".$_SESSION['user']->name()."'")){
 	      $mysqli->close();  
 	       $_SESSION['user']->setTeam(null);
 	      returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'User has been removed from team'));
@@ -391,11 +391,13 @@ $opt = $obj->{'opt'};//opperation
    if($query->num_rows ==0)returnJSON("HTTP/1.0 401 Unauthorized" ,array('msg'=>'This is not your notification', 'status'=> 401)); 
    //now we can preform some operations 
    $query->close();
+     $mysqli->autocommit(false);
    //-1 in note denotes delete notification 
    if($note == -1){
    	switch($result['NoteType']){
-   	case 'd':// delete team request
-   		 $mysqli->autocommit(false);
+   	case 'a':
+   	case 'd':
+   		 // delete team request
    		if($mysqli->query("delete from RequestDispatcher where UserID=(select UserID from Users where Ign='".$_SESSION['user']->name()."') and TeamID=(select TeamID from ResponseDispatcher where NoteID=$id)")){
    		  //delete the notification accociated with the team join request 
    		  if($mysqli->query("delete from Notifications where UserID=(select UserID from Teams where TeamID=(select TeamID from ResponseDispatcher where NoteID=$id)) and Respond=1 and NoteType='tr'")){
@@ -418,16 +420,29 @@ $opt = $obj->{'opt'};//opperation
    	        $mysqli->close();
    	        returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Failed to delete note','status'=>503));
    		break;
+   	 case 'td':
+   	 	 if($mysqli->query("delete from Notifications where NoteID=$id")){
+   	 	 	$mysqli->commit();
+			$mysqli->close();
+			returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Note delted!'));    
+   	 	 	 
+   	 	 }else{
+   	 	   $mysqli->rollback();
+   	           $mysqli->close();
+   	           returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Failed to delete note','status'=>503));
+   	 	 }
+   	 	 break;
    	}
    	   
    	   
    }
    
    // 1 or 0 in notes denoted a decision being made 
+   
    switch($result['NoteType']){
    	   
    	 case 'tr'://responding to a join request 
-   	  $mysqli->autocommit(false);
+   	 // $mysqli->autocommit(false);
    	  //get id of the recipiant 
    	  $query = $mysqli->query("select UserID from RequestDispatcher where NoteID=$id");
    	  
@@ -477,6 +492,79 @@ $opt = $obj->{'opt'};//opperation
    	  $mysqli->rollback();
    	  $mysqli->close();
    	  returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Error with inserts','status'=>503));
+   	
+   	 	 break;
+   	 	 
+   	 case 'a'://responding to join request acceptance
+   	  
+   	 	 if($note == 1){// accept
+   	 	  //check to see if there is room to be added on the team 
+   	 	  $query = $mysqli->query("select count(UserID) as Count, TeamID from Users where TeamID=(select TeamID from ResponseDispatcher where NoteID=$id)");
+   	 	  $result = $query->fetch_assoc();
+   	 	  if($result["Count"] == 5){
+                   
+   	 	    $mysqli->close();	  
+   	 	    returnJSON("HTTP/1.0 203 Non-Authoritative Information",array('msg'=>'Team is full','status'=>203));
+   	 	  }
+   	 	   $query->close();
+   	 	   //add user to team 
+   	 	 
+   	 	   if($mysqli->query("update Users set TeamID=".$result['TeamID']." where Ign='".$_SESSION['user']->name()."'")){
+   	 	   	    // delete team request
+   		      if($mysqli->query("delete from RequestDispatcher where UserID=(select UserID from Users where Ign='".$_SESSION['user']->name()."') and TeamID=".$result['TeamID'])){
+   		             //delete the notification accociated with the team join request 
+   		           if($mysqli->query("delete from Notifications where UserID=(select UserID from Teams where TeamID=(select TeamID from ResponseDispatcher where NoteID=$id)) and Respond=1 and NoteType='tr'")){
+   		  	          //delete the team response
+   		                if($mysqli->query("delete from ResponseDispatcher where NoteID=$id")){
+			        //delte the notification  
+				     if($mysqli->query("delete from Notifications where NoteID=$id")){
+				     	//add team to user object in session 
+				     	$_SESSION['user']->setTeam($result['TeamID']);
+				     	     
+					$mysqli->commit();
+					$mysqli->close();
+					returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Added to team!!'));   
+				     }
+   		  	  
+   		                } 
+   		            }
+   			
+   		 
+   		        }
+   	 	   	   
+   	 	   }
+   	 	  
+   	 	  
+   	 	 }else if($note == 0){
+   	 	   //delete team request
+   	 	   if($mysqli->query("delete from RequestDispatcher where UserID=(select UserID from Users where Ign='".$_SESSION['user']->name()."') and TeamID=(select TeamID from ResponseDispatcher where NoteID=$id)")){
+   	 	   	 //delete notification associated with the team request   
+   	 	   	 if($mysqli->query("delete from Notifications where UserID=(select UserID from Teams where TeamID=(select TeamID from ResponseDispatcher where NoteID=$id)) and Respond=1 and NoteType='tr'")){
+   	 	   	 	 //delete the team response
+   		                if($mysqli->query("delete from ResponseDispatcher where NoteID=$id")){
+			        //delte the notification  
+				     if($mysqli->query("delete from Notifications where NoteID=$id")){
+				     	//add team to user object in session 
+				     	$_SESSION['user']->setTeam($result['TeamID']);
+				     	     
+					$mysqli->commit();
+					$mysqli->close();
+					returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Declined team join'));   
+				     }
+   		  	  
+   		                }  
+   	 	   	 }
+   	 	   }
+   	 	 
+   	 	 	 
+   	 	 }else{
+   	 	   $mysqli->close();
+   	           returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Not a valid note', 'status'=> 406));	 
+   	 	 }
+   	 	 
+   	  $mysqli->rollback();
+   	  $mysqli->close();
+   	  returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Error with deletes','status'=>503));
    	
    	 	 break;
    	   

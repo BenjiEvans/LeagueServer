@@ -6,7 +6,7 @@
 
  $query = $mysqli->query("select TeamName from Teams where Score is not null order by Score desc limit 4");
                 $count = $query->num_rows;
-                if($count == 0) echo "No Ranked Teams";
+                if($count == 0) echo "<h2><em>No Ranked Teams</em></h2>";
                 else{
                               
                    $i = 1;

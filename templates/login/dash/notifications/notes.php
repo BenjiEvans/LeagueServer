@@ -35,7 +35,7 @@
      	     echo "<h4><strong>Join Request</strong></h4>";
      	     echo "<p><strong>$name</strong> wishes to join your team! Feel free you view his profile <a href='#'>HERE</a></p>";
      	     echo "<p><button type='button' class='btn btn-success accept note_btn'>Accept request</button> <button type='button' class='btn btn-default decline note_btn'>Decline request</button></p>";
-     	     echo "<div>";
+     	     echo "</div>";
      	     $result->close();
      break;
      
@@ -48,8 +48,30 @@
         echo "<strong>".$team['TeamName']."</strong> did not accept your request to join their team.</div>";
         $result->close();
 	break;
-     	     
+	
+    case 'a':
+       $query =  $mysqli->query("select TeamName from Teams where TeamID=(select TeamID from ResponseDispatcher where NoteID=".$row['NoteID'].")");
+       $team = $query->fetch_assoc();
+       echo "<div id='".$row['NoteID']."' class='alert alert-success fade in'>";
+       echo "<button type='button' class='close note_close' data-dismiss='alert' aria-hidden='true'>&times;</button>";
+       echo "<h4><strong>Join Request Accepted! </strong></h4>";
+       echo "<p><strong>".$team['TeamName']."</strong> has accepted your request to join them!</p>";
+       echo "<p><button type='button' class='btn btn-success accept note_btn'>Confirm join</button> <button type='button' class='btn btn-default decline note_btn'>Decline join</button></p>";
+       echo "</div>";
+       $query->close();
+        break;
+        
+         case 'td':
+       echo "<div id='".$row['NoteID']."' class='alert alert-warning fade in'>";
+       echo "<button type='button' class='close note_close' data-dismiss='alert' aria-hidden='true'>&times;</button>";
+       echo "<h4><strong>Your Team is Gone!</strong></h4>";
+       echo "<p>The captain of your team has left the team without assigning a new captain; as a result you team has been deleted.. </p>";
+       echo "</div>";
+    	    break;
+        
      }
+     
+   
     	   
    }
    $mysqli->close();

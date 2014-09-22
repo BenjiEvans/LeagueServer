@@ -6,6 +6,10 @@
   //print members
   $results = $mysqli->query("select UserID, Ign, Wins, Losses, Score from Users where TeamID=".$_SESSION['user']->team);
   $i = 1;
+  //check to see if the user is the captain 
+   $query = $mysqli->query("select UserID from Teams where TeamID=".$_SESSION['user']->team." and UserID=(select UserID from Users where Ign='".$_SESSION['user']->name()."')");
+   if($query->num_rows == 1)$captain = true;
+   else if($query->num_rows == 0) $captain = false;
   while($row = $results->fetch_assoc())
   {
   	echo "<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'>";
@@ -22,7 +26,7 @@
   	//print record
   	echo "<p> <span class='text-success'>Wins: ".$row['Wins']."</span> , <span class='text-danger'>Losses: ".$row['Losses']."</span></p>";
   	//print buttons (no need to print buttons for yourself)
-  	if(strcasecmp($_SESSION['user']->name(),$row['ign']) ==0 )
+  	if( $captain && strcasecmp($_SESSION['user']->name(),$row['Ign']))
   	{
   	 echo "<p><button type='button' class='btn btn-danger team_rank_btn remove' style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Remove from Team</button>
   	<button type='button' class='btn btn-warning team_rank_btn captain' style='color:rgb(0,0,0)'><img src='../img/glyphicons_043_group.png'> Assign as Captain </button></p>";	
