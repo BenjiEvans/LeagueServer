@@ -77,7 +77,15 @@ $(document).ready(function(){
               $('#note_count').html(count);
               //if no more notes display no notes...
               if(count == 0)$('.note').html("<h2> No Notifications...</h2>");
-              $(this).parent().parent().fadeOut(1000); 
+              if(data.hasOwnProperty("team_id")){
+              	 getResource({
+              	   params:[['rq','team'],['id',data.team_id]],
+              	   success:function(data){
+              	    $('.team_rank').html(data);	   
+              	   }
+              	 })      
+              }
+               $(this).parent().parent().fadeOut(1000); 
            }
          		 
          });

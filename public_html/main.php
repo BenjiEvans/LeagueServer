@@ -66,7 +66,7 @@ $team_name =$obj->{'name'};
     $result = $mysqli->query("select TeamID from Teams where TeamName='$team_name'");
     $count = $result->num_rows;  
     $result->close();	
-	//if count is zero that means no user exists
+	//if count is zero that means no team exists
 	if($count==0){
 	//make sure that the name is not too long 
 	    $length = strlen(trim($team_name));
@@ -308,11 +308,153 @@ $opt = $obj->{'opt'};//opperation
    	}
    	   
    	   
+   }else if ($note == 1){//acccept 
+   	   
+   	 switch($result['NoteType']){
+   	 	case 'tr':
+   	     //get id of the recipiant 
+   	     $query = $mysqli->query("select UserID from RequestDispatcher where NoteID=$id");
+   	     $array = $query->fetch_assoc();
+   	     $request_user = $array['UserID'];
+   	      if($mysqli->query("insert into Notifications (NoteType,UserID) values('a',$request_user)")){
+   	    	$insert_note = $mysqli->insert_id;
+   	        if($mysqli->query("insert into ResponseDispatcher (NoteID,TeamID) values($insert_note, ".$_SESSION['user']->team.")")){
+   	            //hide the notification 
+   	            if($mysqli->query("update Notifications set Respond = 1 where NoteID=$id")){
+   	            	    
+   	            	$mysqli->commit();
+   	        	$mysqli->close();
+   	    	 	returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Join Team Request accepted'));  
+   	            }	
+   	    	 }
+   	    } 
+   	      $mysqli->rollback();
+   	      $mysqli->close();
+   	      returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Error with inserts','status'=>503));
+   	 	break;
+   	 	
+   		case 'a':
+   	        //check to see if there is room to be added on the team 
+   	 	  $query = $mysqli->query("select count(UserID) as Count, TeamID from Users where TeamID=(select TeamID from ResponseDispatcher where NoteID=$id)");
+   	 	  $result = $query->fetch_assoc();
+   	 	  if($result["Count"] == 5){
+   	 	    //delete team request because they cannot be added
+   	 	   if($mysqli->query("delete from RequestDispatcher where UserID=(select UserID from Users where Ign='".$_SESSION['user']->name()."') and TeamID=(select TeamID from ResponseDispatcher where NoteID=$id)")){
+   	 	   	 //delete notification associated with the team request   
+   	 	   	 if($mysqli->query("delete from Notifications where UserID=(select UserID from Teams where TeamID=(select TeamID from ResponseDispatcher where NoteID=$id)) and Respond=1 and NoteType='tr'")){
+   	 	   	 	 //delete the team response
+   		                if($mysqli->query("delete from ResponseDispatcher where NoteID=$id")){
+			        //delte the notification  
+				     if($mysqli->query("delete from Notifications where NoteID=$id")){
+				     	
+					$mysqli->commit();
+					$mysqli->close();
+					 returnJSON("HTTP/1.0 203 Non-Authoritative Information",array('msg'=>'Team is full','status'=>203));  
+				     }
+   		  	  
+   		                }  
+   	 	   	 }
+   	 	   }
+                   
+   	 	    $mysqli->close();	  
+   	 	   returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Error with deletes','status'=>503));
+   	 	  }
+   	 	   $query->close();
+   	 	   //add user to team 
+   	 	 
+   	 	   if($mysqli->query("update Users set TeamID=".$result['TeamID']." where Ign='".$_SESSION['user']->name()."'")){
+   	 	   	    // delete team request
+   		      if($mysqli->query("delete from RequestDispatcher where UserID=(select UserID from Users where Ign='".$_SESSION['user']->name()."') and TeamID=".$result['TeamID'])){
+   		             //delete the notification accociated with the team join request 
+   		           if($mysqli->query("delete from Notifications where UserID=(select UserID from Teams where TeamID=(select TeamID from ResponseDispatcher where NoteID=$id)) and Respond=1 and NoteType='tr'")){
+   		  	          //delete the team response
+   		                if($mysqli->query("delete from ResponseDispatcher where NoteID=$id")){
+			        //delte the notification  
+				     if($mysqli->query("delete from Notifications where NoteID=$id")){
+				     	//add team to user object in session 
+				     	$_SESSION['user']->setTeam($result['TeamID']);
+				     	     
+					$mysqli->commit();
+					$mysqli->close();
+					returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Added to team!!','team_id'=>$result['TeamID']));   
+				     }
+   		  	  
+   		                } 
+   		            }
+   			
+   		 
+   		        }
+   	 	   	   
+   	 	   }
+   	 	 $mysqli->rollback();
+   	         $mysqli->close();
+   	         returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Error with deletes','status'=>503));
+   	
+   		break;
+   	 }
+   	   
+   	   
+   	   
+   }else if ($note == 0){//decline 
+   	   
+   	 switch($result['NoteType']){
+   	 case 'tr':
+   	  $query = $mysqli->query("select UserID from RequestDispatcher where NoteID=$id");
+   	  $array = $query->fetch_assoc();
+   	  $request_user = $array['UserID'];
+   	   //create notification for requesting user 
+   	    if($mysqli->query("insert into Notifications (NoteType,UserID) values('d',$request_user)")){
+   	    	$insert_note = $mysqli->insert_id;
+   	        if($mysqli->query("insert into ResponseDispatcher (NoteID,TeamID) values($insert_note, ".$_SESSION['user']->team.")")){
+   	         //hide the notification 
+   	            if($mysqli->query("update Notifications set Respond = 1 where NoteID=$id")){
+   	        	  	            	    
+   	            	   $mysqli->commit();
+   	        	  $mysqli->close();
+   	    	 	  returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Join Team Request Declined')); 	
+   	             }
+   	    	 }
+   	    	
+   	    }
+   	    $mysqli->rollback();
+   	    $mysqli->close();
+   	    returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Error with inserts','status'=>503)); 
+   	 	 break;
+   	 case 'a':
+   	 	  //delete team request
+   	 	   if($mysqli->query("delete from RequestDispatcher where UserID=(select UserID from Users where Ign='".$_SESSION['user']->name()."') and TeamID=(select TeamID from ResponseDispatcher where NoteID=$id)")){
+   	 	   	 //delete notification associated with the team request   
+   	 	   	 if($mysqli->query("delete from Notifications where UserID=(select UserID from Teams where TeamID=(select TeamID from ResponseDispatcher where NoteID=$id)) and Respond=1 and NoteType='tr'")){
+   	 	   	 	 //delete the team response
+   		                if($mysqli->query("delete from ResponseDispatcher where NoteID=$id")){
+			        //delte the notification  
+				     if($mysqli->query("delete from Notifications where NoteID=$id")){
+				     
+					$mysqli->commit();
+					$mysqli->close();
+					returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Declined team join'));   
+				     }
+   		  	  
+   		                }  
+   	 	   	 }
+   	 	   }
+   	 	  
+   	      $mysqli->rollback();
+   	      $mysqli->close();
+   	      returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Error with deletes','status'=>503));
+   	 	 break;
+   	 	 
+   	 }
+   	    	   
+   	   
+   }else{
+     $mysqli->close();
+     returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Not a valid response', 'status'=> 406));   
    }
    
    // 1 or 0 in notes denoted a decision being made 
    
-   switch($result['NoteType']){
+  /* switch($result['NoteType']){
    	   
    	 case 'tr'://responding to a join request 
    	 // $mysqli->autocommit(false);
@@ -456,7 +598,7 @@ $opt = $obj->{'opt'};//opperation
    	
    	 	 break;
    	   
-   }
+   }*/
  }
 
    
