@@ -27,11 +27,10 @@ $(document).ready(function(){
       	
         var id = $(this).attr('id');
         //get html from server 
-         $.ajax({
-                 type: "GET",
-                 url: "/main.php?rq=team&id="+id,
-                 contentType: "text/html",
-                 success: function (data) {
+        var param = [["rq","team"],["id",id]];
+         getResource({
+         	params:param,
+         	 success: function (data) {
                   //  alert("got the html");
                     // hide current content and remove side bar activation
                     $('.dash_link').removeClass('active');
@@ -44,7 +43,9 @@ $(document).ready(function(){
                  error: function (data) {
                      alert("could not retreive profile");
                  }
-             });
+         	
+         });
+         
       	return false;	      
       });
       
@@ -123,19 +124,17 @@ $(document).ready(function(){
       	console.log(empty);
         if(empty){
            
-        	 $.ajax({
-                 type: "GET",
-                 url: "/main.php?rq=team_list",
-                 contentType: "text/html",
-                 success: function (data) {
+           getResource({
+             params:[["rq","team_list"]],
+             success: function (data) {
                      $("#team_list").append(data);
                    
                  },
-                 error: function (data) {
+             error: function (data) {
                      alert("could not retreive listing");
                  }
-             });
-        	
+           
+           });
         	
         }
       		      
@@ -360,11 +359,9 @@ $(document).ready(function(){
         	console.log("ID: "+id);
         	if(id == 1 || typeof id === 'undefined') return;
                //retreive some posts 
-                $.ajax({
-                 type: "GET",
-                 url: "/main.php?rq=blog&id="+id,
-                 contentType: "text/html",
-                 success: function (data) {
+                getResource({
+                  json:[["rq","blog"],["id",id]],
+                  success: function (data) {
                    
                      $("#blog_post_container").append(data);
                    
@@ -372,8 +369,7 @@ $(document).ready(function(){
                  error: function (data) {
                      alert("could not retreive posts");
                  }
-             });
-               
+                });                 
         }
       
       });
@@ -403,6 +399,31 @@ function postJSON(requestData){
              });
 	
 	
+}
+
+function getResource(requestData){
+	
+      var url = "/main.php?";
+      var pairs = requestData.params;
+      for(var i = 0, length = pairs.length;  i < length ;i++){
+      	      if(i != 0)url+="&";
+      	      url+=pairs[i][0]+"="+pairs[i][1];
+      }
+
+	
+	 $.ajax({
+                 type: "GET",
+                 url: url,
+                 contentType: "text/html",
+                   success: function (data) {
+                      
+                    if(requestData.hasOwnProperty("success"))requestData.success(data);
+                 },
+                 error: function (data) {
+                     if(requestData.hasOwnProperty("error"))requestData.error(data);
+                     else alert("Could not fetch resource");
+                 }
+             });
 }
 
 function makeBlogPost(post, author){
