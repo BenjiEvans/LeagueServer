@@ -69,7 +69,17 @@ $(document).ready(function(){
                  dataType: "json",
                  processData: true,
                  success: function (data) {
-                    
+                   
+                     var count = document.getElementById("note_count").innerHTML;
+                     console.log("Note#: "+count);
+                     count = Number(count);
+                     count--;
+                     $('#note_count').html(count);
+                     //if no more notes display no notes...
+                    if(count == 0){
+                    	 $('.note').html("<h2> No Notifications...</h2>");
+                    }
+                     $(this).parent().parent().fadeOut(1000);
                  },
                  error: function (data) {
                      alert("Error with notification :(");
@@ -92,17 +102,19 @@ $(document).ready(function(){
                  dataType: "json",
                  processData: true,
                  success: function (data) {
-                     //fade the div and decrement the notifications              
-                     $(this).parent().fadeOut("slow");
-                     var count = document.getElementById("note_count").innerHTML;
-                     console.log("Note#: "+count);
-                     count = Number(count);
-                     count--;
-                     $('#note_count').html(count);
-                     //if no more notes display no notes...
-                    if(count == 0){
+                     //fade the div and decrement the notifications  
+                   var count = document.getElementById("note_count").innerHTML;
+                         console.log("Note#: "+count);
+                         count = Number(count);
+                         count--;   
+                         $('#note_count').html(count);
+                       	    //if no more notes display no notes...
+                        if(count == 0){
                     	 $('.note').html("<h2> No Notifications...</h2>");
-                    }
+                          }	     
+                   
+                    $(this).parent().fadeOut(1000);
+                  
                  },
                  error: function (data) {
                      alert("Could not delete..");
