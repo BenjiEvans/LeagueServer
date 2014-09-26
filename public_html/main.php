@@ -120,11 +120,11 @@
 		   $query->close();
 		   $query = $mysqli->query("select count(UserID) as count from Users where TeamID=$id");
 		   $count = $query->fetch_assoc();
-		   if($count['count'] < 5 && !$_SESSION['user']->hasTeam())echo "<button type='button' class='btn btn-success team_rank_btn join' style='color:rgb(0,0,0)'><img src='../img/glyphicons_006_user_add.png'> <span>Join Team</span></button>";
+		   if($count['count'] < 5 && !$_SESSION['user']->hasTeam())echo "<button type='button' class='btn btn-success team_rank_btn join' style='color:rgb(0,0,0)'><img src='/img/glyphicons_006_user_add.png'> <span>Join Team</span></button>";
 		   $query->close();	 
 		 }else{// echo a disabled button 
 		  
-		    echo "<button disabled type='button' class='btn btn-success team_rank_btn join' style='color:rgb(0,0,0)'><img src='../img/glyphicons_006_user_add.png'> <span>Join Request Sent</span></button>";
+		    echo "<button disabled type='button' class='btn btn-success team_rank_btn join' style='color:rgb(0,0,0)'><img src='/img/glyphicons_006_user_add.png'> <span>Join Request Sent</span></button>";
 		    		 	 
 		 }
 		
@@ -517,9 +517,26 @@ $opt = $obj->{'opt'};//opperation
    	 	  $query = $mysqli->query("select count(UserID) as Count, TeamID from Users where TeamID=(select TeamID from ResponseDispatcher where NoteID=$id)");
    	 	  $result = $query->fetch_assoc();
    	 	  if($result["Count"] == 5){
+   	 	    //delete team request because they cannot be added
+   	 	   if($mysqli->query("delete from RequestDispatcher where UserID=(select UserID from Users where Ign='".$_SESSION['user']->name()."') and TeamID=(select TeamID from ResponseDispatcher where NoteID=$id)")){
+   	 	   	 //delete notification associated with the team request   
+   	 	   	 if($mysqli->query("delete from Notifications where UserID=(select UserID from Teams where TeamID=(select TeamID from ResponseDispatcher where NoteID=$id)) and Respond=1 and NoteType='tr'")){
+   	 	   	 	 //delete the team response
+   		                if($mysqli->query("delete from ResponseDispatcher where NoteID=$id")){
+			        //delte the notification  
+				     if($mysqli->query("delete from Notifications where NoteID=$id")){
+				     	
+					$mysqli->commit();
+					$mysqli->close();
+					 returnJSON("HTTP/1.0 203 Non-Authoritative Information",array('msg'=>'Team is full','status'=>203));  
+				     }
+   		  	  
+   		                }  
+   	 	   	 }
+   	 	   }
                    
    	 	    $mysqli->close();	  
-   	 	    returnJSON("HTTP/1.0 203 Non-Authoritative Information",array('msg'=>'Team is full','status'=>203));
+   	 	   returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Error with deletes','status'=>503));
    	 	  }
    	 	   $query->close();
    	 	   //add user to team 
@@ -559,9 +576,7 @@ $opt = $obj->{'opt'};//opperation
    		                if($mysqli->query("delete from ResponseDispatcher where NoteID=$id")){
 			        //delte the notification  
 				     if($mysqli->query("delete from Notifications where NoteID=$id")){
-				     	//add team to user object in session 
-				     	$_SESSION['user']->setTeam($result['TeamID']);
-				     	     
+				     
 					$mysqli->commit();
 					$mysqli->close();
 					returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Declined team join'));   

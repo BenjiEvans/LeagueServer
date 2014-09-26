@@ -136,7 +136,8 @@
         //team rank modals
         require("../templates/login/dash/modals/team_decide.php");
         require("../templates/login/dash/modals/create_team.php");
-     
+        //notification response modals 
+        require("../templates/login/dash/modals/note_respon.php");
      ?>
      
     <!-- Bootstrap core JavaScript

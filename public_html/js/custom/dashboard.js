@@ -70,16 +70,23 @@ $(document).ready(function(){
                  processData: true,
                  success: function (data) {
                    
+                    if(data.status == 203){
+                    	  $('#note_modal_body').append(data.msg);
+                     	  $('#note_respon_modal').modal('show');   
+                     	     
+                     }
+                    
+                     
                      var count = document.getElementById("note_count").innerHTML;
-                     console.log("Note#: "+count);
-                     count = Number(count);
-                     count--;
-                     $('#note_count').html(count);
-                     //if no more notes display no notes...
-                    if(count == 0){
+                        console.log("Note#: "+count);
+                        count = Number(count);
+                        count--;
+                        $('#note_count').html(count);
+                        //if no more notes display no notes...
+                        if(count == 0){
                     	 $('.note').html("<h2> No Notifications...</h2>");
-                    }
-                     $(this).parent().parent().fadeOut(1000);
+                         }
+                         $(this).parent().parent().fadeOut(1000); 
                  },
                  error: function (data) {
                      alert("Error with notification :(");
@@ -335,7 +342,7 @@ $(document).ready(function(){
       	   
       		return;
       	}
-      		      
+      	      		      
         //show content 
         $('#team_modal_footer').show();
       	 $('#team_rank_modal').modal('show');
