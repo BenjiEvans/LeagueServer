@@ -91,7 +91,7 @@
 		 //print header 
 		 echo "<h1> <span class='text-capitalize'>".$info['TeamName']."</span> <em><span class='text-muted officer'>".$info['TeamStatus']."</span></em></h1> <hr class='featurette-divider'>";
 		 //team image 
-		 echo "<img class='featurette-image img-responsive' data-src='holder.js/200x200/auto' alt='Generic placeholder image' style='border:solid;float:left'>";
+		 echo "<img class='featurette-image img-responsive' src='/img/team_default.png' alt='Generic placeholder image' style='border:solid;float:left'>";
 		 // profile data 
 		 echo "<div id='$id' style='float:left;margin-left:10px;'>";
 		 
@@ -431,6 +431,21 @@ $opt = $obj->{'opt'};//opperation
    	           $mysqli->close();
    	           returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Failed to delete note','status'=>503));
    	 	 }
+   	 	 break;
+   	 	 
+   	 case 'tr':
+   	 	 //delete team request 
+   	 	 if($mysqli->query("delete from RequestDispatcher where NoteID=$id")){
+   	 	     if($mysqli->query("delete from Notifications where NoteID=$id")){
+   	 	 	$mysqli->commit();
+			$mysqli->close();
+			returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Note delted!'));    
+   	 	 	 	 
+   	 	     }
+   	 	 }
+   	 	  $mysqli->rollback();
+   	           $mysqli->close();
+   	           returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Failed to delete note','status'=>503));
    	 	 break;
    	}
    	   

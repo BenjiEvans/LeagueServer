@@ -28,7 +28,7 @@
        	     $ign = $_SESSION['user']->name();
        	     $query = $mysqli->query("select count(UserID) as total from Notifications where UserID =(select UserID from Users where Ign ='$ign') and Respond=0");
        	     $count = $query->fetch_assoc();
-       	     echo "<span class='badge'>".$count['total']."</span>"; 
+       	     echo "<span id='note_count' class='badge'>".$count['total']."</span>"; 
        	     echo "</a></li>";
        	     $query->close();
        }
