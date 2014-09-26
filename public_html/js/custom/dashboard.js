@@ -403,7 +403,7 @@ function postJSON(requestData){
 
 function getResource(requestData){
 	
-      var url = "/main.php?";
+      var url = "/resource.php?";
       var pairs = requestData.params;
       for(var i = 0, length = pairs.length;  i < length ;i++){
       	      if(i != 0)url+="&";
