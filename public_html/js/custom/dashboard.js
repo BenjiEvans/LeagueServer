@@ -61,37 +61,25 @@ $(document).ready(function(){
          console.log("Dec: "+dec);
          var note = {id:ID, note:dec}
          //post to server 
-           $.ajax({
-                 type: "POST",
-                 url: "/main.php",
-	         data: JSON.stringify(note),
-                 contentType: "application/json; charset=utf-8",
-                 dataType: "json",
-                 processData: true,
-                 success: function (data) {
-                   
-                    if(data.status == 203){
-                    	  $('#note_modal_body').append(data.msg);
-                     	  $('#note_respon_modal').modal('show');   
-                     	     
-                     }
-                    
-                     
-                     var count = document.getElementById("note_count").innerHTML;
-                        console.log("Note#: "+count);
-                        count = Number(count);
-                        count--;
-                        $('#note_count').html(count);
-                        //if no more notes display no notes...
-                        if(count == 0){
-                    	 $('.note').html("<h2> No Notifications...</h2>");
-                         }
-                         $(this).parent().parent().fadeOut(1000); 
-                 },
-                 error: function (data) {
-                     alert("Error with notification :(");
-                 }
-             });
+         postJSON({
+         json: note,
+         success: function (data) {
+            if(data.status == 203)
+            {
+               $('#note_modal_body').append(data.msg);
+               $('#note_respon_modal').modal('show');   
+             }
+              var count = document.getElementById("note_count").innerHTML;
+              console.log("Note#: "+count);
+              count = Number(count);
+              count--;
+              $('#note_count').html(count);
+              //if no more notes display no notes...
+              if(count == 0)$('.note').html("<h2> No Notifications...</h2>");
+              $(this).parent().parent().fadeOut(1000); 
+           }
+         		 
+         });
       		      
       });
       
@@ -101,32 +89,24 @@ $(document).ready(function(){
       	 var ID = $(this).parent().attr('id');
          var note = {id:ID, note:-1}
          //post to server 
-           $.ajax({
-                 type: "POST",
-                 url: "/main.php",
-	         data: JSON.stringify(note),
-                 contentType: "application/json; charset=utf-8",
-                 dataType: "json",
-                 processData: true,
-                 success: function (data) {
-                     //fade the div and decrement the notifications  
-                   var count = document.getElementById("note_count").innerHTML;
-                         console.log("Note#: "+count);
-                         count = Number(count);
-                         count--;   
-                         $('#note_count').html(count);
-                       	    //if no more notes display no notes...
-                        if(count == 0){
-                    	 $('.note').html("<h2> No Notifications...</h2>");
-                          }	     
-                   
-                    $(this).parent().fadeOut(1000);
-                  
-                 },
-                 error: function (data) {
-                     alert("Could not delete..");
-                 }
-             });
+         postJSON({
+            json:note,
+            success: function (data) {
+              //fade the div and decrement the notifications  
+              var count = document.getElementById("note_count").innerHTML;
+              console.log("Note#: "+count);
+              count = Number(count);
+              count--;   
+              $('#note_count').html(count);
+               //if no more notes display no notes...
+              if(count == 0)$('.note').html("<h2> No Notifications...</h2>");
+                          	     
+               $(this).parent().fadeOut(1000);
+            
+              }
+         		 
+         });
+         
            return false;
       		      
       });
@@ -194,14 +174,9 @@ $(document).ready(function(){
          var team = { name: teamName }
          
       	  //send post to server 
-        $.ajax({
-                 type: "POST",
-                 url: "/main.php",
-	         data: JSON.stringify(team),
-                 contentType: "application/json; charset=utf-8",
-                 dataType: "json",
-                 processData: true,
-                 success: function (data) {
+      	  postJSON({
+      	     json:team,
+      	     success: function (data) {
                                      
                   if(data.status == 202)
                   {
@@ -222,8 +197,7 @@ $(document).ready(function(){
                     profile+="<h3> <span class='text-success'> Wins: 0 </span> </h3><h3> <span class='text-danger'> Losses: 0 </span></h3>";
                     profile+="<button type='button' class='btn btn-danger team_rank_btn leave' style='color:rgb(0,0,0)' onclick='confirmTeamDecision()'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button></div>";
                     $('.team_rank').append(profile);
-                    //get default team image and display it 
-                
+                 
                     //remove modal after 3 seconds
                     setTimeout(function(){$('#team_create_modal').modal('hide')}, 3000);
                   }
@@ -248,7 +222,9 @@ $(document).ready(function(){
                      
                       $('#team_name').parent().addClass("has-error"); 
                  }
-             });	      
+      	     
+      	  		  
+      	  });     
       	
       	  $(this).button('reset');	      
           return false;   
@@ -258,19 +234,13 @@ $(document).ready(function(){
       //confirm a decision in team rank modal
        $('.confirm_choice').click(function(){
        	
+       	  var choice, success, error;	       
           if($(this).hasClass("leave")){
        		//post to server 
        	     var teamID = $(this).attr('id');
        	     console.log(teamID);
-       	     var leave ={opt: 'leave', team: teamID};
-       	    $.ajax({
-                 type: "POST",
-                 url: "/main.php",
-	         data: JSON.stringify(leave),
-                 contentType: "application/json; charset=utf-8",
-                 dataType: "json",
-                 processData: true,
-                 success: function (data) {
+       	     choice = {opt: 'leave', team: teamID};
+       	     success = function (data) {
                                      
                   $('#team_modal_body').html("<span class='text-success'>You have successfully been remove from the team!</span>");
                   $('#team_modal_footer').hide();
@@ -279,15 +249,23 @@ $(document).ready(function(){
                   //update page to display buttons to browse and create team
                   $('.team_rank').html("<h1 style='text-align:center;'> You are not currently part of a team</h1><button type='button' class='btn btn-warning btn-lg btn-block' id='browse_team'>Browse Teams</button><button type='button' class='btn btn-default btn-lg btn-block' id='create_team'>Create Team</button><div id='team_list' hidden> </div>");
                   
-                 },
-                 error: function (data) {
+                 };
+                 
+             error = function (data) {
                       $('#team_modal_body').html("You are unable to leave the team. Try again later. If this problem persists please contact the web master");
                       $('#team_modal_footer').hide();
-                 }
-             });
-            return false;
+                 };
+       	 
        	   }
-       		       
+       	   
+       	   postJSON({
+       	      json:choice,
+       	      success: success,
+       	      error: error       	   
+       	   });
+       	   
+       	   
+       	 return false;	       
        });
 
       
@@ -324,22 +302,9 @@ $(document).ready(function(){
       	    var teamID = $(this).parent().attr('id');
        	     console.log(teamID);
        	     var request ={opt: 'join', team: teamID};
-      	   
-      	     $.ajax({
-                 type: "POST",
-                 url: "/main.php",
-	         data: JSON.stringify(request),
-                 contentType: "application/json; charset=utf-8",
-                 dataType: "json",
-                 processData: true,
-                 success: function (data) {
-                
-                 },
-                 error: function (data) {
-                     alert("Request didnt go through");
-                 }
-             });
-      	   
+      	     postJSON({
+      	      json:request
+      	     });    	   
       		return;
       	}
       	      		      
@@ -376,24 +341,13 @@ $(document).ready(function(){
         }
        
         //send post to server 
-        $.ajax({
-                 type: "POST",
-                 url: "/main.php",
-	         data: JSON.stringify(post),
-                 contentType: "application/json; charset=utf-8",
-                 dataType: "json",
-                 processData: true,
-                 success: function (data) {
-                   //  alert("post successful! ");
-                     //prepend post 
-                     $("#blog_post_container").prepend(makePost(post,$('#user').attr('name')));
-                   
-                 },
-                 error: function (data) {
-                     alert("bad post");
-                 }
-             });
-        
+        postJSON({
+          json:post,
+          success: function (data) {      
+              $("#blog_post_container").prepend(makeBlogPost(post,$('#user').attr('name')));    
+            }
+        });
+                
       	 $('#user_post').val("");	      
       		      
       });
@@ -429,13 +383,29 @@ $(document).ready(function(){
 
 });
 
-function confirmTeamDecision(){
+function postJSON(requestData){
 	
+	  $.ajax({
+                 type: "POST",
+                 url: "/main.php",
+	         data: JSON.stringify(requestData.json),
+                 contentType: "application/json; charset=utf-8",
+                 dataType: "json",
+                 processData: true,
+                 success: function (data) {
+                      
+                    if(requestData.hasOwnProperty("success"))requestData.success(data);
+                 },
+                 error: function (data) {
+                     if(requestData.hasOwnProperty("error"))requestData.error(data);
+                     else alert("Posting Error!");
+                 }
+             });
 	
 	
 }
 
-function makePost(post, author){
+function makeBlogPost(post, author){
   
  var blogPost = "<div class='blog-post'> <h2 class='blog-post-title'>";
  //add title
@@ -452,18 +422,6 @@ function makePost(post, author){
  return blogPost;
  
 }
-
-function html_special_chars(string){
- 
-return string.replace(/&/g, "&amp;").replace(/>/g, "&gt;").replace(/</g, "&lt;").replace(/"/g, "&quot;");	
-	
-}
-
-
-
-
-
-
 
 function trim(x) {
     return x.replace(/^\s+|\s+$/gm,'');
