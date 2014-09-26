@@ -238,7 +238,7 @@ $(document).ready(function(){
        		//post to server 
        	     var teamID = $(this).attr('id');
        	     console.log(teamID);
-       	     choice = {opt: 'leave', team: teamID};
+       	     choice = {opt: 'leave', id: teamID};
        	     success = function (data) {
                                      
                   $('#team_modal_body').html("<span class='text-success'>You have successfully been remove from the team!</span>");
@@ -300,7 +300,7 @@ $(document).ready(function(){
       	   //then send ajax request to team 
       	    var teamID = $(this).parent().attr('id');
        	     console.log(teamID);
-       	     var request ={opt: 'join', team: teamID};
+       	     var request ={opt: 'join', id: teamID};
       	     postJSON({
       	      json:request
       	     });    	   

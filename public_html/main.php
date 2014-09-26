@@ -42,10 +42,10 @@ $title= $obj->{'title'};
      	  $mysqli->close(); 
      	  returnJSON("HTTP/1.0 202 Accepted",array('status'=>202));
      	     
-     }else{
-      	 $mysqli->close();   
-         returnJSON("HTTP/1.0 503 Service Unavailable", array('msg'=>'We are having problems with the server at the moment','status'=>503));	     
      }
+      $mysqli->close();   
+      returnJSON("HTTP/1.0 503 Service Unavailable", array('msg'=>'We are having problems with the server at the moment','status'=>503));	     
+     
      
 	  
     } 
@@ -90,28 +90,23 @@ $team_name =$obj->{'name'};
         $user_id = $array['UserID'];
         $result->close();
         //insert team (and store id)
-        if($mysqli->query("insert into Teams (UserID,TeamName) values('$user_id','$team_name')") === TRUE){
+        if($mysqli->query("insert into Teams (UserID,TeamName) values('$user_id','$team_name')")){
             $team_id = $mysqli->insert_id;
-            if(!$mysqli->query("update Users set TeamID ='$team_id' where UserID='$user_id'") === TRUE)$mysql_error = true; 
+            if($mysqli->query("update Users set TeamID ='$team_id' where UserID='$user_id'"))
+            {
+               $mysqli->commit(); 	
+               $mysqli->close();	
+               //point to new team in user object 
+               $_SESSION['user']->setTeam($team_id);
+               returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Team has been created','id'=>$team_id));    
+            }
         	
         	
-        }else $mysql_error = true; 
-        
-        if($mysql_error){
+        } 
           $mysqli->rollback();
           $mysqli->close();
           returnJSON("HTTP/1.0 503 Service Unavailable","");
-        }else{
-          $mysqli->commit(); 	
-          $mysqli->close();	
-          //point to new team in user object 
-          $_SESSION['user']->setTeam($team_id);
-          returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Team has been created','id'=>$team_id));
-	
-        }
-		 
-	 
-		
+       		
 	}else returnJSON("HTTP/1.0 409 Conflict",array('msg'=>'The Team name is already in use', 'status' => 409));
 
 	
@@ -125,7 +120,7 @@ $opt = $obj->{'opt'};//opperation
     switch($opt){
     	    
     case "leave":
-    	$team_id = $obj->{'team'};  
+    	$team_id = $obj->{'id'};  
     	if(!isset($team_id) || !is_numeric($team_id))returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Need to specify a team to leave from', 'status'=> 406));
     	//make sure that the current user is actuall on the team he is leaving 
     	if($team_id != $_SESSION['user']->team)returnJSON("HTTP/1.0 401 Unauthorized" ,array('msg'=>'Cannot leave a team you are not appart of..', 'status'=> 401));
@@ -194,7 +189,7 @@ $opt = $obj->{'opt'};//opperation
     	break;
     	
      case "join":
-     $team_id = $obj->{'team'};  
+     $team_id = $obj->{'id'};  
      if(!isset($team_id) || !is_numeric($team_id))returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Need to specify a team to join', 'status'=> 406));
      //make sure current user is allowed to join a team 
      if($_SESSION['user']->hasTeam())returnJSON("HTTP/1.0 401 Unauthorized" ,array('msg'=>'You are already on a team', 'status'=> 401));
