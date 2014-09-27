@@ -5,7 +5,6 @@
   
   //print members
   $results = $mysqli->query("select UserID, Ign, Wins, Losses, Score from Users where TeamID=".$_SESSION['user']->team);
-  $i = 1;
   //check to see if the user is the captain 
    $query = $mysqli->query("select UserID from Teams where TeamID=".$_SESSION['user']->team." and UserID=(select UserID from Users where Ign='".$_SESSION['user']->name()."')");
    if($query->num_rows == 1)$captain = true;
@@ -13,8 +12,8 @@
   while($row = $results->fetch_assoc())
   {
   	echo "<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'>";
-  	echo "<a data-toggle='collapse' data-parent='#accordion' href='#mem$i'><span class='text-capitalize'>".$row['Ign']."</span></a></h4></div>";
-  	echo "<div id='mem$i' class='panel-collapse collapse'><div class='panel-body'>";
+  	echo "<a data-toggle='collapse' data-parent='#accordion' href='#mem".$row['UserID']."'><span class='text-capitalize'>".$row['Ign']."</span></a></h4></div>";
+  	echo "<div id='mem".$row['UserID']."' class='panel-collapse collapse'><div class='panel-body'>";
   	//print rank
   	if(is_null($row['Score'])) echo "<h3>Not Ranked</h3>";
   	else{
@@ -28,13 +27,12 @@
   	//print buttons (no need to print buttons for yourself)
   	if( $captain && strcasecmp($_SESSION['user']->name(),$row['Ign']))
   	{
-  	 echo "<p><button type='button' class='btn btn-danger team_rank_btn remove' style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Remove from Team</button>
-  	<button type='button' class='btn btn-warning team_rank_btn captain' style='color:rgb(0,0,0)'><img src='../img/glyphicons_043_group.png'> Assign as Captain </button></p>";	
+  	 echo "<p><button type='button' class='btn btn-danger team_rank_btn remove' style='color:rgb(0,0,0)'><img src='/img/glyphicons_007_user_remove.png'> Remove from Team</button>
+  	<button type='button' class='btn btn-warning team_rank_btn captain' style='color:rgb(0,0,0)'><img src='/img/glyphicons_043_group.png'> Assign as Captain </button></p>";	
   		
   	}
   	//print closing stuff
   	echo "<a href='#'> View profile</a></div></div></div>";
-  	$i+=1;
   }
   
   

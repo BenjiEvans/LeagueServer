@@ -241,12 +241,11 @@ $(document).ready(function(){
       //confirm a decision in team rank modal
        $('.confirm_choice').click(function(){
        	
-       	  var choice, success, error;	       
+       	  var choice, success, error;
+       	  var id = $(this).attr('id');
           if($(this).hasClass("leave")){
-       		//post to server 
-       	     var teamID = $(this).attr('id');
-       	     console.log(teamID);
-       	     choice = {opt: 'leave', id: teamID};
+       		
+       	     choice = {opt: 'leave', id: id};
        	     success = function (data) {
                                      
                   $('#team_modal_body').html("<span class='text-success'>You have successfully been remove from the team!</span>");
@@ -263,8 +262,27 @@ $(document).ready(function(){
                       $('#team_modal_footer').hide();
                  };
        	 
+       	   }else if($(this).hasClass("remove")){
+       	   	   
+       	        choice = {opt: 'remove', id: id};
+       	        success = function (data) {
+                                     
+                  $('#team_modal_body').html("<span class='text-success'>You have successfully removed  a teammate </span>");
+                  $('#team_modal_footer').hide();
+                  //remove modal after 3 seconds
+                  setTimeout(function(){$('#team_rank_modal').modal('hide')}, 3000);
+                  //remove the selected user from the members table 
+                  
+                 };
+                 
+                 error = function (data) {
+                      $('#team_modal_body').html("You are unable to remove a teammate. Try again later. If this problem persists please contact the web master");
+                      $('#team_modal_footer').hide();
+                 };	
+       	   	   
        	   }
        	   
+       	   //post to server
        	   postJSON({
        	      json:choice,
        	      success: success,
@@ -280,27 +298,34 @@ $(document).ready(function(){
       $(document).on("click",".team_rank_btn",function(){
       		      
           var decide = "Are you sure that you wish to ";
-          var id = $(this).parent().attr('id');
+          var id; 
          //write content      
       	if($(this).hasClass("leave")){
       	   var cap = "If you are captain of this team your teamates WILL ALSO BE KICKED OUT OF THE TEAM AND ALL RECORD OF THE TEAM WILL BE DELETED;";
       	   cap+= "To avoid this consequence please assign another member to be team captain";
       	   $('#team_modal_body').html(decide+="<span class='text-warning'>leave this team</span>? <span class='text-danger'> If you do you will be unable to participate in events that this team is registered for!"+cap+"</span>");
       	   //add class to button
-      	   $('.confirm_choice').addClass('leave');
-      	   $('.confirm_choice').removeClass('remove');
-      	   $('.confirm_choice').removeClass('captain');
+      	   confirmClass('leave');
       	   //add id 
+      	   id = $(this).parent().attr('id');
       	   $('.confirm_choice').attr('id',id); 		
       	}else if($(this).hasClass("remove")){
       	   
       	   $('#team_modal_body').html(decide+="<span class='text-warning'>remove this player from your team</span>?");
-      		
+      	   //add class to button 
+      	   confirmClass('remove');
+      	   //add id 
+           id = $(this).parent().parent().parent().attr('id');
+            $('.confirm_choice').attr('id',trim(removeLetters(id)));
       	}else if($(this).hasClass("captain")){
       		
       		var permList = "<ul><li>Recruit members for the team</li><li>Register the team for tournaments </li><li>Remove players from the team</li> </ul>";
       	     $('#team_modal_body').html(decide+="<span class='text-warning'>assign this player as team captain</span>?<span class='text-danger'>If you do you will not be allowed to</span>"+permList);
-      	     
+      	     //add class to button
+      	     confirmClass("captain");
+      	     //add id 
+            id = $(this).parent().parent().parent().attr('id');
+            $('.confirm_choice').attr('id',trim(removeLetters(id)));
       	}else if($(this).hasClass("join")){
       	
       	  $( this ).find( 'span' ).html("Join Request Sent");
@@ -450,6 +475,21 @@ function makeBlogPost(post, author){
  
  return blogPost;
  
+}
+
+function confirmClass(className){
+   
+    var classes = ["leave", "remove", "captain"];
+
+    for(var i = 0; i < 3; i++){
+       
+    	 if(classes[i] == className)  $('.confirm_choice').addClass(classes[i]);
+      	 else $('.confirm_choice').removeClass(classes[i]);
+    }
+	
+}
+function removeLetters(word){
+   return word.replace(/\D/g,'');
 }
 
 function trim(x) {

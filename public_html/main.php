@@ -119,6 +119,30 @@ $opt = $obj->{'opt'};//opperation
  	 
     switch($opt){
     	    
+    case "remove":
+	 $user_id = $obj->{'id'};  
+    	if(!isset($user_id) || !is_numeric($user_id))returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Not valid request', 'status'=> 406));
+        //make sure that the current user is captain (has permission ot remove the user)
+        $query = $mysqli->query("select UserID from Users where Ign='".$_SESSION['user']->name()."' and UserID=(select UserID from Teams where TeamID=(select TeamID from Users where UserID=$user_id))");
+    	if($query->num_rows != 1) returnJSON("HTTP/1.0 401 Unauthorized" ,array('msg'=>'Must be a captain to preform this action', 'status'=> 401));
+    	//remove user from team
+    	 $mysqli->autocommit(false);
+    	if($mysqli->query("update Users set TeamID = NULL where UserID=$user_id")){
+    	  //make a notification 
+    	  if($mysqli->query("insert into Notifications (UserID,NoteType) values('$user_id','b')")){
+    	    $mysqli->commit();
+	    $mysqli->close();   
+            returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Teammate removed'));
+    	  }
+    	
+    	}
+        else{
+           $mysqli->close();
+          returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Could not remove from team','status'=>503));	
+        }
+        
+    	break;    
+    	    
     case "leave":
     	$team_id = $obj->{'id'};  
     	if(!isset($team_id) || !is_numeric($team_id))returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Need to specify a team to leave from', 'status'=> 406));
@@ -278,6 +302,7 @@ $opt = $obj->{'opt'};//opperation
    	        $mysqli->close();
    	        returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Failed to delete note','status'=>503));
    		break;
+         case 'b':		
    	 case 'td':
    	 	 if($mysqli->query("delete from Notifications where NoteID=$id")){
    	 	 	$mysqli->commit();

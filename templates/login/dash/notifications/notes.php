@@ -68,6 +68,13 @@
        echo "<p>The captain of your team has left the team without assigning a new captain; as a result you team has been deleted.. </p>";
        echo "</div>";
     	    break;
+    	    
+    case 'b':  
+    	echo "<div id='".$row['NoteID']."' class='alert alert-danger fade in'>";
+        echo "<button type='button' class='close note_close' data-dismiss='alert' aria-hidden='true'>&times;</button>";
+        echo "<h4><strong>Banished!</strong></h4>";
+        echo "You have been remove from your team.</div>";
+    	    break;
         
      }
      
