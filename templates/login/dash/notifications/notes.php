@@ -75,6 +75,13 @@
         echo "<h4><strong>Banished!</strong></h4>";
         echo "You have been remove from your team.</div>";
     	    break;
+    	    
+    case 'c':
+    	echo "<div id='".$row['NoteID']."' class='alert alert-success fade in'>";
+        echo "<button type='button' class='close note_close' data-dismiss='alert' aria-hidden='true'>&times;</button>";
+        echo "<h4><strong>Welcome captain!</strong></h4>";
+        echo "You have been assigned a captain.</div>";
+    	    break;
         
      }
      

@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS Teams (
 -- notifications 
 CREATE TABLE IF NOT EXISTS Notifications (
   NoteID int(11) NOT NULL AUTO_INCREMENT,
-  NoteType enum('tr','a','d','r','b','td') NOT NULL,
+  NoteType enum('tr','a','d','r','b','td','c') NOT NULL,
   UserID int(10) Not NULL,
   Respond tinyint(1) NOT NULL,
   PRIMARY KEY (`NoteID`),

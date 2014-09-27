@@ -119,10 +119,31 @@ $opt = $obj->{'opt'};//opperation
  	 
     switch($opt){
     	    
+   case "captain":
+   	$user_id = $obj->{'id'};  
+    	if(!isset($user_id) || !is_numeric($user_id))returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Not valid request', 'status'=> 406));
+        //make sure that the current user is captain (has permission to remove the user)
+        $query = $mysqli->query("select UserID from Users where Ign='".$_SESSION['user']->name()."' and UserID=(select UserID from Teams where TeamID=(select TeamID from Users where UserID=$user_id))");
+    	if($query->num_rows != 1) returnJSON("HTTP/1.0 401 Unauthorized" ,array('msg'=>'Must be a captain to preform this action', 'status'=> 401));
+    	//assign new captain 
+    	if($mysqli->query("update Teams set UserID=$user_id where TeamID=".$_SESSION['user']->team."")){
+    	   //send notification 
+    	   if($mysqli->query("insert into Notifications (UserID,NoteType) values('$user_id','c')")){
+    	    $mysqli->commit();
+	    $mysqli->close();   
+            returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'New captain assigned'));   	   
+    	   }
+           
+    	}
+    	
+           $mysqli->rollback();
+           $mysqli->close();
+          returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Could assign new captain','status'=>503));		   
+   	   break;
     case "remove":
 	 $user_id = $obj->{'id'};  
     	if(!isset($user_id) || !is_numeric($user_id))returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Not valid request', 'status'=> 406));
-        //make sure that the current user is captain (has permission ot remove the user)
+        //make sure that the current user is captain (has permission to remove the user)
         $query = $mysqli->query("select UserID from Users where Ign='".$_SESSION['user']->name()."' and UserID=(select UserID from Teams where TeamID=(select TeamID from Users where UserID=$user_id))");
     	if($query->num_rows != 1) returnJSON("HTTP/1.0 401 Unauthorized" ,array('msg'=>'Must be a captain to preform this action', 'status'=> 401));
     	//remove user from team
@@ -136,10 +157,10 @@ $opt = $obj->{'opt'};//opperation
     	  }
     	
     	}
-        else{
+           $mysqli->rollback();
            $mysqli->close();
           returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Could not remove from team','status'=>503));	
-        }
+        
         
     	break;    
     	    
@@ -302,7 +323,8 @@ $opt = $obj->{'opt'};//opperation
    	        $mysqli->close();
    	        returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Failed to delete note','status'=>503));
    		break;
-         case 'b':		
+         case 'b':
+         case 'c':
    	 case 'td':
    	 	 if($mysqli->query("delete from Notifications where NoteID=$id")){
    	 	 	$mysqli->commit();

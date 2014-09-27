@@ -280,6 +280,25 @@ $(document).ready(function(){
                       $('#team_modal_footer').hide();
                  };	
        	   	   
+       	   }else if($(this).hasClass("captain")){
+       	   	   
+       	   	choice = {opt: 'captain', id: id};
+       	        success = function (data) {
+                                     
+                  $('#team_modal_body').html("<span class='text-success'>You are no longer captain </span>");
+                  $('#team_modal_footer').hide();
+                  //remove modal after 3 seconds
+                  setTimeout(function(){$('#team_rank_modal').modal('hide')}, 3000);
+                  //remove the selected user from the members table 
+                  
+                 };
+                 
+                 error = function (data) {
+                      $('#team_modal_body').html("You are unable to assign a new captain. Try again later. If this problem persists please contact the web master");
+                      $('#team_modal_footer').hide();
+                 };	
+       	   	   
+       	   	   
        	   }
        	   
        	   //post to server
