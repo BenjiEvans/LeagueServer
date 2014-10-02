@@ -6,7 +6,6 @@
           <h4 class="modal-title">Sorry..</h4>
         </div>
         <div class="modal-body" id='note_modal_body'>
-         
         </div>
         <!--<div class="modal-footer" id='team_modal_footer'>
           <button type="button" class="btn" data-dismiss="modal" data-toggle="modal">ok</button>
