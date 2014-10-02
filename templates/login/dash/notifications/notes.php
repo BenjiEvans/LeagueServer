@@ -77,10 +77,12 @@
     	    break;
     	    
     case 'c':
+    	$query = $mysqli->query("select TeamName from Teams where TeamID=".$_SESSION['user']->team."");
+    	$team = $query->fetch_assoc();
     	echo "<div id='".$row['NoteID']."' class='alert alert-success fade in'>";
         echo "<button type='button' class='close note_close' data-dismiss='alert' aria-hidden='true'>&times;</button>";
         echo "<h4><strong>Welcome captain!</strong></h4>";
-        echo "You have been assigned a captain.</div>";
+        echo "You have been assigned a captain of <strong>".$team['TeamName']."</strong>.</div>";
     	    break;
         
      }

@@ -1,5 +1,8 @@
+//timer variable 
+var timer;
 $(document).ready(function(){
   
+
        //toggle 
       $('.dash_link').click(function(){
       
@@ -412,7 +415,7 @@ $(document).ready(function(){
         	if(id == 1 || typeof id === 'undefined') return;
                //retreive some posts 
                 getResource({
-                  json:[["rq","blog"],["id",id]],
+                  params:[["rq","blog"],["id",id]],
                   success: function (data) {
                    
                      $("#blog_post_container").append(data);
@@ -426,7 +429,7 @@ $(document).ready(function(){
       
       });
       
-      
+      setTimeout(function(){update();},60000);
 		
 
 });
@@ -455,7 +458,12 @@ function postJSON(requestData){
 
 function getResource(requestData){
 	
-      var url = "/resource.php?";
+      get("/resource.php",requestData);	
+}
+
+function get(url, requestData){
+	
+      url+="?";
       var pairs = requestData.params;
       for(var i = 0, length = pairs.length;  i < length ;i++){
       	      if(i != 0)url+="&";
@@ -476,7 +484,10 @@ function getResource(requestData){
                      else alert("Could not fetch resource");
                  }
              });
+   
+	
 }
+
 
 function makeBlogPost(post, author){
   
@@ -510,6 +521,62 @@ function confirmClass(className){
 function removeLetters(word){
    return word.replace(/\D/g,'');
 }
+
+function update(){
+	//send get request for updates
+	 var count = document.getElementById("note_count").innerHTML;
+         console.log("Note#: "+count);
+         count = Number(count);
+         var id;
+         if(count == 0) id = -1;
+         else{
+             id = $('.note').children().last().attr("id");	 
+         	 
+         }
+         
+        timer =  setInterval(function(){get("/update.php",{ 
+	   params:[["rq","note"],["id",id]],
+	   success:function(data){
+	   	  //post changes 
+	   	  if(count == 0){
+	   	  	$('.note').html(data);  
+	   	  	  
+	   	  	  
+	   	  }else{
+	   	  	  
+	   	  	 $('.note').append(data); 
+	   	  }
+	   	//update notification count 
+	   	count = $(".note").children().length;
+	   	document.getElementById("note_count").innerHTML = count;
+	   	//update id 
+	   	if(count == 0) id = -1
+	        else id = $('.note').children().last().attr("id");
+	   	
+	   },
+	   error: function(data){
+	   	   
+	   	   
+	   }
+	});}, 10000);
+         
+         
+	/*get("/update.php",{ 
+	   params:[["rq","note"],["id",id]],
+	   success:function(data){
+	   	$('.note').append(data);
+	   },
+	   error: function(data){
+	   	   
+	   	   
+	   }
+	});*/
+	
+	
+	
+	
+}
+
 
 function trim(x) {
     return x.replace(/^\s+|\s+$/gm,'');
