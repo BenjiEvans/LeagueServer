@@ -33,7 +33,6 @@
         	 $mysqli->close();
         	returnJSON("HTTP/1.0 409 Conflict",array('msg'=>'The ign or email entered is already in use', 'status' => 409));
         }
-        $result->close();
         //add the registering user 
         
         function getRandomString(){
@@ -52,9 +51,26 @@
         $salt = getRandomString();
         $passHash = crypt($pass,$salt);
         
-        if($mysqli->query("insert into Users (Email,Password,Ign,Register,Salt,Activate) values('$email','$passHash','$ign',now(),'$salt',0)") === TRUE){
+        if($mysqli->query("insert into Users (Email,Password,Ign,Register,Salt,Activate) values('$email','$passHash','$ign',now(),'$salt',0)")){
         	
-        //send email confirmation 	
+        //send email confirmation 
+         $to = $email;
+         $from = "autoreply@csulaleagueoflegends.x10.mx";
+         $subject = "CSULA League of Legends Account Activation!";
+         $message = "<html>
+<head> </head>
+<body>
+ 
+   <h1> Welcome Summoner!</h1>
+   Please click <a target='_blank' style='color:gold' href='http://www.csulaleagueoflegends.x10.mx/activate.php?ign=$ign&auth=$passHash'>here</a> to activate your account.
+
+</body>
+</html>";
+         $headers = "From: $from\n";
+         $headers .= "MIME-Version: 1.0\n";
+         $headers .= "Content-type: text/html; charset=iso-8859-1\n";
+
+	 mail($to,$subject, $message, $headers);
          $mysqli->close();	
          returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'You have been added to our database'));
         	

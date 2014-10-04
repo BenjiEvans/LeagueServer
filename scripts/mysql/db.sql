@@ -10,6 +10,8 @@ DROP TABLE if exists Notifications;
 DROP TABLE if exists RequestDispatcher;
 DROP TABLE if exists Events;
 DROP TABLE if exists XrefUsersEvents;
+DROP Table if exists Blog;
+DROP Table if exists ResponseDispatcher;
 
 CREATE TABLE IF NOT EXISTS Users (
   UserID int(10) NOT NULL AUTO_INCREMENT,
@@ -32,13 +34,6 @@ CREATE TABLE IF NOT EXISTS Users (
   UNIQUE KEY `Ign` (`Ign`),
   KEY `TeamID` (`TeamID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- Insert sample users
-
-INSERT INTO Users (Ign, Wins, Losses, TeamID, Email, Password, Salt, Activate, Register, Login,Score) VALUES
-('ben', 5, 1, NULL, 'ben@yahoo.com', 'y6VPhxxRrmCCc', 'y6TLwIgy', 0, '0000-00-00', '0000-00-00',5-1*(1/6));
-INSERT INTO Users (Ign, Wins, Losses, TeamID, Email, Password, Salt, Activate, Register, Login,Score) VALUES
-('jan', 7, 3, NULL, 'jan@yahoo.com', 'y6VPhxxRrmCCc', 'y6TLwIgy', 0, '0000-00-00', '0000-00-00', 7-3*(3/10));
 
 
 CREATE TABLE IF NOT EXISTS Teams (

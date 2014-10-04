@@ -77,6 +77,11 @@ $(document).ready(function(){
 
 function login(){
 
+	// temporarilly disable login
+	$('#login_error').html("Sorry.. Site is under construction so login has been disabled");
+	return;
+	
+	
 	//check email for emptyness
 	var ign = $('#login_ign');
 	if(ign.hasClass("has-error"))return;

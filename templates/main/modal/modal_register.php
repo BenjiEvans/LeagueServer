@@ -37,7 +37,13 @@
 	    </label>
 	  </div>
            <div>
-            <p id='conditions' class="bg-danger hidden"> Terms go here...</p>
+            <p id='conditions' class="bg-danger hidden"> 
+              Accounts are intended for CSULA students only! The Ign registered must be the Ign used to participate 
+              in club tournaments. You will not be allowed to change Ign, so make sure it is correct! Accounts are subject to
+              deletion without notice..
+            
+            
+            </p>
            </div>
 	</form>
 	
