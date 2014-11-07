@@ -62,6 +62,7 @@
 <body>
  
    <h1> Welcome Summoner!</h1>
+   It seems that you have registered 
    Please click <a target='_blank' style='color:gold' href='http://www.csulaleagueoflegends.x10.mx/activate.php?ign=$ign&auth=$passHash'>here</a> to activate your account.
 
 </body>
