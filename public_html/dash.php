@@ -1,5 +1,6 @@
 <?php require("../scripts/php/login_check.php"); ?>
 <?php require("../scripts/php/mysql_connect.php"); ?>
+<?php require("../scripts/php/user_info.php"); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -60,7 +61,7 @@
 
   <body style='background-image:url("../img/background.jpg");background-attachment: fixed;'>
   <?php //store user's info in hidddn form element
-    //echo "<input hidden id='user' name='".$_SESSION['user']."' />";  
+     echo "<input type='hidden' id='user' name='$ign'/>";  
   ?>
   
     <?php 

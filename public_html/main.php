@@ -1,7 +1,7 @@
-<?php require("../models/user.php") ?>
 <?php require("../scripts/php/login_check.php") ?>
 <?php require("../scripts/php/json_functions.php")?>
 <?php require("../scripts/php/mysql_connect.php")?>
+<?php require("../scripts/php/user_info.php")?>
 <?php
 
    //handle post ajax
@@ -13,6 +13,8 @@
 //checking for blog post
 $post= $obj->{'post'};
 $title= $obj->{'title'};
+
+//
 
   if(isset($post) && isset($title)){ //means user is post to blog 
   

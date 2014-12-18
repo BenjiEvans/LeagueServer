@@ -350,7 +350,8 @@ $(document).ready(function(){
         //send post to server 
         postJSON({
           json:post,
-          success: function (data) {      
+          success: function (data) {  
+		console.log("Author:"+$('#user').attr('name'));    
               $("#blog_post_container").prepend(makeBlogPost(post,$('#user').attr('name')));    
             }
         });
@@ -391,7 +392,7 @@ function postJSON(requestData){
 	
 	  $.ajax({
                  type: "POST",
-                 url: "/main.php",
+                 url: "/main2.php",
 	         data: JSON.stringify(requestData.json),
                  contentType: "application/json; charset=utf-8",
                  dataType: "json",
@@ -442,9 +443,7 @@ function makeBlogPost(post, author){
  //add time
  blogPost+= "<p class='blog-post-meta'>May 18, 2014 by ";
  //add author
- if(author.toLowerCase() == "root"){
- 	 blogPost+= "Root</p>";
- }else blogPost+= "<a href='#'>"+author+"</a></p>";
+ blogPost+= "<a href='#'>"+author+"</a></p>";
  //add blog content
  blogPost+="<p>"+post.post+"</p></div>"; 
  

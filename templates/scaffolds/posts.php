@@ -15,7 +15,7 @@
 
 <?php 
  
-      $query = $mysqli->query("select * from Blog where Flagged != 1 order by BlogID desc limit 10");
+      $query = $mysqli->query("select * from Posts order by pid desc limit 10");
 
                 $count = $query->num_rows;
                 if($count == 0) echo "No Blog Posts";
@@ -23,19 +23,19 @@
                
                   while ($row = $query->fetch_assoc()) 
                   {                	  
-                    echo "<div class='blog-post' id='".$row['BlogID']."'>";
-                    echo "<h2 class='blog-post-title'>".$row['Title']."</h2>";
+                    echo "<div class='blog-post' id='".$row['pid']."'>";
+                    echo "<h2 class='blog-post-title'>".$row['title']."</h2>";
                     
-                    $date = explode("-",$row['PublishDate']);
+                    $date = explode("-",$row['post_date']);
                     //break date into month,day,and year
                     $y = $date[0];
                     $m = getMonth($date[1]);
                     $d = $date[2];
                     
                     echo "<p class='blog-post-meta'> $m $d, $y by ";
-                    if(strcmp($row['Author'],"Root") == 0)echo "Root</p>";
-                    else echo "<a href='#'>".$row['Author']."</a></p>";
-                    echo "<p>".htmlspecialchars($row['Post'])."</p>";
+                    
+                    echo "<a href='#'>".getIgnByID($row['author'])."</a></p>";
+                    echo "<p>".htmlspecialchars($row['message'])."</p>";
                     echo "</div>";
             
                   }
@@ -76,6 +76,15 @@
      	     }
      	     
      	     
+     }
+
+	
+     function getIgnByID($id){
+	
+	global $mysqli;
+        $query = $mysqli->query("select ign from Users where id=$id");
+	$row = $query->fetch_assoc();
+	return $row['ign'];
      }
 
 

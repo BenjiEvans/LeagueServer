@@ -9,8 +9,9 @@
         if($priv['Mute'] != 0 ) printBlogPostArea();
         
          $query->close(); */	
-     	     
-printBlogPostArea();
+
+if($status == 1)printBlogPostArea();
+
 
 function printBlogPostArea(){
 	echo"
