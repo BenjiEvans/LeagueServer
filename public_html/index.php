@@ -6,41 +6,33 @@
   	  exit();
   }
 ?>
+
 <?php include_once("../scripts/php/mysql_connect.php");?>
 <!-- NAVBAR -->
-<?php require("../templates/main/header.php")?> 
+<?php require("../templates/index/header.php")?> 
 
   <body>
     <!-- Carousel -->
-    <?php require("../templates/main/carousel.php") ?>
+    <?php require("../templates/index/containers/carousel/carousel.php") ?>
 	<div class='content'>
-	
-	     <!-- container for blog -->
-	     <div id='blog' class="container" >
-	     <?php require("../templates/main/blog/blog_header.php") ?>
-                <div class="row">
-                   <div class="col-sm-8 blog-main"> <!-- blog main -->
-                   <?php require("../templates/main/blog/blog_posts.php") ?>
-                   <ul class="pager">
-                      <li><a href="#">Previous</a></li>
-                      <li><a href="#">Next</a></li>
-                   </ul>
-                   </div><!-- /.blog-main -->
-                   <!-- blog sidebar -->
-                   <?php require("../templates/main/blog/blog_sidebar.php") ?>
-                </div><!-- /.row -->
-             </div><!-- /.container -->
-			
-             <!-- officer container -->
-             <div id='officers' class="container marketing" hidden>
-              <?php require("../templates/main/officers/officers.php") ?>
-             </div><!-- /.container -->
-			
+	       <?php 
+		     require("../templates/index/containers/blog/blog.php");
+		?>
+	     
+         
+              <?php require("../templates/index/containers/officers/officers.php") ?>
+            			
 			
 	</div> <!-- /.content -->
 	
-	<?php require("../templates/main/modal/modal_login.php")?>
-	<?php require("../templates/main/modal/modal_register.php")?>
-	<?php require("../templates/main/blog/blog_footer.php") ?>
+	<?php 
+             require("../templates/index/containers/modals/login.php");
+	?>
+	<?php 
+	      require("../templates/index/containers/modals/register.php");
+	?>
+	<?php 
+	      require("../templates/index/containers/blog/footer.php");
+	?>
 			
-<?php require("../templates/main/footer.php")?>
+<?php require("../templates/index/footer.php")?>

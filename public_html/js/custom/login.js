@@ -128,6 +128,9 @@ function login(){
                        case 401:
                        $('#login_error').html("Incorrect password");
                        $('#login_pass').val("");
+		       break;
+		       case 400:
+	               $('#login_error').html("The account you are attempting to log in with has not yet been activated. Check your csula email.");
                    }
                  }
              });
