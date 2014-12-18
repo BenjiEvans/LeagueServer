@@ -26,10 +26,10 @@
 	</div> <!-- /.content -->
 	
 	<?php 
-             require("../templates/index/containers/modals/login.php");
+             require("../templates/index/modals/login.php");
 	?>
 	<?php 
-	      require("../templates/index/containers/modals/register.php");
+	      require("../templates/index/modals/register.php");
 	?>
 	<?php 
 	      require("../templates/index/containers/blog/footer.php");
