@@ -28,7 +28,7 @@
          }
 
         //check to see if email or ign is already registered 
-        if(isRegistered($email, $pass)){
+        if(isRegistered($email, $ign)){
              $mysqli->close();
         	returnJSON("HTTP/1.0 409 Conflict",array('msg'=>'The ign or email entered is already in use', 'status' => 409));
 	}

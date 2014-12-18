@@ -1,4 +1,3 @@
-<?php require("../models/user.php"); /* needs user model definition before session can start*/?>
 <?php require("../scripts/php/login_check.php"); ?>
 <?php require("../scripts/php/mysql_connect.php"); ?>
 
