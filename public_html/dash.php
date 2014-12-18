@@ -60,59 +60,33 @@
 
   <body style='background-image:url("../img/background.jpg");background-attachment: fixed;'>
   <?php //store user's info in hidddn form element
-    echo "<input hidden id='user' name='".$_SESSION['user']->name()."' />";  
+    //echo "<input hidden id='user' name='".$_SESSION['user']."' />";  
   ?>
   
-    <?php require("../templates/login/dash/top_nav.php"); ?>
+    <?php 
+	//require("../templates/login/dash/top_nav.php"); 
+	require("../templates/dash/top_nav.php"); 
+	?>
     
     <div class="container-fluid">
       <div class="row">
       
-        <?php require("../templates/login/dash/side_nav.php"); ?>
+        <?php 
+	//require("../templates/login/dash/side_nav.php"); 
+	require("../templates/dash/side_nav.php"); 
+	?>
        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id='main_container' style='background-color:rgba(255,255,255,.7)'>
            <!-- overview stuff -->
-           <div class='overview'>
-           <?php require("../templates/login/dash/overview/top_teams.php"); ?> 
-           <?php require("../templates/login/dash/overview/club_rank.php"); ?> 
-           </div>
+	   <?php require("../templates/dash/containers/overview/overview.php"); ?>  
+          
            
            <!-- container for the blog -->
-           <div id='blog' class="container blogy" hidden>
-             <?php require("../templates/login/dash/blog/post_area.php");?>
-	     <div class="blog-header">
-	   	  <h1 class="blog-title">CSULA League of Legends </h1>
-	   	  <p class="lead blog-description">The official CSULA League of Legends BlogSpot</p>
-              </div>
-              <div class="row">
-                   <div class="col-sm-8 blog-main" id='blog_post_container'> <!-- blog main -->
-                   <?php require("../templates/main/blog/blog_posts.php") ?>
-                   </div><!-- /.blog-main -->
-                    <?php require("../templates/main/blog/blog_sidebar.php") ?>
-               </div><!-- /.row -->
-            </div><!-- /.container -->
-            
+           <?php require("../templates/dash/containers/blog/blog.php"); ?>  
+
+                   
             <!-- team rank container-->
-            <div class='team_rank' hidden>
-               
-               <?php
-                  $query = $mysqli->query("select TeamID from Users where Ign='".$_SESSION['user']->name()."'");
-                  $result = $query->fetch_assoc();
-                  if($_SESSION["user"]->hasTeam()){
-                  	require("../templates/login/dash/team_rank/profile.php");
-                  	require("../templates/login/dash/team_rank/members.php"); 
-                  	require("../templates/login/dash/team_rank/match_history.php");
-                  	
-                  }else{
-                      echo "
-          <h1 style='text-align:center;'> You are not currently part of a team</h1>
-          <button type='button' class='btn btn-warning btn-lg btn-block' id='browse_team'>Browse Teams</button>
-          <button type='button' class='btn btn-default btn-lg btn-block' id='create_team'>Create Team</button>
-          <div id='team_list' hidden> </div>";
-                  	  
-                  }
-            
-               ?>
-            </div>
+	    <?php require("../templates/dash/containers/teams/team.php"); ?>
+           
             
             <!-- Search container -->
             <div class='search' hidden> 
@@ -120,23 +94,25 @@
             </div>
             
             <!-- Note conatiner-->
-            <div class="container note" hidden>
-		 
-		<?php require("../templates/login/dash/notifications/notes.php"); ?>
-           </div>
-            
+	    <?php require("../templates/dash/containers/notes/note.php"); ?>
                                
         </div>       
       </div>
     </div> 
-    
-     <?php require("../templates/login/dash/modals/post.php");?> <!-- blog commit modal -->
+     <!-- blog commit modal -->
+     <?php 
+	//require("../templates/login/dash/modals/post.php");
+	require("../templates/dash/modals/post.php");
+	?> 
      <?php 
         //team rank modals
-        require("../templates/login/dash/modals/team_decide.php");
-        require("../templates/login/dash/modals/create_team.php");
+        // require("../templates/login/dash/modals/team_decide.php");
+        //require("../templates/login/dash/modals/create_team.php");
+	require("../templates/dash/modals/team_decide.php");
+        require("../templates/dash/modals/create_team.php");
         //notification response modals 
-        require("../templates/login/dash/modals/note_respon.php");
+       // require("../templates/login/dash/modals/note_respon.php");
+	//require("../templates/dash/modals/note_respon.php");
      ?>
      
     <!-- Bootstrap core JavaScript
