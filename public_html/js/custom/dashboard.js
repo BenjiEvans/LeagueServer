@@ -369,7 +369,7 @@ $(document).ready(function(){
         	if(id == 1 || typeof id === 'undefined') return;
                //retreive some posts 
                 getResource({
-                  json:[["rq","blog"],["id",id]],
+                  params:[["rq","blog"],["id",id]],
                   success: function (data) {
                    
                      $("#blog_post_container").append(data);

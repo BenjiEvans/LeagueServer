@@ -31,7 +31,7 @@ $title= $obj->{'title'};
      	     
      }
       $mysqli->close();   
-      returnJSON("HTTP/1.0 503 Service Unavailable", array('msg'=>'We are having problems with the server at the moment','status'=>503));	     
+      returnJSON("HTTP/1.0 503 Service Unavailable", array('msg'=>'We are having problems with the server at the 	moment','status'=>503));	     
      
      
 	  

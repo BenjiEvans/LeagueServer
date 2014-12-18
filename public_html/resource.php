@@ -1,6 +1,7 @@
-<?php require("../models/user.php");
+<?php 
 require("../scripts/php/login_check.php");
 require("../scripts/php/mysql_connect.php");
+require("../scripts/php/post_functions.php");
 
 
    if(isset($_GET['rq'])){
@@ -27,26 +28,25 @@ require("../scripts/php/mysql_connect.php");
        	       	 exit();
        	       	}
        	       	$limit = 10; 
-                $result = $mysqli->query("select * from Blog where Flagged != 1 and BlogID < $id order by BlogID desc limit $limit");
+                $result = $mysqli->query("select * from Posts where pid < $id order by pid desc limit $limit");
                 $count = $result->num_rows;
                 if($count == 0) echo "";
                 else{
                
                   while ($row = $result->fetch_assoc()) 
                   {                	  
-                    echo "<div class='blog-post' id='".$row['BlogID']."'>";
-                    echo "<h2 class='blog-post-title'>".$row['Title']."</h2>";
+                    echo "<div class='blog-post' id='".$row['pid']."'>";
+                    echo "<h2 class='blog-post-title'>".$row['title']."</h2>";
                     
-                    $date = explode("-",$row['PublishDate']);
+                    $date = explode("-",$row['post_date']);
                     //break date into month,day,and year
                     $y = $date[0];
                     $m = getMonth($date[1]);
                     $d = $date[2];
                     
                     echo "<p class='blog-post-meta'> $m $d, $y by ";
-                    if(strcmp($row['Author'],"Root") == 0)echo "Root</p>";
-                    else echo "<a href='#'>".$row['Author']."</a></p>";
-                    echo "<p>".$row['Post']."</p>";
+                    echo "<a href='#'>".getIgnByID($row['author'])."</a></p>";
+                    echo "<p>".$row['message']."</p>";
                     echo "</div>";
             
                   }
@@ -61,7 +61,8 @@ require("../scripts/php/mysql_connect.php");
        
        if($param == 'team_list'){// get team listing 
        	       
-       	require("../templates/login/dash/team_rank/team_list.php");
+       	//require("../templates/login/dash/team_rank/team_list.php");
+        require("../templates/dash/team_list.php");
        	  exit();
        }
        
@@ -142,37 +143,6 @@ require("../scripts/php/mysql_connect.php");
    }
 
 
-function getMonth($month){
-     	     
-     	     switch($month){
-     	     	     
-     	   case 1:
-     	     	   return "January";
-     	   case 2:
-     	   	   return "Febuary";
-     	   case 3:
-     	   	   return "March";
-     	   case 4:
-     	   	   return "April";
-     	   case 5: 
-     	   	   return "May";
-     	   case 6:
-     	   	   return "June";
-     	   case 7:
-     	   	   return "July";
-     	   case 8:
-     	   	   return "August";
-     	   case 9:
-     	   	   return "September";
-     	   case 10:
-     	   	   return "October";
-     	   case 11:
-     	   	   return "November";
-     	   case 12:
-     	   	   return "December";
-     	     	          	     	     
-     	     }
-     	     
-}
+
      	
 ?>
