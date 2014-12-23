@@ -2,6 +2,7 @@
 require("../scripts/php/login_check.php");
 require("../scripts/php/mysql_connect.php");
 require("../scripts/php/post_functions.php");
+require("../scripts/php/resource_functions.php");
 
 
    if(isset($_GET['rq'])){
@@ -68,17 +69,12 @@ require("../scripts/php/post_functions.php");
        
        if($param == 'team'){//view team's profile
        	   
-       	  if(isset($_GET['id'])){
+       	  if(isset($_GET['name'])){
        	       	       
-       	       	$id = $_GET['id']; //team's id 
-       	       	if(!is_numeric($id)){//id must be a number other wise exceptions will occur 
-       	         		
-       	       	  $mysqli->close();	
-       	       	 header("HTTP/1.0 406 Not Acceptable");
-       	       	 exit();
-       	       	}
+       	       	$name = $_GET['name']; //team's id 
+       	       	
        	       	//get the team specified 
-       	       	$query = $mysqli->query("select U.Ign as Captain, T.Wins, T.Losses, T.Score, T.TeamStatus, T.TeamName from Users as U join Teams as T where U.UserID=T.UserID and T.TeamID='$id'");
+       	       	$query = $mysqli->query("select * from Teams where name='$name'");
        	       	if($query->num_rows == 0){
        	       	 //leave if no team with that id is found 
        	       	 $query->close();			
@@ -89,51 +85,7 @@ require("../scripts/php/post_functions.php");
        	       	// print the profile 
        	       	 $info = $query->fetch_assoc();
                  $query->close();
-		 //print header 
-		 echo "<h1> <span class='text-capitalize'>".$info['TeamName']."</span> <em><span class='text-muted officer'>".$info['TeamStatus']."</span></em></h1> <hr class='featurette-divider'>";
-		 //team image 
-		 echo "<img class='featurette-image img-responsive' src='/img/team_default.png' alt='Generic placeholder image' style='border:solid;float:left'>";
-		 // profile data 
-		 echo "<div id='$id' style='float:left;margin-left:10px;'>";
-		 
-		 
-		 //append rank 
-		 if(is_null($info['Score']))echo "<h2 style='font-family:Fertigo'><em>Not Ranked</em></h2>";
-		 else {
-		
-		    $result=$mysqli->query("select count(TeamID) as rank from Teams where Score is not null and Score > ".$info['Score']);
-		    $rank = $result->fetch_assoc(); 
-		    $actual_rank = $rank['rank'] +1;
-		    echo "<h2> <span style='font-family:Fertigo'>Club Rank</span> : <span class='text-muted officer'>$actual_rank</span></h2>";
-		    $result->close();
-		 }
-		 
-		 //append captain
-		  echo "<h2> <span style='font-family:Fertigo'>Team Captain</span>: <span class='text-warning text-capitalize'>".strtolower($info['Captain'])."</span> </h2>";
-		 //append wins and losses 
-		  echo " <h3> <span class='text-success' > Wins: ".$info['Wins']."</span></h3>
-		   <h3> <span class='text-danger'> Losses: ".$info['Losses']." </span></h3>";
-		 //append join button 
-		 //check to see if the user has already made a request to the team 
-		 $query = $mysqli->query("select count(NoteID) as count from  RequestDispatcher where TeamID=$id and UserID=(select UserID from Users where Ign='".$_SESSION['user']->name()."')");
-		 $count = $query->fetch_assoc();
-		 if($count['count'] == 0){
-		   $query->close();
-		   $query = $mysqli->query("select count(UserID) as count from Users where TeamID=$id");
-		   $count = $query->fetch_assoc();
-		   if($count['count'] < 5 && !$_SESSION['user']->hasTeam())echo "<button type='button' class='btn btn-success team_rank_btn join' style='color:rgb(0,0,0)'><img src='/img/glyphicons_006_user_add.png'> <span>Join Team</span></button>";
-		   $query->close();	 
-		 }else{// echo a disabled button 
-		  
-		    echo "<button disabled type='button' class='btn btn-success team_rank_btn join' style='color:rgb(0,0,0)'><img src='/img/glyphicons_006_user_add.png'> <span>Join Request Sent</span></button>";
-		    		 	 
-		 }
-		
-		 echo "</div>";
-		$mysqli->close();
-		header("HTTP/1.0 202 Accepted");
-		exit();
-				
+		 print_team_profile($name);	
        	    }
        	       
        }
@@ -146,3 +98,7 @@ require("../scripts/php/post_functions.php");
 
      	
 ?>
+
+
+
+

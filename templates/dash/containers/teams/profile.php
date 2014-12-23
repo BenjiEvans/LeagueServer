@@ -1,7 +1,7 @@
 <?php //get team info
  
  //print header 
- echo "<h1> <span class='text-capitalize'>$team</span><button type='button' class='btn btn-danger team_rank_btn leave' style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button> <hr class='featurette-divider'>";
+ echo "<h1 style='display:inline'> <span class='text-capitalize'>$team</span></h1> <button type='button' class='btn btn-danger team_rank_btn leave' style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button><hr class='featurette-divider'>";
  
 ?>
 

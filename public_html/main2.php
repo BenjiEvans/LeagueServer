@@ -93,7 +93,20 @@ $opt = $obj->{'opt'};
 	   case "leave":
 	  //make sure user has a team to leave from 
 		if(is_null($team))returnJSON("HTTP/1.0 401 Unauthorized" ,array('msg'=>'Cannot leave a team you are not appart of..', 'status'=> 401));
-	     leave($id,$team);
+	     leave();
+	   break;
+
+	   case "join":
+	   $join_team = $obj->{'id'};
+	   if(!isset($join_team)){
+	      $mysqli->close();
+	      returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Team name must be send', 'status'=> 406));	
+	   }
+	   if(team_exsists($join_team)) request_join($join_team);
+	   
+	    $mysqli->close();
+	    returnJSON("HTTP/1.0 404 Service Unavailable",array('msg'=>'The team you are trying to join does not exsist','status'=>404));
+	   break;
 	 
 	}
 
@@ -104,10 +117,12 @@ $opt = $obj->{'opt'};
 
 <?php
 
-function leave($id,$team){
- // remove all member if user is captain 
+function leave(){
+ 
 global $mysqli;
-
+global $id;
+global $team;
+// remove all member if user is captain 
 	   if(is_captain($id,$team)){
 		
 		remove_all_members($team);
@@ -124,6 +139,26 @@ global $mysqli;
 		
 	      $mysqli->close();
 	       returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Could not remove from team','status'=>503));
+}
+
+function request_join($team_to_join){
+
+  //send notifications to team captain 
+  global $mysqli;
+  global $id;
+  $query = $mysqli->query("select captain from Teams where name='$team_to_join'");
+  $result = $query->fetch_assoc();
+  $captain = $result['captain'];
+ 
+  if(notify_join_request($captain,$id)){
+	 $mysqli->close();
+	 returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Your request has been sent'));
+   }
+
+    $mysqli->close();
+    returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Could not send request to team','status'=>503));
+
+
 }
 
 

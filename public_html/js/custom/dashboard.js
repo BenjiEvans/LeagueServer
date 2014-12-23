@@ -26,8 +26,9 @@ $(document).ready(function(){
       $(document).on("click",".team_profile",function(){
       	
         var id = $(this).attr('id');
+	var result = id.split("-");
         //get html from server 
-        var param = [["rq","team"],["id",id]];
+        var param = [["rq","team"],["name",result[1]]];
          getResource({
          	params:param,
          	 success: function (data) {
@@ -196,16 +197,9 @@ $(document).ready(function(){
                     $('#team_create_respon').fadeIn('slow');
                     //append teams profile 
                     $('.team_rank').html("");
-                    //   $('.team_rank').html("<h1> JBlap <em><span class='text-muted officer'>Challenger</span></em></h1> <hr class='featurette-divider'><img class='featurette-image img-responsive' data-src='holder.js/200x200/auto' alt='Generic placeholder image' style='border:solid;float:left'><div style='float:left;margin-left:10px;'><h2> <span style='font-family:Fertigo'>Club Rank</span> : <span class='text-muted officer'>1</span></h2><h2> <span style='font-family:Fertigo'>Team Captain</span>: <span class='text-warning text-capitalize'>speedy847</span> </h2><h3> <span class='text-success' > Wins: 5 </span> </h3><h3> <span class='text-danger'> Losses: 2 </span></h3><button type='button' class='btn btn-danger team_rank_btn leave' style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button> </div>");
-                    var profile = "<h1> <span class='text-capitalize'>"+teamName+"</span><button type='button' class='btn btn-danger team_rank_btn leave' style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button> <hr class='featurette-divider'>";
+                 
+                    var profile = "<h1 style='display:inline'> <span class='text-capitalize'>"+teamName+"</span></h1><button type='button' class='btn btn-danger team_rank_btn leave' style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button> <hr class='featurette-divider'>";
 		    profile+="<div style='clear:left;'><div class='panel-group' id='accordion'><div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#mem'><span class='text-capitalize'>"+$('#user').attr('name')+"</span></a></h4></div><div id='mem' class='panel-collapse collapse'><div class='panel-body'></div></div></div></div></div>";
-		    
-                   /* profile+="<img id='team_image' class='featurette-image img-responsive' src='/img/team_default.png' alt='Generic placeholder image' style='border:solid;float:left'>";*/
-                    //profile+="<div style='float:left;margin-left:10px;'>";
-                   /* profile+="<h2> <span style='font-family:Fertigo'>Team Captain</span>: <span class='text-warning text-capitalize'>"+$('#user').attr('name')+"</span> </h2>";
-                    profile+="<h3> <span class='text-success'> Wins: 0 </span> </h3><h3> <span class='text-danger'> Losses: 0 </span></h3>";
-                    profile+="<button type='button' class='btn btn-danger team_rank_btn leave' style='color:rgb(0,0,0)' onclick='confirmTeamDecision()'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button></div>";*/
-
                     $('.team_rank').append(profile);
                  
                     //remove modal after 3 seconds
@@ -309,9 +303,10 @@ $(document).ready(function(){
       	  $( this ).find( 'span' ).html("Join Request Sent");
       	   $(this).attr( "disabled","disabled");
       	   //then send ajax request to team 
-      	    var teamID = $(this).parent().attr('id');
-       	     console.log(teamID);
-       	     var request ={opt: 'join', id: teamID};
+      	    var teamName = $(this).parent().attr('id');
+       	     console.log(teamName);
+	    var result = teamName.split("-");
+       	     var request ={opt: 'join', id: result[1]};
       	     postJSON({
       	      json:request
       	     });    	   
