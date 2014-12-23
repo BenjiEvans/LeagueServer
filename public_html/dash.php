@@ -78,7 +78,7 @@
 	?>
        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id='main_container' style='background-color:rgba(255,255,255,.7)'>
            <!-- overview stuff -->
-	   <?php require("../templates/dash/containers/overview/overview.php"); ?>  
+	   <?php if($status == 1)require("../templates/dash/containers/overview/overview.php"); ?>  
           
            
            <!-- container for the blog -->

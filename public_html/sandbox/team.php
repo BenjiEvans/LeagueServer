@@ -89,19 +89,21 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         <!-- Team content start -->
         <div>
-        <h1> JBlap <em><span class="text-muted officer">Challenger</span></em></h1> <hr class="featurette-divider">
-          <img class="featurette-image img-responsive" data-src="holder.js/200x200/auto" alt="Generic placeholder image" style='border:solid;float:left'>
+        <h1 style='display:inline'> JBlap <!--<em><span class="text-muted officer">Challenger</span></em>--></h1> 
+	  <button type="button" class="btn btn-danger team_rank_btn leave" style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button> 
+	<hr class="featurette-divider">
+          <!--<img class="featurette-image img-responsive" data-src="holder.js/200x200/auto" alt="Generic placeholder image" style='border:solid;float:left'> -->
           <div style='float:left;margin-left:10px;'>
-            <h2> <span style="font-family:Fertigo">Club Rank</span> : <span class="text-muted officer">1</span></h2>
-            <h2> <span style="font-family:Fertigo">Team Captain</span>: <span class="text-warning">speedy847</span> </h2>
-            <h3> <span class="text-success" > Wins: 5 </span> </h3>
-            <h3> <span class="text-danger"> Losses: 2 </span></h3>
-             <button type="button" class="btn btn-danger team_rank_btn leave" style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button> 
+            <!--<h2> <span style="font-family:Fertigo">Club Rank</span> : <span class="text-muted officer">1</span></h2> -->
+            <!--<h2> <span style="font-family:Fertigo">Team Captain</span>: <span class="text-warning">speedy847</span> </h2>
+           <!-- <h3> <span class="text-success" > Wins: 5 </span> </h3>
+            <h3> <span class="text-danger"> Losses: 2 </span></h3> -->
+             <!--<button type="button" class="btn btn-danger team_rank_btn leave" style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button> -->
            
           </div> 
           <!-- members start -->
       <div style='clear:left;'>
-            <h2> <em> Members</em></h2>
+            <!--<h2> <em> Members</em></h2> -->
             
             <div class="panel-group" id="accordion">
   <div class="panel panel-default">
@@ -116,13 +118,13 @@
     <div id="collapseOne" class="panel-collapse collapse in">
       <div class="panel-body">
      
-      <h3> Club Rank: <span class="text-warning">1</span></h3>
-      <p> <span class="text-success">Wins: 5</span> , <span class="text-danger">Losses: 6</span></p>
+     <!-- <h3> Club Rank: <span class="text-warning">1</span></h3>
+      <p> <span class="text-success">Wins: 5</span> , <span class="text-danger">Losses: 6</span></p> -->
       <p> 
          <button type="button" class="btn btn-danger team_rank_btn remove" style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Remove from Team</button> 
          <button type='button' class='btn btn-warning team_rank_btn captain' style='color:rgb(0,0,0)'><img src='../img/glyphicons_043_group.png'> Assign as Captain </button>
       </p>
-      <a href='#'> View profile</a>
+      <!--<a href='#'> View profile</a> -->
       </div>
     </div>
   </div>
@@ -158,7 +160,7 @@
             
           </div> <!-- member end -->
           
-          <!-- match history -->
+          <!-- match history 
           <h2> Match History </h2>
           <table class="table table-bordered">
                <thead>

@@ -27,7 +27,8 @@
 		}else{
 
 		//TODO
-
+			require("../templates/dash/containers/teams/profile.php");
+                  	//require("../templates/dash/members.php"); 
 
 		}
             

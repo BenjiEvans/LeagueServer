@@ -2,6 +2,7 @@
 <?php require("../scripts/php/json_functions.php")?>
 <?php require("../scripts/php/mysql_connect.php")?>
 <?php require("../scripts/php/user_info.php")?>
+<?php require("../scripts/php/main_functions.php")?>
 <?php
 
    //handle post ajax
@@ -33,11 +34,100 @@ $title= $obj->{'title'};
       $mysqli->close();   
       returnJSON("HTTP/1.0 503 Service Unavailable", array('msg'=>'We are having problems with the server at the 	moment','status'=>503));	     
      
-     
-	  
+      
     } 
 
+//check for team creation
+$team_name =$obj->{'name'};
+
+ if(isset($team_name)){
+	
+    /* The user cannot create a team if he/she is 
+       already part of a team of the team! 
+    */
+    if(!is_null($team)){
+	$mysqli->close();
+	 returnJSON("HTTP/1.0 401 Unauthorized", "");
+     }
+    
+    //check to see if the team name already exsists 
+    $team_name = $mysqli->real_escape_string($team_name);
+    $result = $mysqli->query("select name from Teams where name='$team_name'");
+    $count = $result->num_rows;  
+    $result->close();	
+	//if count is zero that means no team exists
+	if($count != 0){
+		
+             $mysqli->close();
+	     returnJSON("HTTP/1.0 409 Conflict",array('msg'=>'The Team name is already in use', 'status' => 409));
+
+	}
+
+	//make sure that the name is not too long 
+	$length = strlen(trim($team_name));
+	if($length > 32 || $length == 0){
+	     $mysqli->close();
+	     returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Team name is too long or too short', 'status'=> 406));
+	 }
+	
+        /*no conflicts so add to database. */
+	$success = addTeam($team_name,$id);
+	if($success){
+	    $mysqli->close();
+	    returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Team has been created','id'=>$team_name));    
+	}else{
+	    $mysqli->close();
+	    returnJSON("HTTP/1.0 503 Service Unavailable","");
+	}
+          
+    
+	
+  }
+
+//check to see if user is leaving a team, deleting a team mate or assigning some one as captain
+$opt = $obj->{'opt'};
+ if(isset($opt)){
+
+	switch($opt){
+
+	   case "leave":
+	  //make sure user has a team to leave from 
+		if(is_null($team))returnJSON("HTTP/1.0 401 Unauthorized" ,array('msg'=>'Cannot leave a team you are not appart of..', 'status'=> 401));
+	     leave($id,$team);
+	 
+	}
+
+ }
 
    
 ?>
+
+<?php
+
+function leave($id,$team){
+ // remove all member if user is captain 
+global $mysqli;
+
+	   if(is_captain($id,$team)){
+		
+		remove_all_members($team);
+		$mysqli->close();
+		returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'You have successfully left'));
+
+	    }
+	   //other wise just remove the individual user 
+	    if(remove_from_team($id)){
+	       $mysqli->close();
+		returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'You have successfully left'));
+
+	     }
+		
+	      $mysqli->close();
+	       returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Could not remove from team','status'=>503));
+}
+
+
+
+?>
+
 

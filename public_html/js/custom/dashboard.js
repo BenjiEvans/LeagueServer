@@ -197,12 +197,15 @@ $(document).ready(function(){
                     //append teams profile 
                     $('.team_rank').html("");
                     //   $('.team_rank').html("<h1> JBlap <em><span class='text-muted officer'>Challenger</span></em></h1> <hr class='featurette-divider'><img class='featurette-image img-responsive' data-src='holder.js/200x200/auto' alt='Generic placeholder image' style='border:solid;float:left'><div style='float:left;margin-left:10px;'><h2> <span style='font-family:Fertigo'>Club Rank</span> : <span class='text-muted officer'>1</span></h2><h2> <span style='font-family:Fertigo'>Team Captain</span>: <span class='text-warning text-capitalize'>speedy847</span> </h2><h3> <span class='text-success' > Wins: 5 </span> </h3><h3> <span class='text-danger'> Losses: 2 </span></h3><button type='button' class='btn btn-danger team_rank_btn leave' style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button> </div>");
-                    var profile = "<h1>"+teamName+" <em><span class='text-muted officer'>Challenger</span></em></h1> <hr class='featurette-divider'>";
-                    profile+="<img id='team_image' class='featurette-image img-responsive' src='/img/team_default.png' alt='Generic placeholder image' style='border:solid;float:left'>";
-                    profile+="<div style='float:left;margin-left:10px;' id='"+data.id+"'><h2> <span style='font-family:Fertigo'><em>Not Ranked</em></h2>";
-                    profile+="<h2> <span style='font-family:Fertigo'>Team Captain</span>: <span class='text-warning text-capitalize'>"+$('#user').attr('name')+"</span> </h2>";
+                    var profile = "<h1> <span class='text-capitalize'>"+teamName+"</span><button type='button' class='btn btn-danger team_rank_btn leave' style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button> <hr class='featurette-divider'>";
+		    profile+="<div style='clear:left;'><div class='panel-group' id='accordion'><div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#mem'><span class='text-capitalize'>"+$('#user').attr('name')+"</span></a></h4></div><div id='mem' class='panel-collapse collapse'><div class='panel-body'></div></div></div></div></div>";
+		    
+                   /* profile+="<img id='team_image' class='featurette-image img-responsive' src='/img/team_default.png' alt='Generic placeholder image' style='border:solid;float:left'>";*/
+                    //profile+="<div style='float:left;margin-left:10px;'>";
+                   /* profile+="<h2> <span style='font-family:Fertigo'>Team Captain</span>: <span class='text-warning text-capitalize'>"+$('#user').attr('name')+"</span> </h2>";
                     profile+="<h3> <span class='text-success'> Wins: 0 </span> </h3><h3> <span class='text-danger'> Losses: 0 </span></h3>";
-                    profile+="<button type='button' class='btn btn-danger team_rank_btn leave' style='color:rgb(0,0,0)' onclick='confirmTeamDecision()'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button></div>";
+                    profile+="<button type='button' class='btn btn-danger team_rank_btn leave' style='color:rgb(0,0,0)' onclick='confirmTeamDecision()'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button></div>";*/
+
                     $('.team_rank').append(profile);
                  
                     //remove modal after 3 seconds

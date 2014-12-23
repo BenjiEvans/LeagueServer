@@ -1,4 +1,8 @@
-<div id='blog' class="container blogy" hidden>
+<?php
+if($status == 1) echo '<div id="blog" class="container blogy" hidden>';
+else echo '<div id="blog" class="container blogy">';
+?>
+<!--<div id='blog' class="container blogy" hidden> -->
              <?php require("../templates/dash/containers/blog/post_area.php");?>
 	     <div class="blog-header">
 	   	  <h1 class="blog-title">CSULA League of Legends </h1>

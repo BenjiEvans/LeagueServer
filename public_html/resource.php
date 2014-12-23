@@ -62,7 +62,7 @@ require("../scripts/php/post_functions.php");
        if($param == 'team_list'){// get team listing 
        	       
        	//require("../templates/login/dash/team_rank/team_list.php");
-        require("../templates/dash/team_list.php");
+        require("../templates/scaffolds/team_list.php");
        	  exit();
        }
        
