@@ -90,26 +90,38 @@ return $mysqli->query("update Users set team=NULL where id=$id");
 }
 
 function notify_leave($to, $from){
-//TODO
-return true;
+
+return send_note($to, $from, 0);
+
 }
 
 function team_exsists($team_name){
-//TODO
-
-return true;
+global $mysqli;
+$query = $mysqli->query("select name from Teams where name='$team_name'");
+$result = $query->num_rows == 1;
+$query->close();
+return $result;
 
 }
 
 function notify_join_request($to, $from){
-//TODO
-return true;
+
+return send_note($to,$from,1);
 }
 
 function delete_join_requests($captain){
-//TODO
+//deleted any join request to the captain
+global $mysqli;
 
-return true;
+return $mysqli->query("delete from Notes where recipient='$captain' and type=1");
+}
+
+function send_note($to,$from,$type){
+global $mysqli;
+
+return $mysqli->query("insert into Notes (sender,recipient,type) values('$from','$to', $type)");
+
+
 }
 
 

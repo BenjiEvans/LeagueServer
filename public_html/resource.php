@@ -1,6 +1,7 @@
 <?php 
 require("../scripts/php/login_check.php");
 require("../scripts/php/mysql_connect.php");
+require("../scripts/php/user_info.php");
 require("../scripts/php/post_functions.php");
 require("../scripts/php/resource_functions.php");
 

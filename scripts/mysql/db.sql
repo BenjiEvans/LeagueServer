@@ -42,6 +42,7 @@ CREATE TABLE Notes (
     nid int PRIMARY KEY AUTO_INCREMENT,
 	sender int Not Null,
 	recipient int not null,
+	type tinyint (1) Not NULL,
 	Foreign Key (sender) References Users(id) On Delete Cascade ON Update Cascade,
 	Foreign Key (recipient) References Users(id) On Delete Cascade ON Update Cascade
 );
