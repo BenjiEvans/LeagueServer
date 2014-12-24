@@ -124,8 +124,24 @@ return $mysqli->query("insert into Notes (sender,recipient,type) values('$from',
 
 }
 
+function note_belongs_to($nid, $owner){
+
+//TODO
+return true;
 
 
+}
+
+function handle_note_response($nid, $response){
+
+}
+
+function delete_note($nid){
+//echo "hello?";
+global $mysqli;
+return $mysqli->query("delete from Notes where nid=$nid");
+
+}
 
 
 ?>

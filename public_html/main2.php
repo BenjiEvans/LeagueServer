@@ -112,6 +112,40 @@ $opt = $obj->{'opt'};
 
  }
 
+ //notification responses
+ $note = $obj->{'note'};
+ if(isset($note)){
+
+   $nid = $obj->{'id'};// id of the note 	
+   if( !isset($nid) || !is_numeric($nid))returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Not a valid id', 'status'=> 406));
+	
+   if(!note_belongs_to($nid,$id)) returnJSON("HTTP/1.0 401 Unauthorized" ,array('msg'=>'This is not your notification', 'status'=> 401)); 
+   
+   switch($note){
+    
+    case 0:
+      handle_note_response($nid,false);
+
+     break;
+    case 1:
+      handle_note_response($nid,true);
+
+     break;
+    case -1:
+     if(delete_note($nid)){
+       $mysqli->close();
+       returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Not succesfully deleted!'));   
+     }
+     break;
+   }
+
+   $mysqli->close();
+   returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Error handling notes','status'=>503));
+   	
+   
+
+ }
+
    
 ?>
 

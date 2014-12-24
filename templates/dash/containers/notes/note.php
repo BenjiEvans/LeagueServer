@@ -17,6 +17,25 @@
 		  </div> -->
 <?php
 //get all notifications and package them in divs for presentation 
+  $query = $mysqli->query("select nid,sender,type from Notes where recipient=$id");
+   if($query->num_rows == 0)echo "<h2> No Notifications...</h2>";
+   else{
+
+	echo  "<div class='page-header'>
+		    <h1>Notifications<!-- <small>Bootstrap Visual Test</small>--></h1>
+		  </div>";  
+
+	 while($row = $query->fetch_assoc())
+	{
+
+		print_note($row['nid'],$row['sender'],$row['type']);
+
+
+	 }
+
+
+
+   }
 
 /*
    $query = $mysqli->query("select * from Notifications where UserID =(select UserID from Users where Ign='".$_SESSION['user']->name()."') and Respond=0");
@@ -79,6 +98,48 @@
    }
    $mysqli->close();
 */
+
+?>
+
+<?php
+function print_note($nid,$from,$type){
+echo "<div id='$nid' class='alert fade in ";
+
+switch($type){
+
+case 0://leave note
+   echo "alert-warning'>";
+   echo "<button type='button' class='close note_close' data-dismiss='alert' aria-hidden='true'>&times;</button>";
+   echo "<h4><strong>Your Team is Gone!</strong></h4>";
+   echo "<p>The captain of your team has left the team without assigning a new captain; as a result your team has been deleted.. </p>";
+   echo "</div>";
+break;
+
+case 1:// request to join team
+   $name = get_ign_by_id($from);
+   echo "alert-info'>";
+   echo "<button type='button' class='close note_close' data-dismiss='alert' aria-hidden='true'>&times;</button>";
+   echo "<h4><strong>Join Request</strong></h4>";
+   echo "<p><strong>$name</strong> wishes to join your team!</p>";
+   echo "<p><button type='button' class='btn btn-success accept note_btn'>Accept request</button> <button type='button' class='btn btn-default decline note_btn'>Decline request</button></p>";
+   echo "</div>";
+break;
+
+
+}
+
+
+
+}
+
+function get_ign_by_id($id){
+
+global $mysqli;
+$query = $mysqli->query("select ign from Users where id=$id");
+$row = $query->fetch_assoc();
+return $row['ign'];
+
+}
 
 ?>
 </div>
