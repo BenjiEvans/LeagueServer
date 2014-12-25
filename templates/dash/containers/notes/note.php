@@ -125,6 +125,24 @@ case 1:// request to join team
    echo "</div>";
 break;
 
+case 2:// join acccepted
+       $team = get_team_by_captain($from);
+       echo "alert-success'>";
+       echo "<button type='button' class='close note_close' data-dismiss='alert' aria-hidden='true'>&times;</button>";
+       echo "<h4><strong>Join Request Accepted! </strong></h4>";
+       echo "<p><strong>".$team."</strong> has accepted your request to join them!</p>";
+       echo "<p><button type='button' class='btn btn-success accept note_btn'>Confirm join</button> <button type='button' class='btn btn-default decline note_btn'>Decline join</button></p>";
+       echo "</div>";
+break;
+
+case 3:// join declined
+     echo "alert-warning'>";
+     echo "<button type='button' class='close note_close' data-dismiss='alert' aria-hidden='true'>&times;</button>";
+         $team = get_team_by_captain($from);
+     echo "<strong>$team</strong> did not accept your request to join their team.</div>";
+break;
+
+
 
 }
 
@@ -137,9 +155,23 @@ function get_ign_by_id($id){
 global $mysqli;
 $query = $mysqli->query("select ign from Users where id=$id");
 $row = $query->fetch_assoc();
+$query->close();
 return $row['ign'];
 
 }
+
+function get_team_by_captain($captain){
+
+global $mysqli;
+
+$query = $mysqli->query("select name from Teams where captain=$captain");
+$row = $query->fetch_assoc();
+$query->close();
+
+return $row['name'];
+
+}
+
 
 ?>
 </div>

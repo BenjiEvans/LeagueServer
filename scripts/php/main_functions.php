@@ -134,14 +134,88 @@ return true;
 
 function handle_note_response($nid, $response){
 
+ 
+ //team should be globally defined 
+ //global $team;
+ global $mysqli;
+
+ $query = $mysqli->query("select sender,recipient,type from Notes where nid=$nid");
+ $note = $query->fetch_assoc();
+ $query->close();
+ switch($note['type']){
+  
+  case 1://join request 
+    // if(is_null($team))return false;//if user has a team 
+     if($response){
+          if(notify_join_accept($note['sender'],$note['recipient']) && delete_note($nid)) return true;
+	  else return false;
+      }else{
+	  if(notify_join_decline($note['sender'],$note['recipient']) && delete_note($nid)) return true;
+	  else return false;
+      }
+    break;
+
+  case 2://accept join 
+    if($response){
+        $team = get_team_by_captain($note['sender']);
+        // id should be globally defined
+        global $id;
+	if(add_to_team($id,$team) && delete_note($nid)) return true;
+	else return false;
+     }else{
+	if(delete_note($nid)) return true;
+	else return false;
+    }
+  break;
+ }
+
+//this should actually be true. switched as false or debugging 
+return false;
+
 }
 
+function add_to_team($member,$team){
+//make sure team is not full before adding to team 
+global $mysqli;
+
+$query = $mysqli->query("select count(*) as total from Users where team='$team'");
+$row = $query->fetch_assoc();
+$query->close();
+
+if($row['total'] == 5) return false;
+
+return $mysqli->query("update Users set team='$team' where id=$member");
+
+
+}
+
+function notify_join_accept($to,$from){
+return send_note($to,$from,2);
+}
+
+function notify_join_decline($to, $from){
+return send_note($to, $from,3);
+}
+
+
 function delete_note($nid){
-//echo "hello?";
 global $mysqli;
 return $mysqli->query("delete from Notes where nid=$nid");
 
 }
+
+function get_team_by_captain($captain){
+
+global $mysqli;
+
+$query = $mysqli->query("select name from Teams where captain=$captain");
+$row = $query->fetch_assoc();
+$query->close();
+
+return $row['name'];
+
+}
+
 
 
 ?>

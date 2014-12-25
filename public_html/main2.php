@@ -124,12 +124,18 @@ $opt = $obj->{'opt'};
    switch($note){
     
     case 0:
-      handle_note_response($nid,false);
-
+        if(handle_note_response($nid,false)){
+		$mysqli->close();
+              returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Note successfully handled!'));
+	}
+       
      break;
     case 1:
-      handle_note_response($nid,true);
-
+        if(handle_note_response($nid,true)){
+             $mysqli->close();
+        returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Note successfully handled!'));
+        }
+	
      break;
     case -1:
      if(delete_note($nid)){
