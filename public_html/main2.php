@@ -105,8 +105,29 @@ $opt = $obj->{'opt'};
 	   if(team_exsists($join_team)) request_join($join_team);
 	   
 	    $mysqli->close();
-	    returnJSON("HTTP/1.0 404 Service Unavailable",array('msg'=>'The team you are trying to join does not exsist','status'=>404));
+	    returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'The team you are trying to join does not exsist','status'=>503));
 	   break;
+
+	  case "remove":
+	  $iden = $obj->{'id'};
+	   if(!isset($iden) || is_int($iden)){
+	      $mysqli->close();
+	      returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'not a valid id', 'status'=> 406));	
+	   }
+
+	   if(is_captain($id,$team) && has_team($iden,$team) && remove_from_team($iden)){
+
+		$mysqli->close();
+	        returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'successfully removed member'));
+
+	   }
+	   
+	   $mysqli->close();
+	    returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'could not remove teammate','status'=>503));          
+
+	  break;
+
+
 	 
 	}
 

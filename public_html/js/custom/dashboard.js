@@ -238,12 +238,15 @@ $(document).ready(function(){
       //confirm a decision in team rank modal
        $('.confirm_choice').click(function(){
        	
+
+	console.log('confirm choice');
+
        	  var choice, success, error;	       
           if($(this).hasClass("leave")){
        		//post to server 
-       	     var teamID = $(this).attr('id');
-       	     console.log(teamID);
-       	     choice = {opt: 'leave', id: teamID};
+       	    // var teamID = $(this).attr('id');
+       	    // console.log(teamID);
+       	     choice = {opt: 'leave'/*, id: teamID*/};
        	     success = function (data) {
                                      
                   $('#team_modal_body').html("<span class='text-success'>You have successfully been remove from the team!</span>");
@@ -260,7 +263,56 @@ $(document).ready(function(){
                       $('#team_modal_footer').hide();
                  };
        	 
-       	   }
+       	   }else if ($(this).hasClass("remove")){
+		
+	       
+		var memID = $(this).attr('id');
+		choice = {opt: 'remove', id: memID};
+	
+		success = function(data){
+		   //TODO
+		  $('#team_modal_body').html("Remove successful");
+		//add code to remove on client side
+
+
+                  $('#team_modal_footer').hide();
+
+                };
+
+
+
+                error = function(data){
+	            //TODO
+	  $('#team_modal_body').html("We were unable to leave remove that teammate. Try again later. If this problem persists please contact the web master");
+                      $('#team_modal_footer').hide();
+                 
+
+                };		
+
+            }else if ($(this).hasClass("captain")){
+		
+		var memID = $(this).attr('id');
+		choice = {opt: 'captain', id: memID};
+	
+		success = function(data){
+		   //TODO
+	  $('#team_modal_body').html("Captain of the team has been reassigned.");
+                      $('#team_modal_footer').hide();
+
+                };
+
+
+
+                error = function(data){
+	            //TODO
+  $('#team_modal_body').html("We were unable to reassign the selected member as captain. Try again later. If this problem persists please contact the web master");
+                      $('#team_modal_footer').hide();
+                 
+
+                };	
+
+
+             }
        	   
        	   postJSON({
        	      json:choice,
@@ -277,7 +329,8 @@ $(document).ready(function(){
       $(document).on("click",".team_rank_btn",function(){
       		      
           var decide = "Are you sure that you wish to ";
-          var id = $(this).parent().attr('id');
+          var iden = $(this).parent().attr('id').split('-');
+	  var id = iden[1];
          //write content      
       	if($(this).hasClass("leave")){
       	   var cap = "If you are captain of this team your teamates WILL ALSO BE KICKED OUT OF THE TEAM AND ALL RECORD OF THE TEAM WILL BE DELETED;";
@@ -290,13 +343,28 @@ $(document).ready(function(){
       	   //add id 
       	   $('.confirm_choice').attr('id',id); 		
       	}else if($(this).hasClass("remove")){
-      	   
+      	   //write content 
       	   $('#team_modal_body').html(decide+="<span class='text-warning'>remove this player from your team</span>?");
       		
+	   //add class to button
+	   $('.confirm_choice').addClass('remove');
+      	   $('.confirm_choice').removeClass('leave');
+      	   $('.confirm_choice').removeClass('captain');
+           //add id 
+	   $('.confirm_choice').attr('id',id); 	
+
       	}else if($(this).hasClass("captain")){
-      		
+      		//write content 
       		var permList = "<ul><li>Recruit members for the team</li><li>Register the team for tournaments </li><li>Remove players from the team</li> </ul>";
       	     $('#team_modal_body').html(decide+="<span class='text-warning'>assign this player as team captain</span>?<span class='text-danger'>If you do you will not be allowed to</span>"+permList);
+
+	   //add class to button
+	   $('.confirm_choice').addClass('captain');
+      	   $('.confirm_choice').removeClass('leave');
+      	   $('.confirm_choice').removeClass('remove');
+           //add id 
+	   $('.confirm_choice').attr('id',id); 	
+
       	     
       	}else if($(this).hasClass("join")){
       	

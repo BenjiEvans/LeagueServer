@@ -49,6 +49,8 @@ global $mysqli;
          $mysqli->rollback();
 	 return false;
      }
+    //don't notify captain of the team 
+    if($row['id'] == $captain) continue;
 
     if(!notify_leave($row['id'],$captain)){
 
@@ -215,6 +217,15 @@ $query->close();
 return $row['name'];
 
 }
+
+function has_team($id,$team){
+
+//TODO
+
+return true;
+
+}
+
 
 
 

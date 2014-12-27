@@ -25,7 +25,7 @@
   	//print buttons if captain of the team. dont print buttons for yourself
   	if( $captain == $id && $row['id'] != $id )
   	{
-  	 echo "<p><button type='button' class='btn btn-danger team_rank_btn remove' style='color:rgb(0,0,0)'><img src='/img/glyphicons_007_user_remove.png'> Remove from Team</button>
+  	 echo "<p id='mem-".$row['id']."'><button type='button' class='btn btn-danger team_rank_btn remove' style='color:rgb(0,0,0)'><img src='/img/glyphicons_007_user_remove.png'> Remove from Team</button>
   	<button type='button' class='btn btn-warning team_rank_btn captain' style='color:rgb(0,0,0)'><img src='/img/glyphicons_043_group.png'> Assign as Captain </button></p>";	
   		
   	}
