@@ -142,6 +142,20 @@ case 3:// join declined
      echo "<strong>$team</strong> did not accept your request to join their team.</div>";
 break;
 
+case 4: //ban
+   echo "alert-danger'>";
+   echo "<button type='button' class='close note_close' data-dismiss='alert' aria-hidden='true'>&times;</button>";
+   echo "<h4><strong>Banished!</strong></h4>";
+   echo "You have been remove from your team.</div>";
+break;
+
+case 5: // new captain
+   echo "alert-success'>";
+   echo "<button type='button' class='close note_close' data-dismiss='alert' aria-hidden='true'>&times;</button>";
+   echo "<h4><strong>Welcome captain!</strong></h4>";
+   echo "You have been assigned as captain.</div>";
+break;
+
 
 
 }

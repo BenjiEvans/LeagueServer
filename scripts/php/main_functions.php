@@ -232,10 +232,22 @@ return $row == 1;
 
 
 function assign_as_captain($id,$team){
-//TODO
 global $mysqli;
 return $mysqli->query("update Teams set captain=$id where name='$team'");
 
+
+}
+
+function notify_ban($to,$from){
+
+return send_note($to,$from,4);
+
+}
+
+
+function notify_new_captain($to, $from){
+
+return send_note($to,$from,5);
 
 }
 

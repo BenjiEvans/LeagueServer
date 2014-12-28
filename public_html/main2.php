@@ -115,7 +115,7 @@ $opt = $obj->{'opt'};
 	      returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'not a valid id', 'status'=> 406));	
 	   }
 
-	   if(is_captain($id,$team) && has_team($iden,$team) && remove_from_team($iden)){
+	   if(is_captain($id,$team) && has_team($iden,$team) && remove_from_team($iden) && notify_ban($iden, $id)){
 
 		$mysqli->close();
 	        returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'successfully removed member'));
@@ -134,7 +134,7 @@ $opt = $obj->{'opt'};
 	      returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'not a valid id', 'status'=> 406));	
 	   }
 
-	   if(is_captain($id,$team) && has_team($iden,$team) && assign_as_captain($iden,$team)){
+	   if(is_captain($id,$team) && has_team($iden,$team) && assign_as_captain($iden,$team) && notify_new_captain($iden, $id)){
 
 		$mysqli->close();
 	        returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'successfully made member captain'));
