@@ -220,7 +220,6 @@ return $row['name'];
 
 function has_team($id,$team){
 
-//TODO
 global $mysqli;
 
 $query = $mysqli->query("select ign from Users where id=$id and team='$team'");
@@ -234,9 +233,8 @@ return $row == 1;
 
 function assign_as_captain($id,$team){
 //TODO
-
-
-return true;
+global $mysqli;
+return $mysqli->query("update Teams set captain=$id where name='$team'");
 
 
 }
