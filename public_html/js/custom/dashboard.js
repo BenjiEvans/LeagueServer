@@ -199,7 +199,7 @@ $(document).ready(function(){
                     $('.team_rank').html("");
                  
                     var profile = "<h1 style='display:inline'> <span class='text-capitalize'>"+teamName+"</span></h1><button type='button' class='btn btn-danger team_rank_btn leave' style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button> <hr class='featurette-divider'>";
-		    profile+="<div style='clear:left;'><div class='panel-group' id='accordion'><div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#mem'><span class='text-capitalize'>"+$('#user').attr('name')+"</span></a></h4></div><div id='mem' class='panel-collapse collapse'><div class='panel-body'></div></div></div></div></div>";
+		    profile+="<div style='clear:left;'><div class='panel-group' id='accordion'><div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'> <img src='./img/captain.png'><a data-toggle='collapse' data-parent='#accordion' href='#mem'><span class='text-capitalize'>"+$('#user').attr('name')+"</span></a></h4></div><div id='mem' class='panel-collapse collapse'><div class='panel-body'></div></div></div></div></div>";
                     $('.team_rank').append(profile);
                  
                     //remove modal after 3 seconds
@@ -329,8 +329,8 @@ $(document).ready(function(){
       $(document).on("click",".team_rank_btn",function(){
       		      
           var decide = "Are you sure that you wish to ";
-          var iden = $(this).parent().attr('id').split('-');
-	  var id = iden[1];
+         /* var iden = $(this).parent().attr('id').split('-');
+	  var id = iden[1];*/
          //write content      
       	if($(this).hasClass("leave")){
       	   var cap = "If you are captain of this team your teamates WILL ALSO BE KICKED OUT OF THE TEAM AND ALL RECORD OF THE TEAM WILL BE DELETED;";
@@ -341,7 +341,7 @@ $(document).ready(function(){
       	   $('.confirm_choice').removeClass('remove');
       	   $('.confirm_choice').removeClass('captain');
       	   //add id 
-      	   $('.confirm_choice').attr('id',id); 		
+      	   //$('.confirm_choice').attr('id',id); 		
       	}else if($(this).hasClass("remove")){
       	   //write content 
       	   $('#team_modal_body').html(decide+="<span class='text-warning'>remove this player from your team</span>?");
@@ -351,6 +351,8 @@ $(document).ready(function(){
       	   $('.confirm_choice').removeClass('leave');
       	   $('.confirm_choice').removeClass('captain');
            //add id 
+	   var iden = $(this).parent().attr('id').split('-');
+	   var id = iden[1];
 	   $('.confirm_choice').attr('id',id); 	
 
       	}else if($(this).hasClass("captain")){
@@ -363,6 +365,8 @@ $(document).ready(function(){
       	   $('.confirm_choice').removeClass('leave');
       	   $('.confirm_choice').removeClass('remove');
            //add id 
+           var iden = $(this).parent().attr('id').split('-');
+	   var id = iden[1];
 	   $('.confirm_choice').attr('id',id); 	
 
       	     

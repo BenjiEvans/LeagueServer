@@ -221,8 +221,23 @@ return $row['name'];
 function has_team($id,$team){
 
 //TODO
+global $mysqli;
+
+$query = $mysqli->query("select ign from Users where id=$id and team='$team'");
+$row = $query->num_rows;
+$query->close();
+
+return $row == 1;
+
+}
+
+
+function assign_as_captain($id,$team){
+//TODO
+
 
 return true;
+
 
 }
 

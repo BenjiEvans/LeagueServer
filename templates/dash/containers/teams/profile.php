@@ -20,6 +20,7 @@
   while($row = $mem_query->fetch_assoc())
   {
   	echo "<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'>";
+	if($row['id'] == $captain) echo "<img src='./img/captain.png'>";
   	echo "<a data-toggle='collapse' data-parent='#accordion' href='#mem".$row['id']."'><span class='text-capitalize'>".$row['ign']."</span></a></h4></div>";
   	echo "<div id='mem".$row['id']."' class='panel-collapse collapse'><div class='panel-body'>";
   	//print buttons if captain of the team. dont print buttons for yourself

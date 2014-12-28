@@ -32,12 +32,17 @@ echo "<hr class='featurette-divider'>";
   
   //print members
   $mem_query = $mysqli->query("select * from Users where team='$name'");
- 
+  
+  //get captain id 
+  $query = $mysqli->query("select captain from Teams where name='$name'");
+  $result = $query->fetch_assoc();
+  $captain = $result['captain'];
 
 
   while($row = $mem_query->fetch_assoc())
   {
   	echo "<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'>";
+	if($captain == $row['id']) echo "<img src='../img/captain.png'>";
   	echo "<a data-toggle='collapse' data-parent='#accordion' href='#mem".$row['id']."'><span class='text-capitalize'>".$row['ign']."</span></a></h4></div>";
   	echo "<div id='mem".$row['id']."' class='panel-collapse collapse'><div class='panel-body'>";
   	  	
@@ -48,7 +53,8 @@ echo "<hr class='featurette-divider'>";
   
   
   echo "</div></div>";
-
+   $mem_query->close();
+   $query->close();
 
 
 

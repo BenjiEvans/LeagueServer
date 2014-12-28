@@ -127,6 +127,23 @@ $opt = $obj->{'opt'};
 
 	  break;
 
+	  case "captain":
+		 $iden = $obj->{'id'};
+	   if(!isset($iden) || is_int($iden)){
+	      $mysqli->close();
+	      returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'not a valid id', 'status'=> 406));	
+	   }
+
+	   if(is_captain($id,$team) && has_team($iden,$team) && assign_as_captain($iden,$team)){
+
+		$mysqli->close();
+	        returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'successfully made member captain'));
+
+	   }
+	   
+	   $mysqli->close();
+	    returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'could not remove teammate','status'=>503));          
+	   break;
 
 	 
 	}
