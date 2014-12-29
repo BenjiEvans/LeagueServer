@@ -32,7 +32,7 @@
      ?>
      <?php 
       
-     if($status == 1) echo "<li id='control_panel' class='dash_link'><a href='#'>Control Panel</a></li>";
+   //  if($status == 1) echo "<li id='control_panel' class='dash_link'><a href='#'>Control Panel</a></li>";
      	     
      	    ?>
      </ul>

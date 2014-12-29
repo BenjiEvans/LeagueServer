@@ -270,22 +270,28 @@ $(document).ready(function(){
 		choice = {opt: 'remove', id: memID};
 	
 		success = function(data){
-		   //TODO
-		  $('#team_modal_body').html("Remove successful");
-		//add code to remove on client side
-
-
-                  $('#team_modal_footer').hide();
-
+		  
+		      //add code to remove on client side
+		      //get the profile and append it to the rank div 
+		        var result = $('#team-name').html(); 
+			console.log("Teams name: "+result);
+			 var param = [["rq","team"],["name",result]];
+        		 getResource({
+         			params:param,
+         			 success: function (data) {
+				 $('.team_rank').html(data);
+				 $('#team_modal_footer').hide();
+				 $('#team_modal_body').htm("Remove successful");},
+                 		error: function (data) {
+                     		   alert("could not retreive profile");
+               				  }});
+			
                 };
-
-
 
                 error = function(data){
 	            //TODO
-	  $('#team_modal_body').html("We were unable to leave remove that teammate. Try again later. If this problem persists please contact the web master");
+	 		 $('#team_modal_body').html("We were unable to leave remove that teammate. Try again later. If this problem persists please contact the web master");
                       $('#team_modal_footer').hide();
-                 
 
                 };		
 
@@ -296,9 +302,22 @@ $(document).ready(function(){
 	
 		success = function(data){
 		   //TODO
-	  $('#team_modal_body').html("Captain of the team has been reassigned.");
-                      $('#team_modal_footer').hide();
+		       var result = $('#team-name').html(); 
+			console.log("Teams name: "+result);
+			 var param = [["rq","team"],["name",result]];
+        		 getResource({
+         			params:param,
+         			 success: function (data) {
+				 $('.team_rank').html(data);
+				 $('#team_modal_footer').hide();
+				 $('#team_modal_body').html("Captain of the team has been reassigned.");
 
+},
+                 		error: function (data) {
+                     		   alert("could not retreive profile");
+               				  }});
+	            
+                     
                 };
 
 
