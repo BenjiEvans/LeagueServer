@@ -1,5 +1,9 @@
 $(document).ready(function(){
-  
+  var more_posts = true;
+  var count = document.getElementById("note_count").innerHTML;          
+  count = Number(count);
+
+  var updater = new Updater(count);
        //toggle 
       $('.dash_link').click(function(){
       
@@ -43,6 +47,7 @@ $(document).ready(function(){
                  },
                  error: function (data) {
                      alert("could not retreive profile");
+			reload();
                  }
          	
          });
@@ -66,7 +71,8 @@ $(document).ready(function(){
          postJSON({
          json: note,
          success: function (data) {
-            if(data.status == 203)
+		window.location.reload();
+            /*if(data.status == 203)
             {
                $('#note_modal_body').append(data.msg);
                $('#note_respon_modal').modal('show');   
@@ -80,13 +86,13 @@ $(document).ready(function(){
               if(count == 0)$('.note').html("<h2> No Notifications...</h2>");
               if(data.hasOwnProperty("team_id")){
               	 getResource({
-              	   params:[['rq','team'],['id',data.team_id]],
+              	   params:[['rq','team'],['name',data.team_id]],
               	   success:function(data){
               	    $('.team_rank').html(data);	   
               	   }
               	 })      
               }
-               $(this).parent().parent().fadeOut(1000); 
+               $(this).parent().parent().fadeOut(1000); */
            }
          		 
          });
@@ -103,11 +109,12 @@ $(document).ready(function(){
             json:note,
             success: function (data) {
               //fade the div and decrement the notifications  
-              var count = document.getElementById("note_count").innerHTML;
+            /*  var count = document.getElementById("note_count").innerHTML;
               console.log("Note#: "+count);
               count = Number(count);
-              count--;   
-              $('#note_count').html(count);
+              count--;   */
+		updater.remove();
+              $('#note_count').html(updater.getTotal());
                //if no more notes display no notes...
               if(count == 0)$('.note').html("<h2> No Notifications...</h2>");
                           	     
@@ -129,14 +136,16 @@ $(document).ready(function(){
           do an ajax call to the server to 
           get the table listing 
         */
+	 $('#browse_team').attr('disabled',true);
       	var empty = $('#team_list').html().trim().length == 0;	 
       	console.log(empty);
-        if(empty){
+     //   if(empty){
            
            getResource({
              params:[["rq","team_list"]],
              success: function (data) {
-                     $("#team_list").append(data);
+                     $("#team_list").html(data);
+		      $('#browse_team').attr('disabled',false);
                    
                  },
              error: function (data) {
@@ -145,7 +154,7 @@ $(document).ready(function(){
            
            });
         	
-        }
+       // }
       		      
         //show listing 
         $('#team_list').fadeIn('slow');
@@ -198,7 +207,7 @@ $(document).ready(function(){
                     //append teams profile 
                     $('.team_rank').html("");
                  
-                    var profile = "<h1 style='display:inline'> <span class='text-capitalize'>"+teamName+"</span></h1><button type='button' class='btn btn-danger team_rank_btn leave' style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button> <hr class='featurette-divider'>";
+                    var profile = "<h1 style='display:inline'> <span id='team-name' class='text-capitalize'>"+teamName+"</span></h1><button type='button' class='btn btn-danger team_rank_btn leave' style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button> <hr class='featurette-divider'>";
 		    profile+="<div style='clear:left;'><div class='panel-group' id='accordion'><div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'> <img src='./img/captain.png'><a data-toggle='collapse' data-parent='#accordion' href='#mem'><span class='text-capitalize'>"+$('#user').attr('name')+"</span></a></h4></div><div id='mem' class='panel-collapse collapse'><div class='panel-body'></div></div></div></div></div>";
                     $('.team_rank').append(profile);
                  
@@ -281,7 +290,7 @@ $(document).ready(function(){
          			 success: function (data) {
 				 $('.team_rank').html(data);
 				 $('#team_modal_footer').hide();
-				 $('#team_modal_body').htm("Remove successful");},
+				 $('#team_modal_body').html("Remove successful");},
                  		error: function (data) {
                      		   alert("could not retreive profile");
                				  }});
@@ -451,7 +460,7 @@ $(document).ready(function(){
       	
       $(window).scroll(function () { //used to append additional blog posts 
                
-        if ($('#blogy').hasClass("active") && $(window).scrollTop() >= $(document).height() - $(window).height() - 10 ) 
+        if (more_posts && $('#blogy').hasClass("active") && $(window).scrollTop() >= $(document).height() - $(window).height() - 10 ) 
         {
         	var id = $('#blog_post_container').children().last().attr('id');
         	console.log("ID: "+id);
@@ -460,7 +469,7 @@ $(document).ready(function(){
                 getResource({
                   params:[["rq","blog"],["id",id]],
                   success: function (data) {
-                   
+                    if(data == "")more_posts = false;
                      $("#blog_post_container").append(data);
                    
                  },
@@ -474,8 +483,111 @@ $(document).ready(function(){
       
       
 		
-
+ updater.start();
 });
+
+
+function Updater(starting_total){
+var total = starting_total;
+var sec = 1000;
+var time = 10*sec;
+var maxtime = (60*sec)*5
+
+//assume player doesn't have a team 
+var has_team_client = false;
+
+var send_total = function (){
+console.log("sending");
+ $.ajax({
+                 type: "GET",
+                 url: "/update.php?total="+total,
+                 contentType: "text/html",
+                   success: function (data) {
+                      console.log(data.trim().length);
+                    if(data.trim().length != 0){
+		       //post all notes 
+			 $('.note').html(data);
+		       //update counter on page 
+                         total = $('.real_note').length;
+			 $('#note_count').html(total);
+		      //reset timer 
+			
+		      }
+			
+ 			//ajax request for team rank
+			$.ajax({
+			      type: "GET",
+                 	      url: "/update.php?rq=team",
+                              contentType: "text/html",	
+			      success :function (stuff){
+			        var has_team_server;
+
+				 if(stuff.trim().length == 0) has_team_server = false;
+				 else has_team_server = true;
+
+				 if(has_team_client){
+					
+				    if(has_team_server)$('.team_rank').html(stuff);
+				    else{
+					$('.team_rank').html(rank_default());
+					has_team_client = false;
+				    }
+
+				 }
+
+				if(!has_team_client){
+
+				    if(has_team_server){
+					$('.team_rank').html(stuff);
+					has_team_client = true;
+				    }
+
+				}
+
+					if(stuff.trim().length != 0)$('.team_rank').html(stuff);
+
+				},
+
+			      error: function(data){
+					alert("Trouble diplaying team profile");
+				}
+				});
+		 
+
+	              var newTime = time*2;
+			if(newTime > maxtime)newTime = maxtime;
+		     setTimeout(send_total, newTime);
+                 },
+                 error: function (data) {
+                     if(requestData.hasOwnProperty("error"))requestData.error(data);
+                     else alert("Could not fetch resource");
+                 }
+             });
+
+};
+
+this.remove = function (){
+  total--;
+};
+
+this.getTotal = function(){
+return total;
+};
+
+this.start = function(){
+
+setTimeout(send_total, time);
+
+
+};
+
+
+}
+
+
+
+
+
 
 function postJSON(requestData){
 	
@@ -538,6 +650,16 @@ function makeBlogPost(post, author){
  
  return blogPost;
  
+}
+
+function rank_default(){
+
+return "<h1 style='text-align:center;'> You are not currently part of a team</h1><button type='button' class='btn btn-warning btn-lg btn-block' id='browse_team'>Browse Teams</button><button type='button' class='btn btn-default btn-lg btn-block' id='create_team'>Create Team</button><div id='team_list' hidden> </div>";
+
+}
+
+function reload(){
+window.location.reload();
 }
 
 function trim(x) {

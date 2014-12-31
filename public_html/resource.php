@@ -22,15 +22,15 @@ require("../scripts/php/resource_functions.php");
        	
        	       if(isset($_GET['id'])){
        	          
-       	       	$id = $_GET['id'];  
-       	       	if(!is_numeric($id)){//id must be a number other wise exceptions will occur 
+       	       	$ide = $_GET['id'];  
+       	       	if(!is_numeric($ide)){//id must be a number other wise exceptions will occur 
        	         		
        	       	  $mysqli->close();	
        	       	 header("HTTP/1.0 406 Not Acceptable");
        	       	 exit();
        	       	}
        	       	$limit = 10; 
-                $result = $mysqli->query("select * from Posts where pid < $id order by pid desc limit $limit");
+                $result = $mysqli->query("select * from Posts where pid < $ide order by pid desc limit $limit");
                 $count = $result->num_rows;
                 if($count == 0) echo "";
                 else{

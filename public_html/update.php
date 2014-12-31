@@ -1,29 +1,39 @@
-<div class="container note" hidden>
-
+<?php require("../scripts/php/login_check.php") ?>
+<?php require("../scripts/php/json_functions.php")?>
+<?php require("../scripts/php/mysql_connect.php")?>
+<?php require("../scripts/php/user_info.php")?>
+<?php require("../scripts/php/resource_functions.php"); ?>
 <?php
-//get all notifications and package them in divs for presentation 
-  $query = $mysqli->query("select nid,sender,type from Notes where recipient=$id");
-   if($query->num_rows == 0)echo "<h2> No Notifications...</h2>";
-   else{
 
-	echo  "<div class='page-header'>
-		    <h1>Notifications<!-- <small>Bootstrap Visual Test</small>--></h1>
-		  </div>";  
+  
+   if(isset($_GET['total'])){
 
-	 while($row = $query->fetch_assoc())
-	{
+	 $total = $_GET['total'];
+ 	 $query = $mysqli->query("select * from Notes where recipient=$id");
+    	if($query->num_rows != $total){ //just send all notes
+      
+		while($row = $query->fetch_assoc()) print_note($row['nid'],$row['sender'],$row['type']);
 
-		print_note($row['nid'],$row['sender'],$row['type']);
+    	}else echo "";
 
 
-	 }
 
+    }
 
+  
+   if(isset($_GET['rq'])){
+
+      if(is_null($team)) echo "";
+      else print_team_profile($team);
 
    }
 
 
+
 ?>
+
+
+
 
 <?php
 function print_note($nid,$from,$type){
@@ -111,5 +121,5 @@ return $row['name'];
 }
 
 
+
 ?>
-</div>

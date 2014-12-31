@@ -5,10 +5,12 @@ function print_team_profile($name){
 
 global $mysqli;
 global $team;
+global $id;
 //print header 
-echo "<h1 style='display:inline'> <span class='text-capitalize'>$name</span></h1>";
+echo "<h1 style='display:inline'> <span id='team-name' class='text-capitalize'>$name</span></h1>";
 $iden = "team-$name";
-if(is_on_team($name)){
+$on_team = is_on_team($name);
+if($on_team){
 echo"<button type='button' class='btn btn-danger team_rank_btn leave' style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button>";
 
 }else{
@@ -45,6 +47,12 @@ echo "<hr class='featurette-divider'>";
 	if($captain == $row['id']) echo "<img src='../img/captain.png'>";
   	echo "<a data-toggle='collapse' data-parent='#accordion' href='#mem".$row['id']."'><span class='text-capitalize'>".$row['ign']."</span></a></h4></div>";
   	echo "<div id='mem".$row['id']."' class='panel-collapse collapse'><div class='panel-body'>";
+	if( $captain == $id && $row['id'] != $id )
+  	{
+  	 echo "<p id='mem-".$row['id']."'><button type='button' class='btn btn-danger team_rank_btn remove' style='color:rgb(0,0,0)'><img src='/img/glyphicons_007_user_remove.png'> Remove from Team</button>
+  	<button type='button' class='btn btn-warning team_rank_btn captain' style='color:rgb(0,0,0)'><img src='/img/glyphicons_043_group.png'> Assign as Captain </button></p>";	
+  		
+  	}
   	  	
   	//print closing stuff
   	echo "</div></div></div>";
