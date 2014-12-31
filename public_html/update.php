@@ -6,7 +6,7 @@
 <?php
 
   
-   if(isset($_GET['total'])){
+   if(isset($_GET['total'])){// get notes 
 
 	 $total = $_GET['total'];
  	 $query = $mysqli->query("select * from Notes where recipient=$id");
@@ -21,12 +21,24 @@
     }
 
   
-   if(isset($_GET['rq'])){
+   if(isset($_GET['rq']) && $_GET['rq'] == "team"){//get profile 
 
       if(is_null($team)) echo "";
       else print_team_profile($team);
 
    }
+
+  if(isset($_GET['rq']) && $_GET['rq'] == "teams"){// team listing
+
+       require("../templates/dash/containers/overview/top_teams.php");
+
+  }
+
+  if(isset($_GET['rq']) && $_GET['rq'] == "mems" ){// member listing 
+
+     require("../templates/dash/containers/overview/club_rank.php");
+
+ }
 
 
 

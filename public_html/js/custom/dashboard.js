@@ -127,6 +127,48 @@ $(document).ready(function(){
            return false;
       		      
       });
+
+
+
+	//admin stuff 
+     $(document).on("click",'#mem_overview',function(){//corresponds to overview members tab
+	
+		$.ajax({
+			      type: "GET",
+                 	      url: "/update.php?rq=mems",
+                              contentType: "text/html",	
+			      success :function (data){
+			       	 $('#home').html(data);
+				},
+
+			      error: function(data){
+					alert("Trouble retreiving members");
+				}
+				});	
+
+		
+
+     });
+
+     $(document).on("click", '#team_overview', function(){// corresponds to overview team tab
+		
+		$.ajax({
+			      type: "GET",
+                 	      url: "/update.php?rq=teams",
+                              contentType: "text/html",	
+			      success :function (data){
+			            $('#profile').html(data);
+				},
+
+			      error: function(data){
+					alert("Trouble retreiving teams");
+				}
+				});	
+
+
+     });
+
+
       
       
       //team rank div (no user not appart of team )

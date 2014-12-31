@@ -1,4 +1,4 @@
-<?php
+<?php // depends on user info 
 
 function addTeam($team_name, $captain){
 
@@ -128,8 +128,15 @@ return $mysqli->query("insert into Notes (sender,recipient,type) values('$from',
 
 function note_belongs_to($nid, $owner){
 
-//TODO
-return true;
+global $mysqli;
+global $id;
+
+$query = $mysqli->query("select * from Notes where nid=$nid and recipient=$id");
+$result = $query->num_rows == 1;
+$query->close();
+return $result; 
+
+//return true;
 
 
 }

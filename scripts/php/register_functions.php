@@ -14,7 +14,11 @@ function getRandomString(){//function to generate salt
 
 function isValidEmail($email){
 //TODO
-return true;
+   $parts = explode('@',$email);
+    $domain = $parts[1];
+    
+return strtolower($domain) == "calstatela.edu";
+//return true;
 
 }
 

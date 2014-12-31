@@ -6,8 +6,8 @@
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Members</a></li>
-    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Teams</a></li>
+    <li role="presentation" class="active"><a id='mem_overview' href="#home" aria-controls="home" role="tab" data-toggle="tab">Members</a></li>
+    <li role="presentation"><a id='team_overview' href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Teams</a></li>
   </ul>
 
   <!-- Tab panes -->
