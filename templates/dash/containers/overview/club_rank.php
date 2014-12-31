@@ -33,7 +33,7 @@
 	            
                      //print status
 		     if(is_null($row["status"])) echo"<td></td>";
-                     else if($row["status"] == 1) echo "<td>Admin</td>";
+                     else if($row["status"] == 1) echo "<td>Officer</td>";
 		     else if($row["status"] == 2) echo "<td>Collegiate</td>";
                      
                      echo "</tr>";
