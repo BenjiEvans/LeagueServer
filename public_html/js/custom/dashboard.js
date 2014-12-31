@@ -493,6 +493,7 @@ $(document).ready(function(){
           success: function (data) {  
 		console.log("Author:"+$('#user').attr('name'));    
               $("#blog_post_container").prepend(makeBlogPost(post,$('#user').attr('name')));    
+		$('#blog_error').html("");
             }
         });
                 

@@ -1,7 +1,7 @@
 <div id='blog' class="container" >
      <?php require("../templates/index/containers/blog/header.php") ?>
      <div class="row">
-         <div class="col-sm-8 blog-main"> <!-- blog main -->
+         <div class="col-sm-8 blog-main" id='blog_post_container'> <!-- blog main -->
                    <?php require("../templates/scaffolds/posts.php") ?>
                    <!--<ul class="pager">
                       <li><a href="#">Previous</a></li>
