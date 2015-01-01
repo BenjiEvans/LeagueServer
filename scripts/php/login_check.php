@@ -3,7 +3,7 @@ session_start();
 
    if(!isset($_SESSION["user"]))
    {
-	header("Location: http://localhost");
+	 header("Location: /index.php");
 	exit();
    }
 

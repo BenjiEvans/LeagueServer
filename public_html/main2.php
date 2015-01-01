@@ -4,42 +4,27 @@
 <?php require("../scripts/php/user_info.php")?>
 <?php require("../scripts/php/main_functions.php")?>
 <?php
-
-   //handle post ajax
-   
    //get the user's submitted json 
    $json = file_get_contents('php://input');
    $obj = json_decode($json);
-
 //checking for blog post
 $post= $obj->{'post'};
 $title= $obj->{'title'};
-
   if(isset($post) && isset($title)){ //means user is post to blog 
-  
     //confirm that user is authorized to post 
     if($status != 1)returnJSON("HTTP/1.0 401 Unauthorized", "");
-   
      $title = $mysqli->real_escape_string($title);
      $post = $mysqli->real_escape_string($post);
-     
-
      //post to blog 
      if($mysqli->query("insert into Posts(message,title,author,post_date) values('$post','$title',$id,now())")){
-     	   
      	  $mysqli->close(); 
-     	  returnJSON("HTTP/1.0 202 Accepted",array('status'=>202));
-     	     
+     	  returnJSON("HTTP/1.0 202 Accepted",array('status'=>202)); 
      }
       $mysqli->close();   
       returnJSON("HTTP/1.0 503 Service Unavailable", array('msg'=>'We are having problems with the server at the 	moment','status'=>503));	     
-     
-      
     } 
-
 //check for team creation
 $team_name =$obj->{'name'};
-
  if(isset($team_name)){
 	
     /* The user cannot create a team if he/she is 
@@ -60,7 +45,6 @@ $team_name =$obj->{'name'};
 		
              $mysqli->close();
 	     returnJSON("HTTP/1.0 409 Conflict",array('msg'=>'The Team name is already in use', 'status' => 409));
-
 	}
 
 	//make sure that the name is not too long 
@@ -79,9 +63,6 @@ $team_name =$obj->{'name'};
 	    $mysqli->close();
 	    returnJSON("HTTP/1.0 503 Service Unavailable","");
 	}
-          
-    
-	
   }
 
 //check to see if user is leaving a team, deleting a team mate or assigning some one as captain
@@ -103,7 +84,6 @@ $opt = $obj->{'opt'};
 	      returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'Team name must be send', 'status'=> 406));	
 	   }
 	   if(team_exsists($join_team)) request_join($join_team);
-	   
 	    $mysqli->close();
 	    returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'The team you are trying to join does not exsist','status'=>503));
 	   break;
@@ -116,38 +96,28 @@ $opt = $obj->{'opt'};
 	   }
 
 	   if(is_captain($id,$team) && has_team($iden,$team) && remove_from_team($iden) && notify_ban($iden, $id)){
-
 		$mysqli->close();
 	        returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'successfully removed member'));
-
 	   }
 	   
 	   $mysqli->close();
 	    returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'could not remove teammate','status'=>503));          
 
 	  break;
-
 	  case "captain":
 		 $iden = $obj->{'id'};
 	   if(!isset($iden) || is_int($iden)){
 	      $mysqli->close();
 	      returnJSON("HTTP/1.0 406 Not Acceptable" ,array('msg'=>'not a valid id', 'status'=> 406));	
 	   }
-
 	   if(is_captain($id,$team) && has_team($iden,$team) && assign_as_captain($iden,$team) && notify_new_captain($iden, $id)){
-
 		$mysqli->close();
 	        returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'successfully made member captain'));
-
 	   }
-	   
 	   $mysqli->close();
 	    returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'could not remove teammate','status'=>503));          
 	   break;
-
-	 
 	}
-
  }
 
  //notification responses
@@ -185,62 +155,44 @@ $opt = $obj->{'opt'};
 
    $mysqli->close();
    returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Error handling notes','status'=>503));
-   	
-   
-
  }
-
-   
 ?>
 
 <?php
 
 function leave(){
- 
 global $mysqli;
 global $id;
 global $team;
 // remove all member if user is captain 
 	   if(is_captain($id,$team)){
-		
 		remove_all_members($team);
 		$mysqli->close();
 		returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'You have successfully left'));
-
 	    }
 	   //other wise just remove the individual user 
 	    if(remove_from_team($id)){
 	       $mysqli->close();
 		returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'You have successfully left'));
-
 	     }
-		
 	      $mysqli->close();
 	       returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Could not remove from team','status'=>503));
 }
 
 function request_join($team_to_join){
-
   //send notifications to team captain 
   global $mysqli;
   global $id;
   $query = $mysqli->query("select captain from Teams where name='$team_to_join'");
   $result = $query->fetch_assoc();
   $captain = $result['captain'];
- 
   if(notify_join_request($captain,$id)){
 	 $mysqli->close();
 	 returnJSON("HTTP/1.0 202 Accepted",array('status'=>202,'msg'=> 'Your request has been sent'));
    }
-
     $mysqli->close();
     returnJSON("HTTP/1.0 503 Service Unavailable",array('msg'=>'Could not send request to team','status'=>503));
-
-
 }
-
-
-
 ?>
 
 

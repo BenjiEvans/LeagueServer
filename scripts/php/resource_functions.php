@@ -1,8 +1,5 @@
-
 <?php //relies on user_info.php
-
 function print_team_profile($name){
-
 global $mysqli;
 global $team;
 global $id;
@@ -11,36 +8,23 @@ echo "<h1 style='display:inline'> <span id='team-name' class='text-capitalize'>$
 $iden = "team-$name";
 $on_team = is_on_team($name);
 if($on_team){
-echo"<button type='button' class='btn btn-danger team_rank_btn leave' style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button>";
-
+	echo"<button type='button' class='btn btn-danger team_rank_btn leave' style='color:rgb(0,0,0)'><img src='../img/glyphicons_007_user_remove.png'> Leave Team</button>";
 }else{
-
-if(!is_team_full($name)){
-   echo "<span id='$iden'>";
-
-  if(has_sent_request($name)) echo "<button disabled type='button' class='btn btn-success team_rank_btn join' style='color:rgb(0,0,0)'><img src='/img/glyphicons_006_user_add.png'> <span>Join Request Sent</span></button></span>";
-  else if(is_null($team)) echo "<button type='button' class='btn btn-success team_rank_btn join' style='color:rgb(0,0,0)'><img src='/img/glyphicons_006_user_add.png'> <span>Join Team</span></button><span>";
-
+	if(!is_team_full($name)){
+	   echo "<span id='$iden'>";
+	  if(has_sent_request($name)) echo "<button disabled type='button' class='btn btn-success team_rank_btn join' style='color:rgb(0,0,0)'><img src='/img/glyphicons_006_user_add.png'> <span>Join Request Sent</span></button></span>";
+	  else if(is_null($team)) echo "<button type='button' class='btn btn-success team_rank_btn join' style='color:rgb(0,0,0)'><img src='/img/glyphicons_006_user_add.png'> <span>Join Team</span></button><span>";
+	}
 }
-
-}
-
-
-
 echo "<hr class='featurette-divider'>";
- 
-  echo "<div style='clear:left;'>";
-  echo "<div class='panel-group' id='accordion2'>";
-  
+echo "<div style='clear:left;'>";
+echo "<div class='panel-group' id='accordion2'>";
   //print members
   $mem_query = $mysqli->query("select * from Users where team='$name'");
-  
   //get captain id 
   $query = $mysqli->query("select captain from Teams where name='$name'");
   $result = $query->fetch_assoc();
   $captain = $result['captain'];
-
-
   while($row = $mem_query->fetch_assoc())
   {
   	echo "<div class='panel panel-default'><div class='panel-heading'><h4 class='panel-title'>";
@@ -50,22 +34,14 @@ echo "<hr class='featurette-divider'>";
 	if( $captain == $id && $row['id'] != $id )
   	{
   	 echo "<p id='mem-".$row['id']."'><button type='button' class='btn btn-danger team_rank_btn remove' style='color:rgb(0,0,0)'><img src='/img/glyphicons_007_user_remove.png'> Remove from Team</button>
-  	<button type='button' class='btn btn-warning team_rank_btn captain' style='color:rgb(0,0,0)'><img src='/img/glyphicons_043_group.png'> Assign as Captain </button></p>";	
-  		
-  	}
-  	  	
+  	<button type='button' class='btn btn-warning team_rank_btn captain' style='color:rgb(0,0,0)'><img src='/img/glyphicons_043_group.png'> Assign as Captain </button></p>";		
+  	}	
   	//print closing stuff
   	echo "</div></div></div>";
   }
-  
-  
-  
   echo "</div></div>";
    $mem_query->close();
    $query->close();
-
-
-
 }
 
 function is_team_full($name){
@@ -75,13 +51,11 @@ $row = $query->fetch_assoc();
 $result = $row['total'] == 5;
 $query->close();
 return $result;
-
 }
 
 function has_sent_request($name){
 global $mysqli;
 global $id;
-
 $q = $mysqli->query("select captain from Teams where name='$name'");
 $row = $q->fetch_assoc();
 $captain = $row['captain'];
@@ -91,23 +65,14 @@ $result = $query->fetch_assoc();
 $r = $result['total'] >= 1;
 $query->close();
 return $r;
-
-
 }
 
 function is_on_team($team, $id){
-
 global $mysqli;
 global $id;
-
 $q = $mysqli->query("select ign from Users where team='$team' and id='$id'");
 $row = $q->num_rows;
 $q->close();
-
 return $row == 1;
-
-
 }
-
-
 ?>

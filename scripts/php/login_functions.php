@@ -1,7 +1,14 @@
 <?php
 function isActivated($ign){
-//TODO
-return true;
+
+global $mysqli;
+
+$query = $mysqli->query("select active from Users where ign='$ign'");
+
+$row = $query->fetch_assoc();
+
+return $row['active'] == 1; 
+
 }
 
 function isAuthorized($ign, $pass){

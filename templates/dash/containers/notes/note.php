@@ -1,34 +1,16 @@
 <div class="container note" hidden>
-
 <?php
 //get all notifications and package them in divs for presentation 
   $query = $mysqli->query("select nid,sender,type from Notes where recipient=$id");
    if($query->num_rows == 0)echo "<h2> No Notifications...</h2>";
    else{
-
-	echo  "<div class='page-header'>
-		    <h1>Notifications<!-- <small>Bootstrap Visual Test</small>--></h1>
-		  </div>";  
-
-	 while($row = $query->fetch_assoc())
-	{
-
-		print_note($row['nid'],$row['sender'],$row['type']);
-
-
-	 }
-
-
-
+	echo  "<div class='page-header'><h1>Notifications</h1></div>";  
+	 while($row = $query->fetch_assoc()) print_note($row['nid'],$row['sender'],$row['type']);
    }
-
-
 ?>
-
 <?php
 function print_note($nid,$from,$type){
 echo "<div id='$nid' class='real_note alert fade in ";
-
 switch($type){
 
 case 0://leave note
@@ -79,37 +61,23 @@ case 5: // new captain
    echo "<h4><strong>Welcome captain!</strong></h4>";
    echo "You have been assigned as captain.</div>";
 break;
-
-
-
 }
-
-
-
 }
 
 function get_ign_by_id($id){
-
 global $mysqli;
 $query = $mysqli->query("select ign from Users where id=$id");
 $row = $query->fetch_assoc();
 $query->close();
 return $row['ign'];
-
 }
 
 function get_team_by_captain($captain){
-
 global $mysqli;
-
 $query = $mysqli->query("select name from Teams where captain=$captain");
 $row = $query->fetch_assoc();
 $query->close();
-
 return $row['name'];
-
 }
-
-
 ?>
 </div>

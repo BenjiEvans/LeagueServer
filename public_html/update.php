@@ -4,23 +4,14 @@
 <?php require("../scripts/php/user_info.php")?>
 <?php require("../scripts/php/resource_functions.php"); ?>
 <?php
-
-  
    if(isset($_GET['total'])){// get notes 
-
 	 $total = $_GET['total'];
  	 $query = $mysqli->query("select * from Notes where recipient=$id");
     	if($query->num_rows != $total){ //just send all notes
-      
 		while($row = $query->fetch_assoc()) print_note($row['nid'],$row['sender'],$row['type']);
-
     	}else echo "";
-
-
-
     }
 
-  
    if(isset($_GET['rq']) && $_GET['rq'] == "team"){//get profile 
 
       if(is_null($team)) echo "";
@@ -28,24 +19,10 @@
 
    }
 
-  if(isset($_GET['rq']) && $_GET['rq'] == "teams"){// team listing
+  if(isset($_GET['rq']) && $_GET['rq'] == "teams") require("../templates/dash/containers/overview/top_teams.php");
 
-       require("../templates/dash/containers/overview/top_teams.php");
-
-  }
-
-  if(isset($_GET['rq']) && $_GET['rq'] == "mems" ){// member listing 
-
-     require("../templates/dash/containers/overview/club_rank.php");
-
- }
-
-
-
+  if(isset($_GET['rq']) && $_GET['rq'] == "mems" ) require("../templates/dash/containers/overview/club_rank.php");
 ?>
-
-
-
 
 <?php
 function print_note($nid,$from,$type){
@@ -101,37 +78,22 @@ case 5: // new captain
    echo "<h4><strong>Welcome captain!</strong></h4>";
    echo "You have been assigned as captain.</div>";
 break;
-
-
-
 }
-
-
-
 }
 
 function get_ign_by_id($id){
-
 global $mysqli;
 $query = $mysqli->query("select ign from Users where id=$id");
 $row = $query->fetch_assoc();
 $query->close();
 return $row['ign'];
-
 }
 
 function get_team_by_captain($captain){
-
 global $mysqli;
-
 $query = $mysqli->query("select name from Teams where captain=$captain");
 $row = $query->fetch_assoc();
 $query->close();
-
 return $row['name'];
-
 }
-
-
-
 ?>

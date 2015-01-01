@@ -9,9 +9,6 @@ while ($row = $query->fetch_assoc())
 {
 echo "<tr>";
 echo "<td>".$row['name']."</td>";
-//echo "<td><span class='badge win'>".$row['Wins']."</span></td>";
-//echo "<td><span class='badge loss'>".$row['Losses']."</span></td>";
-//echo "<td>".$row['TeamStatus']."</td>";
 echo "<td><a class='team_profile' id='team-".$row['name']."' href='#'>view profile</a></td>";
 echo "</tr>";
 }

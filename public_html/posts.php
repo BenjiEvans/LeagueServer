@@ -1,7 +1,6 @@
 <?php
     require("../scripts/php/mysql_connect.php");
     require("../scripts/php/post_functions.php");
-
   if($_GET['rq'] == 'blog' ){// get next blog posts 
        	
        	       if(isset($_GET['id'])){
@@ -23,28 +22,21 @@
                   {                	  
                     echo "<div class='blog-post' id='".$row['pid']."'>";
                     echo "<h2 class='blog-post-title'>".$row['title']."</h2>";
-                    
                     $date = explode("-",$row['post_date']);
                     //break date into month,day,and year
                     $y = $date[0];
                     $m = getMonth($date[1]);
                     $d = $date[2];
-                    
                     echo "<p class='blog-post-meta'> $m $d, $y by ";
                     echo "<a href='#'>".getIgnByID($row['author'])."</a></p>";
                     echo "<p>".$row['message']."</p>";
                     echo "</div>";
             
                   }
-                  
-                  //if($count < $limit) echo file_get_contents("../templates/main/blog/blog_footer.php");
                 }
        	       }
        	       $result->close();
        	       $mysqli->close();       	 
        	       exit();    
        }
-
-
-
 ?>
