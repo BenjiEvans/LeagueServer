@@ -1,7 +1,7 @@
 LeagueServer
 ============
 
-#### Authors: Benji, Ankit, Edwin
+#### Authors: Benji
 #### Update Date: 8/9/2014
 
 ## Software Requirements/Dependencies
